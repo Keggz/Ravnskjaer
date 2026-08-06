@@ -1,0 +1,83 @@
+---
+interface Props {
+  galleri?: { src: string; tekst?: string }[];
+  video?: string;
+}
+const { galleri = [], video } = Astro.props;
+
+/** Gjør en YouTube- eller Vimeo-lenke om til en innbyggbar adresse. */
+function bygg(url: string): { type: 'ramme' | 'fil'; src: string } {
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+  if (yt) return { type: 'ramme', src: `https://www.youtube-nocookie.com/embed/${yt[1]}` };
+  const vimeo = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeo) return { type: 'ramme', src: `https://player.vimeo.com/video/${vimeo[1]}` };
+  return { type: 'fil', src: url };
+}
+
+const v = video ? bygg(video) : null;
+---
+
+{v && (
+  <div class="video">
+    {v.type === 'ramme' ? (
+      <iframe
+        src={v.src}
+        title="Video"
+        loading="lazy"
+        allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
+        allowfullscreen
+      />
+    ) : (
+      <video src={v.src} controls preload="metadata" />
+    )}
+  </div>
+)}
+
+{galleri.length > 0 && (
+  <div class="galleri">
+    {galleri.map((b) => (
+      <figure>
+        <img src={b.src} alt={b.tekst ?? ''} loading="lazy" />
+        {b.tekst && <figcaption>{b.tekst}</figcaption>}
+      </figure>
+    ))}
+  </div>
+)}
+
+<style>
+  .video {
+    margin: 2rem 0;
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+  }
+  .video iframe,
+  .video video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+  .galleri {
+    margin: 2rem 0;
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  }
+  .galleri figure {
+    margin: 0;
+  }
+  .galleri img {
+    width: 100%;
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    background: var(--tre);
+  }
+  .galleri figcaption {
+    margin-top: 0.45rem;
+    font-size: 0.83rem;
+    color: var(--tekst-svak);
+    line-height: 1.5;
+  }
+</style>

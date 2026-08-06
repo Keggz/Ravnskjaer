@@ -1,0 +1,390 @@
+/* ==========================================================================
+   Ravnskjær — grunnstil
+   Fargene er ment å minne om kald vestlandssjø, sot, tjæret tre og bronse.
+   ========================================================================== */
+
+:root {
+  --sjo-dyp: #0e1416;
+  --sot: #161c1e;
+  --tre: #1f2629;
+  --tre-lys: #2a3235;
+  --kant: #3a4448;
+  --kant-sterk: #55625f;
+
+  --bronse: #c39b5a;
+  --bronse-lys: #e0bd84;
+  --sjo: #7ba3a8;
+  --blod: #a4543f;
+
+  --tekst: #e6e1d5;
+  --tekst-dempet: #a8a498;
+  --tekst-svak: #7d7a71;
+
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, ui-serif,
+    serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+
+  --bredde: 68rem;
+  --radius: 3px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--sjo-dyp);
+  background-image: radial-gradient(
+      ellipse 120% 80% at 50% -10%,
+      rgba(123, 163, 168, 0.09),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 90% 60% at 90% 110%,
+      rgba(195, 155, 90, 0.06),
+      transparent 65%
+    );
+  background-attachment: fixed;
+  color: var(--tekst);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6em;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.1rem);
+}
+h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0 0 1.1em;
+}
+
+a {
+  color: var(--bronse-lys);
+  text-decoration-color: rgba(195, 155, 90, 0.35);
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: #f2d9a8;
+  text-decoration-color: currentColor;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--kant);
+  margin: 2.5rem 0;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.2rem 0 0.2rem 1.2rem;
+  border-left: 3px solid var(--bronse);
+  color: var(--tekst-dempet);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05em;
+}
+
+code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--tre);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius);
+}
+
+/* --- Struktur ------------------------------------------------------------ */
+
+.innhold {
+  max-width: var(--bredde);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.smal {
+  max-width: 46rem;
+}
+
+/* --- Topplinje ---------------------------------------------------------- */
+
+.topp {
+  border-bottom: 1px solid var(--kant);
+  background: rgba(14, 20, 22, 0.85);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topp-rad {
+  max-width: var(--bredde);
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.merke {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--tekst);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  white-space: nowrap;
+}
+.merke:hover {
+  color: var(--bronse-lys);
+}
+.merke svg {
+  flex: none;
+  color: var(--bronse);
+}
+
+.topp nav {
+  display: flex;
+  gap: 1.35rem;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.topp nav a {
+  color: var(--tekst-dempet);
+  text-decoration: none;
+  font-size: 0.94rem;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.topp nav a:hover {
+  color: var(--tekst);
+}
+.topp nav a[aria-current='page'] {
+  color: var(--bronse-lys);
+  border-bottom-color: var(--bronse);
+}
+
+/* --- Kort --------------------------------------------------------------- */
+
+.rutenett {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr));
+  gap: 1.1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.kort {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(170deg, var(--tre), var(--sot));
+  border: 1px solid var(--kant);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+.kort:hover {
+  border-color: var(--kant-sterk);
+  transform: translateY(-2px);
+}
+.kort:hover .kort-tittel {
+  color: var(--bronse-lys);
+}
+
+.kort-bilde {
+  aspect-ratio: 16 / 10;
+  background: var(--tre-lys);
+  object-fit: cover;
+  width: 100%;
+  border-bottom: 1px solid var(--kant);
+}
+
+.kort-tom {
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--tre-lys),
+    var(--tre-lys) 9px,
+    var(--tre) 9px,
+    var(--tre) 18px
+  );
+  border-bottom: 1px solid var(--kant);
+  color: var(--tekst-svak);
+}
+
+.kort-kropp {
+  padding: 0.9rem 1rem 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.kort-tittel {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: color 0.15s ease;
+}
+
+.kort-meta {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--tekst-svak);
+}
+
+.kort-kort {
+  font-size: 0.92rem;
+  color: var(--tekst-dempet);
+  margin: 0;
+}
+
+/* --- Etiketter ---------------------------------------------------------- */
+
+.etikett {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--kant);
+  border-radius: 99px;
+  color: var(--tekst-dempet);
+  background: rgba(0, 0, 0, 0.2);
+}
+.etikett--spiller {
+  border-color: rgba(195, 155, 90, 0.5);
+  color: var(--bronse-lys);
+}
+.etikett--dod {
+  border-color: rgba(164, 84, 63, 0.5);
+  color: #d08a72;
+}
+
+.etiketter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* --- Søk / filter ------------------------------------------------------- */
+
+.sok {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--sot);
+  border: 1px solid var(--kant);
+  border-radius: var(--radius);
+  color: var(--tekst);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.sok:focus {
+  outline: none;
+  border-color: var(--bronse);
+}
+.sok::placeholder {
+  color: var(--tekst-svak);
+}
+
+/* --- Sidetopp ----------------------------------------------------------- */
+
+.sidetopp {
+  padding: 3.5rem 0 2rem;
+}
+.sidetopp .stikk {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--bronse);
+  margin-bottom: 0.7rem;
+}
+.sidetopp p.ingress {
+  color: var(--tekst-dempet);
+  font-size: 1.08rem;
+  max-width: 40rem;
+  margin: 0;
+}
+
+/* --- Bunn --------------------------------------------------------------- */
+
+.bunn {
+  margin-top: 5rem;
+  border-top: 1px solid var(--kant);
+  padding: 2rem 0 3rem;
+  color: var(--tekst-svak);
+  font-size: 0.88rem;
+}
+
+/* --- Hjelpere ----------------------------------------------------------- */
+
+.skjult-visuelt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tom-melding {
+  color: var(--tekst-svak);
+  font-style: italic;
+  padding: 2rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+import { hentSamling } from '../../lib/bibliotek';
+
+const hendelser = await hentSamling('hendelser');
+
+// Grupper etter årstall, slik at tidslinjen får tydelige bolker.
+const aarstall = [...new Set(hendelser.map((h) => h.data.aar as number))].sort(
+  (a, b) => a - b
+);
+const grupper = aarstall.map((aar) => ({
+  aar,
+  poster: hendelser.filter((h) => h.data.aar === aar),
+}));
+---
+
+<Base tittel="Tidslinje">
+  <div class="innhold">
+    <div class="sidetopp">
+      <p class="stikk">Bibliotek</p>
+      <h1>Hva som har hendt</h1>
+      <p class="ingress">
+        Historien om Ravnskjær i den rekkefølgen den skjedde. Klikk på en hendelse
+        for hele fortellingen og hvem som var innblandet.
+      </p>
+    </div>
+
+    {hendelser.length === 0 ? (
+      <p class="tom-melding">Ingen hendelser skrevet inn ennå.</p>
+    ) : (
+      <ol class="tidslinje">
+        {grupper.map((g) => (
+          <li class="bolk">
+            <h2 class="aar"><span>{g.aar}</span></h2>
+            <ol class="poster">
+              {g.poster.map((h) => (
+                <li class="post">
+                  <a href={h.url}>
+                    <span class="prikk" aria-hidden="true"></span>
+                    {h.data.tidspunkt && <span class="tid">{h.data.tidspunkt}</span>}
+                    <span class="navn">{h.tittel}</span>
+                    <span class="sammendrag">{h.kort}</span>
+                    {h.data.kapittel && <span class="kapittel">{h.data.kapittel}</span>}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+</Base>
+
+<style>
+  .tidslinje {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+  }
+  .bolk {
+    position: relative;
+    padding-left: 1.25rem;
+  }
+  /* Den loddrette linjen gjennom hele tidslinjen. */
+  .bolk::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--kant) 8%,
+      var(--kant) 92%,
+      transparent
+    );
+  }
+  .aar {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    color: var(--bronse);
+    margin: 2.25rem 0 1rem -1.25rem;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+  .aar span {
+    background: var(--sjo-dyp);
+    padding-right: 0.7rem;
+    position: relative;
+    z-index: 1;
+  }
+  .poster,
+  .post {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .poster {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .post a {
+    position: relative;
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.9rem 1.1rem;
+    background: linear-gradient(170deg, var(--tre), var(--sot));
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  .post a:hover {
+    border-color: var(--kant-sterk);
+    transform: translateX(3px);
+  }
+  .prikk {
+    position: absolute;
+    left: -1.31rem;
+    top: 1.35rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--sjo-dyp);
+    border: 2px solid var(--kant-sterk);
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+  .post a:hover .prikk {
+    border-color: var(--bronse);
+    background: var(--bronse);
+  }
+  .tid {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tekst-svak);
+  }
+  .navn {
+    font-family: var(--serif);
+    font-size: 1.22rem;
+    line-height: 1.25;
+  }
+  .post a:hover .navn {
+    color: var(--bronse-lys);
+  }
+  .sammendrag {
+    color: var(--tekst-dempet);
+    font-size: 0.94rem;
+  }
+  .kapittel {
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sjo);
+  }
+</style>

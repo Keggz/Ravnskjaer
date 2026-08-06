@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import Oversikt from '../../components/Oversikt.astro';
+import { hentSamling } from '../../lib/bibliotek';
+
+const oppslag = await hentSamling('steder');
+---
+
+<Base tittel="Steder">
+  <Oversikt
+    stikk="Bibliotek"
+    tittel="Steder i Ravnskjær og landet omkring"
+    ingress="Haller, naust, gårder, gravrøyser og farvann. Hvert sted viser hvem som hører til der og hva som har skjedd."
+    oppslag={oppslag}
+    sokeHint="Søk på stedsnavn eller type …"
+  />
+</Base>

@@ -1,0 +1,51 @@
+---
+import Kort from './Kort.astro';
+import type { Oppslag } from '../lib/bibliotek';
+
+interface Props {
+  stikk: string;
+  tittel: string;
+  ingress: string;
+  oppslag: Oppslag[];
+  sokeHint?: string;
+}
+const { stikk, tittel, ingress, oppslag, sokeHint = 'Søk …' } = Astro.props;
+---
+
+<div class="innhold">
+  <div class="sidetopp">
+    <p class="stikk">{stikk}</p>
+    <h1>{tittel}</h1>
+    <p class="ingress">{ingress}</p>
+  </div>
+
+  <div style="max-width:24rem;margin-bottom:1.75rem">
+    <label class="skjult-visuelt" for="sok">{sokeHint}</label>
+    <input type="search" id="sok" class="sok" placeholder={sokeHint} autocomplete="off" />
+  </div>
+
+  <ul class="rutenett" id="liste">
+    {oppslag.map((o) => <Kort oppslag={o} />)}
+  </ul>
+
+  <p class="tom-melding" id="ingen-treff" hidden>Ingen treff.</p>
+</div>
+
+<script>
+  const felt = document.getElementById('sok') as HTMLInputElement | null;
+  const liste = document.getElementById('liste');
+  const ingen = document.getElementById('ingen-treff');
+  if (felt && liste && ingen) {
+    const rader = Array.from(liste.children) as HTMLElement[];
+    felt.addEventListener('input', () => {
+      const q = felt.value.trim().toLowerCase();
+      let synlige = 0;
+      for (const rad of rader) {
+        const treff = !q || (rad.dataset.sok ?? '').includes(q);
+        rad.hidden = !treff;
+        if (treff) synlige++;
+      }
+      ingen.hidden = synlige > 0;
+    });
+  }
+</script>

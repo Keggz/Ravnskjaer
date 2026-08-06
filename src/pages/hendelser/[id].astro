@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+import Oppslag from '../../layouts/Oppslag.astro';
+import { hentAlle, koblingerFor } from '../../lib/bibliotek';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('hendelser', ({ data }) => !data.skjult);
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const alle = await hentAlle();
+const oppslag = alle.find((o) => o.nokkel === `hendelser/${entry.id}`)!;
+const koblinger = koblingerFor(oppslag.nokkel, alle);
+---
+
+<Oppslag oppslag={oppslag} koblinger={koblinger} tilbakeUrl="/hendelser" tilbakeNavn="Tidslinjen">
+  <Content />
+</Oppslag>

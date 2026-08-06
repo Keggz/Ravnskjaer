@@ -1,0 +1,103 @@
+---
+import Base from './Base.astro';
+import Relasjoner from '../components/Relasjoner.astro';
+import Media from '../components/Media.astro';
+import type { Kobling, Oppslag } from '../lib/bibliotek';
+
+interface Props {
+  oppslag: Oppslag;
+  koblinger: Kobling[];
+  tilbakeUrl: string;
+  tilbakeNavn: string;
+}
+const { oppslag, koblinger, tilbakeUrl, tilbakeNavn } = Astro.props;
+const d = oppslag.data;
+---
+
+<Base tittel={oppslag.tittel} beskrivelse={oppslag.kort}>
+  <article class="innhold smal">
+    <a href={tilbakeUrl} class="tilbake">← {tilbakeNavn}</a>
+
+    <header class="hode">
+      <p class="stikk">{oppslag.undertekst}</p>
+      <h1>{oppslag.tittel}</h1>
+      <p class="ingress">{oppslag.kort}</p>
+
+      <div class="etiketter" style="margin-top:1.1rem">
+        {d.spillerkarakter && <span class="etikett etikett--spiller">Spillerkarakter</span>}
+        {d.status === 'død' && <span class="etikett etikett--dod">Død</span>}
+        {d.status === 'savnet' && <span class="etikett">Savnet</span>}
+        {d.tilhorighet && <span class="etikett">{d.tilhorighet}</span>}
+        {d.kapittel && <span class="etikett">{d.kapittel}</span>}
+        {oppslag.merker.map((m: string) => <span class="etikett">{m}</span>)}
+      </div>
+    </header>
+
+    {oppslag.bilde && (
+      <img src={oppslag.bilde} alt={oppslag.tittel} class="hovedbilde" />
+    )}
+
+    <div class="brodtekst">
+      <slot />
+    </div>
+
+    <Media galleri={d.galleri} video={d.video} />
+
+    <Relasjoner koblinger={koblinger} />
+  </article>
+</Base>
+
+<style>
+  .tilbake {
+    display: inline-block;
+    margin-top: 2.25rem;
+    font-size: 0.88rem;
+    color: var(--tekst-dempet);
+    text-decoration: none;
+  }
+  .tilbake:hover {
+    color: var(--bronse-lys);
+  }
+  .hode {
+    padding: 1.25rem 0 1.75rem;
+  }
+  .stikk {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bronse);
+    margin-bottom: 0.6rem;
+  }
+  .ingress {
+    color: var(--tekst-dempet);
+    font-size: 1.12rem;
+    font-family: var(--serif);
+    margin: 0;
+  }
+  .hovedbilde {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    margin-bottom: 2.25rem;
+  }
+  .brodtekst :global(h2) {
+    margin-top: 2.25rem;
+  }
+  .brodtekst :global(h3) {
+    margin-top: 1.75rem;
+  }
+  .brodtekst :global(ul),
+  .brodtekst :global(ol) {
+    padding-left: 1.3rem;
+  }
+  .brodtekst :global(li) {
+    margin-bottom: 0.4rem;
+  }
+  .brodtekst :global(img) {
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    margin: 1.5rem 0;
+  }
+</style>

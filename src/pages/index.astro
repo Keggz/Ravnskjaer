@@ -1,0 +1,210 @@
+---
+import Base from '../layouts/Base.astro';
+import { hentAlle, hentSamling } from '../lib/bibliotek';
+
+const alle = await hentAlle();
+const hendelser = await hentSamling('hendelser');
+const siste = hendelser.slice(-3).reverse();
+
+const antall = {
+  karakterer: alle.filter((o) => o.samling === 'karakterer').length,
+  steder: alle.filter((o) => o.samling === 'steder').length,
+  hendelser: hendelser.length,
+};
+
+const inngang = [
+  {
+    url: '/karakterer',
+    navn: 'Folk',
+    tekst: 'Alle som bor, styrer, handler og strider i Ravnskjær.',
+    tall: antall.karakterer,
+    enhet: 'oppslag',
+  },
+  {
+    url: '/steder',
+    navn: 'Steder',
+    tekst: 'Hallen, havna, gårdene og farvannene rundt.',
+    tall: antall.steder,
+    enhet: 'oppslag',
+  },
+  {
+    url: '/hendelser',
+    navn: 'Tidslinje',
+    tekst: 'Historien slik den har utfoldet seg, år for år.',
+    tall: antall.hendelser,
+    enhet: 'hendelser',
+  },
+  {
+    url: '/graf',
+    navn: 'Relasjoner',
+    tekst: 'Se hvordan folk, steder og hendelser er vevd sammen.',
+    tall: alle.length,
+    enhet: 'i kartet',
+  },
+];
+---
+
+<Base tittel="Bibliotek">
+  <section class="helt">
+    <div class="innhold">
+      <p class="stikk">Vestlandskysten · 790-tallet</p>
+      <h1>Ravnskjær</h1>
+      <p class="ingress">
+        Biblioteket over alt vi vet: folkene, stedene og det som har hendt.
+        Klikk deg rundt — alt henger sammen med noe annet.
+      </p>
+    </div>
+  </section>
+
+  <div class="innhold">
+    <ul class="inngangsliste">
+      {inngang.map((i) => (
+        <li>
+          <a href={i.url}>
+            <span class="navn">{i.navn}</span>
+            <span class="tekst">{i.tekst}</span>
+            <span class="tall">{i.tall} {i.enhet}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {siste.length > 0 && (
+      <section class="siste">
+        <h2>Sist inn i krøniken</h2>
+        <ul>
+          {siste.map((h) => (
+            <li>
+              <a href={h.url}>
+                <span class="aar">År {h.data.aar}</span>
+                <span class="tittel">{h.tittel}</span>
+                <span class="kort">{h.kort}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</Base>
+
+<style>
+  .helt {
+    padding: 5.5rem 0 3rem;
+    text-align: center;
+    position: relative;
+  }
+  .helt .stikk {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--bronse);
+    margin-bottom: 1rem;
+  }
+  .helt h1 {
+    font-size: clamp(2.6rem, 9vw, 5rem);
+    letter-spacing: 0.01em;
+    margin-bottom: 1.1rem;
+  }
+  .helt .ingress {
+    color: var(--tekst-dempet);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+
+  .inngangsliste {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .inngangsliste a {
+    display: grid;
+    gap: 0.35rem;
+    height: 100%;
+    padding: 1.35rem 1.25rem 1.15rem;
+    background: linear-gradient(170deg, var(--tre), var(--sot));
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  .inngangsliste a:hover {
+    border-color: var(--bronse);
+    transform: translateY(-3px);
+  }
+  .inngangsliste .navn {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+  }
+  .inngangsliste a:hover .navn {
+    color: var(--bronse-lys);
+  }
+  .inngangsliste .tekst {
+    color: var(--tekst-dempet);
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+  .inngangsliste .tall {
+    margin-top: 0.5rem;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tekst-svak);
+  }
+
+  .siste {
+    margin-top: 4rem;
+  }
+  .siste h2 {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bronse);
+    font-weight: 600;
+  }
+  .siste ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .siste a {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    background: var(--sot);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease;
+  }
+  .siste a:hover {
+    border-color: var(--kant-sterk);
+  }
+  .siste .aar {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tekst-svak);
+  }
+  .siste .tittel {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+  }
+  .siste a:hover .tittel {
+    color: var(--bronse-lys);
+  }
+  .siste .kort {
+    font-size: 0.9rem;
+    color: var(--tekst-dempet);
+  }
+</style>

@@ -1,0 +1,107 @@
+---
+import type { Kobling } from '../lib/bibliotek';
+import { SAMLING_NAVN } from '../lib/bibliotek';
+
+interface Props {
+  koblinger: Kobling[];
+}
+const { koblinger } = Astro.props;
+
+const ikon: Record<string, string> = {
+  karakterer: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4 0-7 2-7 4.5V21h14v-2.5C19 16 16 14 12 14Z',
+  steder: 'M12 2C8.7 2 6 4.7 6 8c0 4.5 6 13 6 13s6-8.5 6-13c0-3.3-2.7-6-6-6Zm0 8.5A2.5 2.5 0 1 1 12 5.5a2.5 2.5 0 0 1 0 5Z',
+  hendelser: 'M7 2v3H4v17h16V5h-3V2h-2v3H9V2H7Zm11 8v10H6V10h12Z',
+};
+---
+
+{koblinger.length > 0 && (
+  <section class="relasjoner">
+    <h2>Koblet til</h2>
+    <ul class="rel-liste">
+      {koblinger.map((k) => (
+        <li>
+          <a href={k.motpart.url} class="rel">
+            <svg class="rel-ikon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d={ikon[k.motpart.samling]} />
+            </svg>
+            <span class="rel-tekst">
+              <span class="rel-navn">{k.motpart.tittel}</span>
+              <span class="rel-type">{k.type}{k.notat ? ` — ${k.notat}` : ''}</span>
+            </span>
+            <span class="rel-samling">{SAMLING_NAVN[k.motpart.samling]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .relasjoner {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--kant);
+  }
+  .relasjoner h2 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bronse);
+    font-family: var(--sans);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .rel-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  }
+  .rel {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.65rem 0.8rem;
+    background: var(--sot);
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .rel:hover {
+    border-color: var(--kant-sterk);
+    background: var(--tre);
+  }
+  .rel-ikon {
+    flex: none;
+    color: var(--sjo);
+  }
+  .rel-tekst {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+  .rel-navn {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .rel:hover .rel-navn {
+    color: var(--bronse-lys);
+  }
+  .rel-type {
+    font-size: 0.82rem;
+    color: var(--tekst-svak);
+  }
+  .rel-samling {
+    flex: none;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tekst-svak);
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  tittel: string;
+  beskrivelse?: string;
+}
+
+const { tittel, beskrivelse = 'Bibliotek over Ravnskjær — folk, steder og hendelser.' } = Astro.props;
+const sti = Astro.url.pathname;
+
+const lenker = [
+  { url: '/karakterer', navn: 'Folk' },
+  { url: '/steder', navn: 'Steder' },
+  { url: '/hendelser', navn: 'Tidslinje' },
+  { url: '/graf', navn: 'Relasjoner' },
+];
+
+const aktiv = (url: string) => sti === url || sti.startsWith(url + '/');
+---
+
+<html lang="nb">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={beskrivelse} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{tittel} — Ravnskjær</title>
+  </head>
+  <body>
+    <header class="topp">
+      <div class="topp-rad">
+        <a href="/" class="merke">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M4 14c0-4 3-7 7-7 1.6 0 2.6.4 3.5 1l3.2-1.6-1.1 2.4 2.4-.5-1.7 2c.4.9.7 2 .7 3.2 0 3.4-2.4 6.5-7 6.5H8l1.5-2.5C6.4 17.9 4 16.4 4 14Z"/>
+            <circle cx="13.4" cy="11.4" r=".9" fill="#0e1416"/>
+          </svg>
+          Ravnskjær
+        </a>
+        <nav aria-label="Hovedmeny">
+          {lenker.map((l) => (
+            <a href={l.url} aria-current={aktiv(l.url) ? 'page' : undefined}>{l.navn}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="bunn">
+      <div class="innhold">
+        Ravnskjær · vestlandskysten, 790-tallet · et rollespilluniversum
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,484 @@
+---
+import Base from '../layouts/Base.astro';
+import { hentAlle, grafData, sjekkRelasjoner } from '../lib/bibliotek';
+
+const alle = await hentAlle();
+const graf = grafData(alle);
+
+// Advar i terminalen hvis noen relasjoner peker på oppslag som ikke finnes.
+for (const feil of sjekkRelasjoner(alle)) {
+  console.warn(`[Ravnskjær] Ugyldig relasjon: ${feil}`);
+}
+---
+
+<Base tittel="Relasjoner">
+  <div class="innhold">
+    <div class="sidetopp">
+      <p class="stikk">Bibliotek</p>
+      <h1>Hvordan alt henger sammen</h1>
+      <p class="ingress">
+        Dra i nodene for å rydde. Hold musa over én for å se naboene, og klikk for
+        å åpne oppslaget.
+      </p>
+    </div>
+
+    <div class="verktoy">
+      <div class="tegnforklaring">
+        <span><i class="prikk karakterer"></i> Folk</span>
+        <span><i class="prikk steder"></i> Steder</span>
+        <span><i class="prikk hendelser"></i> Hendelser</span>
+      </div>
+      <div class="knapper">
+        <input type="search" id="graf-sok" class="sok" placeholder="Marker …" autocomplete="off" />
+        <button type="button" id="graf-nullstill">Ordne på nytt</button>
+      </div>
+    </div>
+
+    {graf.noder.length === 0 ? (
+      <p class="tom-melding">Ingen oppslag å vise ennå.</p>
+    ) : (
+      <div class="graf-ramme">
+        <svg id="graf" role="img" aria-label="Relasjonskart over Ravnskjær"></svg>
+        <p class="graf-fallback">
+          Kartet krever JavaScript. Du finner alt innholdet under
+          <a href="/karakterer">Folk</a>, <a href="/steder">Steder</a> og
+          <a href="/hendelser">Tidslinje</a>.
+        </p>
+      </div>
+    )}
+  </div>
+
+  <script type="application/json" id="graf-data" set:html={JSON.stringify(graf)} />
+</Base>
+
+<style>
+  .verktoy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .tegnforklaring {
+    display: flex;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--tekst-dempet);
+  }
+  .tegnforklaring span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .prikk {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .prikk.karakterer {
+    background: #c39b5a;
+  }
+  .prikk.steder {
+    background: #7ba3a8;
+  }
+  .prikk.hendelser {
+    background: #a4543f;
+  }
+  .knapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .knapper .sok {
+    width: 11rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.88rem;
+  }
+  .knapper button {
+    padding: 0.42rem 0.8rem;
+    background: var(--tre);
+    color: var(--tekst-dempet);
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .knapper button:hover {
+    color: var(--tekst);
+    border-color: var(--kant-sterk);
+  }
+  .graf-ramme {
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    background: radial-gradient(ellipse at 50% 40%, var(--sot), var(--sjo-dyp) 75%);
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  #graf {
+    display: block;
+    width: 100%;
+    height: min(72vh, 640px);
+    touch-action: none;
+    cursor: grab;
+  }
+  .graf-fallback {
+    padding: 2rem 1.5rem;
+    margin: 0;
+    color: var(--tekst-svak);
+    text-align: center;
+  }
+  /* Skjules så snart skriptet har tegnet kartet. */
+  .graf-ramme.klar .graf-fallback {
+    display: none;
+  }
+  .graf-ramme:not(.klar) #graf {
+    display: none;
+  }
+</style>
+
+<script>
+  type Node = {
+    id: string;
+    tittel: string;
+    samling: 'karakterer' | 'steder' | 'hendelser';
+    url: string;
+    undertekst: string;
+  };
+  type Kant = { fra: string; til: string; type: string };
+
+  type Punkt = Node & { x: number; y: number; vx: number; vy: number; grad: number };
+
+  const FARGE: Record<Node['samling'], string> = {
+    karakterer: '#c39b5a',
+    steder: '#7ba3a8',
+    hendelser: '#a4543f',
+  };
+  const NS = 'http://www.w3.org/2000/svg';
+
+  const dataTag = document.getElementById('graf-data');
+  const svg = document.getElementById('graf') as SVGSVGElement | null;
+  const ramme = svg?.closest('.graf-ramme');
+  if (dataTag && svg && ramme) {
+    const { noder, kanter } = JSON.parse(dataTag.textContent!) as {
+      noder: Node[];
+      kanter: Kant[];
+    };
+
+    const grad = new Map<string, number>();
+    for (const n of noder) grad.set(n.id, 0);
+    for (const k of kanter) {
+      grad.set(k.fra, (grad.get(k.fra) ?? 0) + 1);
+      grad.set(k.til, (grad.get(k.til) ?? 0) + 1);
+    }
+
+    // Naboliste, brukt til å lyse opp koblingene ved peking.
+    const naboer = new Map<string, Set<string>>();
+    for (const n of noder) naboer.set(n.id, new Set());
+    for (const k of kanter) {
+      naboer.get(k.fra)?.add(k.til);
+      naboer.get(k.til)?.add(k.fra);
+    }
+
+    let bredde = svg.clientWidth || 900;
+    let hoyde = svg.clientHeight || 600;
+
+    // Startposisjoner i en spiral — samme resultat hver gang siden lastes.
+    const punkter: Punkt[] = noder.map((n, i) => {
+      const vinkel = i * 2.399963; // gyllen vinkel gir jevn spredning
+      const r = Math.min(bredde, hoyde) * 0.36 * Math.sqrt((i + 1) / noder.length);
+      return {
+        ...n,
+        x: bredde / 2 + Math.cos(vinkel) * r,
+        y: hoyde / 2 + Math.sin(vinkel) * r,
+        vx: 0,
+        vy: 0,
+        grad: grad.get(n.id) ?? 0,
+      };
+    });
+    const kart = new Map(punkter.map((p) => [p.id, p]));
+    const radius = (p: Punkt) => 6 + Math.min(p.grad, 8) * 1.15;
+
+    // --- Tegn SVG-elementene én gang, oppdater posisjoner i løkka ---------
+    const lag = { linjer: document.createElementNS(NS, 'g'), noder: document.createElementNS(NS, 'g') };
+    lag.linjer.setAttribute('stroke-linecap', 'round');
+    svg.append(lag.linjer, lag.noder);
+
+    const linjer = kanter.map((k) => {
+      const el = document.createElementNS(NS, 'line');
+      el.setAttribute('stroke', '#55625f');
+      el.setAttribute('stroke-width', '1');
+      el.setAttribute('stroke-opacity', '0.55');
+      lag.linjer.append(el);
+      return { el, kant: k };
+    });
+
+    const noderEl = punkter.map((p) => {
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('tabindex', '0');
+      g.setAttribute('role', 'link');
+      g.setAttribute('aria-label', `${p.tittel} — ${p.undertekst}`);
+      g.style.cursor = 'pointer';
+
+      const sirkel = document.createElementNS(NS, 'circle');
+      sirkel.setAttribute('r', String(radius(p)));
+      sirkel.setAttribute('fill', FARGE[p.samling]);
+      sirkel.setAttribute('stroke', '#0e1416');
+      sirkel.setAttribute('stroke-width', '1.5');
+
+      const tekst = document.createElementNS(NS, 'text');
+      tekst.textContent = p.tittel;
+      tekst.setAttribute('text-anchor', 'middle');
+      tekst.setAttribute('y', String(radius(p) + 14));
+      tekst.setAttribute('fill', '#e6e1d5');
+      tekst.setAttribute('font-size', '11.5');
+      tekst.setAttribute('font-family', 'system-ui, sans-serif');
+      tekst.setAttribute('paint-order', 'stroke');
+      tekst.setAttribute('stroke', '#0e1416');
+      tekst.setAttribute('stroke-width', '3');
+      tekst.style.pointerEvents = 'none';
+
+      g.append(sirkel, tekst);
+      lag.noder.append(g);
+
+      const aapne = () => (window.location.href = p.url);
+      g.addEventListener('click', (e) => {
+        if (!dro) aapne();
+        e.stopPropagation();
+      });
+      g.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key === 'Enter') aapne();
+      });
+      g.addEventListener('pointerenter', () => marker(p.id));
+      g.addEventListener('focus', () => marker(p.id));
+      g.addEventListener('pointerleave', () => marker(null));
+      g.addEventListener('blur', () => marker(null));
+      g.addEventListener('pointerdown', (e) => start(e as PointerEvent, p));
+
+      return { g, sirkel, tekst, punkt: p };
+    });
+
+    // --- Markering -------------------------------------------------------
+    let markert: string | null = null;
+    let sokeTreff: Set<string> | null = null;
+
+    function marker(id: string | null) {
+      markert = id;
+      tegnStil();
+    }
+
+    function tegnStil() {
+      const nabo = markert ? naboer.get(markert) ?? new Set<string>() : null;
+
+      for (const { g, sirkel, punkt } of noderEl) {
+        let dimmet = false;
+        if (nabo) dimmet = punkt.id !== markert && !nabo.has(punkt.id);
+        else if (sokeTreff) dimmet = !sokeTreff.has(punkt.id);
+
+        g.setAttribute('opacity', dimmet ? '0.22' : '1');
+        const fremhevet =
+          punkt.id === markert || (!!sokeTreff && sokeTreff.has(punkt.id) && !nabo);
+        sirkel.setAttribute('stroke', fremhevet ? '#f2d9a8' : '#0e1416');
+        sirkel.setAttribute('stroke-width', fremhevet ? '2.5' : '1.5');
+      }
+
+      for (const { el, kant } of linjer) {
+        const aktiv = markert
+          ? kant.fra === markert || kant.til === markert
+          : true;
+        el.setAttribute('stroke-opacity', markert ? (aktiv ? '0.9' : '0.08') : '0.55');
+        el.setAttribute('stroke', aktiv && markert ? '#c39b5a' : '#55625f');
+      }
+    }
+
+    // --- Dra -------------------------------------------------------------
+    let dratt: Punkt | null = null;
+    let dro = false;
+
+    function pekerPos(e: PointerEvent) {
+      const r = svg!.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function start(e: PointerEvent, p: Punkt) {
+      e.preventDefault();
+      dratt = p;
+      dro = false;
+      svg!.setPointerCapture(e.pointerId);
+    }
+
+    svg.addEventListener('pointermove', (e) => {
+      if (!dratt) return;
+      dro = true;
+      const { x, y } = pekerPos(e);
+      dratt.x = x;
+      dratt.y = y;
+      dratt.vx = 0;
+      dratt.vy = 0;
+      varm = Math.max(varm, 0.35);
+    });
+
+    const slutt = () => {
+      dratt = null;
+      // Nullstilles etter klikkhåndteringen, så et dratt punkt ikke navigerer.
+      setTimeout(() => (dro = false), 0);
+    };
+    svg.addEventListener('pointerup', slutt);
+    svg.addEventListener('pointercancel', slutt);
+
+    // --- Kraftsimulering -------------------------------------------------
+    // Enkel fjær-og-frastøtningsmodell: kanter trekker sammen, alle noder
+    // skyver hverandre fra seg, og alt trekkes svakt mot midten.
+    let varm = 1;
+
+    function steg() {
+      const n = punkter.length;
+      // Ideallengden skaleres etter hvor mye plass hver node har å boltre seg på,
+      // med tak og gulv så små og store kart begge blir lesbare.
+      const perNode = Math.sqrt((bredde * hoyde) / Math.max(n, 1));
+      const idealLengde = Math.max(95, Math.min(170, perNode * 0.72));
+      const frastot = idealLengde * idealLengde * 0.3;
+
+      for (let i = 0; i < n; i++) {
+        const a = punkter[i];
+        for (let j = i + 1; j < n; j++) {
+          const b = punkter[j];
+          let dx = b.x - a.x;
+          let dy = b.y - a.y;
+          let d2 = dx * dx + dy * dy;
+          if (d2 < 0.01) {
+            dx = (i % 2 ? 1 : -1) * 0.7;
+            dy = 0.7;
+            d2 = 1;
+          }
+          const d = Math.sqrt(d2);
+          const kraft = frastot / d2;
+          const fx = (dx / d) * kraft;
+          const fy = (dy / d) * kraft;
+          a.vx -= fx;
+          a.vy -= fy;
+          b.vx += fx;
+          b.vy += fy;
+        }
+      }
+
+      for (const k of kanter) {
+        const a = kart.get(k.fra);
+        const b = kart.get(k.til);
+        if (!a || !b) continue;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const d = Math.hypot(dx, dy) || 0.01;
+        const kraft = (d - idealLengde) * 0.055;
+        const fx = (dx / d) * kraft;
+        const fy = (dy / d) * kraft;
+        a.vx += fx;
+        a.vy += fy;
+        b.vx -= fx;
+        b.vy -= fy;
+      }
+
+      const midtX = bredde / 2;
+      const midtY = hoyde / 2;
+      for (const p of punkter) {
+        p.vx += (midtX - p.x) * 0.0038;
+        p.vy += (midtY - p.y) * 0.0038;
+
+        if (p === dratt) {
+          p.vx = 0;
+          p.vy = 0;
+          continue;
+        }
+        p.vx *= 0.86;
+        p.vy *= 0.86;
+        p.x += p.vx * varm;
+        p.y += p.vy * varm;
+
+        // Hold nodene innenfor lerretet, med plass til navnet under.
+        const r = radius(p) + 4;
+        p.x = Math.max(r + 40, Math.min(bredde - r - 40, p.x));
+        p.y = Math.max(r + 6, Math.min(hoyde - r - 16, p.y));
+      }
+
+      varm = Math.max(0.06, varm * 0.994);
+    }
+
+    function tegn() {
+      for (const { el, kant } of linjer) {
+        const a = kart.get(kant.fra);
+        const b = kart.get(kant.til);
+        if (!a || !b) continue;
+        el.setAttribute('x1', a.x.toFixed(1));
+        el.setAttribute('y1', a.y.toFixed(1));
+        el.setAttribute('x2', b.x.toFixed(1));
+        el.setAttribute('y2', b.y.toFixed(1));
+      }
+      for (const { g, punkt } of noderEl) {
+        g.setAttribute('transform', `translate(${punkt.x.toFixed(1)} ${punkt.y.toFixed(1)})`);
+      }
+    }
+
+    let kjorer = true;
+    function loop() {
+      if (kjorer) {
+        steg();
+        tegn();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    // Pause når kartet er ute av syne, så det ikke tapper batteri.
+    new IntersectionObserver(
+      ([e]) => (kjorer = e.isIntersecting),
+      { threshold: 0 }
+    ).observe(svg);
+
+    function malOpp() {
+      bredde = svg!.clientWidth || bredde;
+      hoyde = svg!.clientHeight || hoyde;
+      svg!.setAttribute('viewBox', `0 0 ${bredde} ${hoyde}`);
+      varm = Math.max(varm, 0.5);
+    }
+    window.addEventListener('resize', malOpp);
+
+    // --- Verktøy ---------------------------------------------------------
+    document.getElementById('graf-nullstill')?.addEventListener('click', () => {
+      punkter.forEach((p, i) => {
+        const vinkel = i * 2.399963;
+        const r = Math.min(bredde, hoyde) * 0.36 * Math.sqrt((i + 1) / punkter.length);
+        p.x = bredde / 2 + Math.cos(vinkel) * r;
+        p.y = hoyde / 2 + Math.sin(vinkel) * r;
+        p.vx = 0;
+        p.vy = 0;
+      });
+      varm = 1;
+    });
+
+    const sokFelt = document.getElementById('graf-sok') as HTMLInputElement | null;
+    sokFelt?.addEventListener('input', () => {
+      const q = sokFelt.value.trim().toLowerCase();
+      sokeTreff = q
+        ? new Set(
+            punkter
+              .filter(
+                (p) =>
+                  p.tittel.toLowerCase().includes(q) ||
+                  p.undertekst.toLowerCase().includes(q)
+              )
+              .map((p) => p.id)
+          )
+        : null;
+      tegnStil();
+    });
+
+    svg.addEventListener('click', () => marker(null));
+
+    ramme.classList.add('klar');
+    malOpp();
+    tegnStil();
+    loop();
+  }
+</script>
