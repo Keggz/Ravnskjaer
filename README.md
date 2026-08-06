@@ -220,11 +220,19 @@ Pages → Custom domains uten at noe i koden må endres.
 **Etterpå publiserer du slik:**
 
 ```bash
-git add -A && git commit -m "Nytt om Naustviken" && git push
+./publiser.sh "Nytt om Naustviken"
 ```
 
-Cloudflare bygger og legger ut på nytt av seg selv, som regel på under et
-minutt.
+Skriptet bygger sida først. Er det en skrivefeil i et filhode, eller en
+relasjon som peker på et oppslag som ikke finnes, stopper det der — før
+spillerne ser det. Går alt bra, sendes det til GitHub, og Cloudflare legger ut
+på nytt av seg selv på under et minutt.
+
+Vil du heller gjøre det for hånd:
+
+```bash
+git add -A && git commit -m "Nytt om Naustviken" && git push
+```
 
 Står `site` i `astro.config.mjs` feil, er det bare adressen i sitemap som blir
 gal — siden virker uansett.
