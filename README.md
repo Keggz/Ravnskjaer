@@ -31,6 +31,30 @@ src/content/
 `/karakterer/astrid-blaatann`. Bruk små bokstaver og bindestrek, og unngå
 æ/ø/å i filnavn (de er fine inni teksten).
 
+### Lag en ny fil
+
+Enkleste vei — skriptet lager fila med riktig navn og ferdig filhode:
+
+```bash
+node ny.mjs karakter "Astrid Blåtann"
+node ny.mjs sted     "Kvernsteinsbruddet"
+node ny.mjs hendelse "Slaget ved Ravneskjæret"
+```
+
+Så åpner du fila som ble laget og skriver.
+
+Vil du heller lage den for hånd, må du passe på to ting på Mac:
+
+- **Bruk et rent tekstprogram.** TextEdit lager som standard rik tekst (RTF),
+  som ser ut som tekst men ikke er det. Velg **Format → Lag ren tekst**
+  (`Cmd+Shift+T`) før du lagrer. VS Code eller lignende er enklere.
+- **Slå på filendelser i Finder** (Finder → Innstillinger → Avansert → «Vis
+  alle filnavnutvidelser»). Ellers kan fila hete `astrid.md.txt` uten at du
+  ser det.
+
+Filen må ende på `.md`. Heter den `.txt`, blir den ignorert uten feilmelding —
+oppslaget dukker rett og slett aldri opp.
+
 ### En ny karakter
 
 Lag `src/content/karakterer/astrid-blaatann.md`:
