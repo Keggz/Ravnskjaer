@@ -4,10 +4,12 @@ kort: Høvding på Ravnskjær i tjueto år. Rettferdig når det passer ham, og h
 rolle: Høvding
 status: levende
 tilhorighet: Ravnsætten
+levetid: f. 741
+far: karakterer/ravn-gunnarsson
+mor: karakterer/aasa-oydisdottir
+gift_med: karakterer/gudrun-torsdottir
 merker: [maktperson]
 relasjoner:
-  - til: karakterer/sigrid-halvdansdottir
-    type: Far til
   - til: karakterer/vigdis-volve
     type: Rådspør
 ---

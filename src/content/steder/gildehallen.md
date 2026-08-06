@@ -2,6 +2,7 @@
 tittel: Gildehallen
 kort: Halvdans langhus på høyden over havna — trettifire alen langt, med tak av torv og never.
 stedstype: Langhus
+kart: { x: 41, y: 15, side: over }
 merker: [samlingssted]
 relasjoner:
   - til: karakterer/halvdan-ravnsson

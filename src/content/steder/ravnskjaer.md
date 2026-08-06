@@ -2,6 +2,7 @@
 tittel: Ravnskjær
 kort: Handelsplassen innerst i fjorden, oppkalt etter skjæret der ravnene samles før uvær.
 stedstype: Handelsplass
+kart: { x: 64, y: 18 }
 merker: [hovedsete, havn]
 relasjoner:
   - til: steder/gildehallen

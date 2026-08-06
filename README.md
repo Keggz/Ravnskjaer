@@ -78,9 +78,11 @@ Felles for alle tre typer:
 | `skjult`     | nei     | `true` = spillerne ser den ikke i det hele tatt          |
 
 Bare for **karakterer**: `rolle`, `status` (`levende`/`død`/`savnet`/`ukjent`),
-`tilhorighet`, `spillerkarakter` (`true`/`false`).
+`tilhorighet` (ætt), `spillerkarakter` (`true`/`false`), `levetid`, og
+slektsfeltene `far`, `mor`, `gift_med` (se «Slektstreet»).
 
-Bare for **steder**: `stedstype` (f.eks. `Langhus`, `Havn`, `Gravrøys`).
+Bare for **steder**: `stedstype` (f.eks. `Langhus`, `Havn`, `Gravrøys`) og
+`kart` (se «Kartet»).
 
 Bare for **hendelser**: `aar` (påkrevd — tall, styrer tidslinjen), `rekkefolge`
 (finsortering innen samme år), `tidspunkt` (`Vår`, `Høst` …), `kapittel`
@@ -106,6 +108,53 @@ leses greit fra begge sider. `Far til` fungerer. `Er far` gjør det ikke.
 
 Skriver du feil filnavn, får du en advarsel i terminalen når du kjører
 `npm run dev` eller `npm run build` — den forteller hvilken fil som peker galt.
+
+### Kartet
+
+Et sted havner på kartet så snart det får et `kart`-felt:
+
+```yaml
+kart: { x: 45, y: 34 }
+```
+
+Tallene er prosent av kartflaten — `x` fra venstre, `y` fra toppen. Du skal
+ikke telle dem ut for hånd: gå til **/kart**, trykk **Finn koordinater**, og
+klikk der stedet skal ligge. Da får du linja ferdig til å lime inn.
+
+Ligger to steder tett, kan du styre hvilken vei navnet legger seg:
+
+```yaml
+kart: { x: 41, y: 15, side: over } # over | under | venstre | hoyre
+```
+
+Steder uten `kart`-felt forsvinner ikke — de listes under kartet som «ikke satt
+på kartet ennå».
+
+Selve landskapet (fjorden, fjellene, naustrekka) er tegnet i
+`src/components/Kartgrunn.astro`. Vil du flytte på en fjord eller legge til en
+øy, ligger alle koordinatene i navngitte lister øverst i den fila.
+
+### Slektstreet
+
+Slekt skriver du med tre felt på karakteren:
+
+```yaml
+far: karakterer/halvdan-ravnsson
+mor: karakterer/gudrun-torsdottir
+gift_med: karakterer/astrid-blaatann
+levetid: f. 769 # valgfritt, vises under navnet
+```
+
+**Nevn foreldrene dine — barna finner seg selv.** Du skal aldri skrive «barn»
+noe sted; treet på **/slekt** regner ut generasjoner, plasserer ektefeller side
+om side og tegner strekene. Ekteskap trenger du bare skrive på den ene av de to.
+
+Slektsbåndene blir automatisk vanlige relasjoner også, så de dukker opp både
+på oppslaget og i relasjonsgrafen. Der leses de riktig vei fra begge sider:
+skriver du `far:` på barnet, står det «Barn» på forelderens side.
+
+Fargen på venstre kant følger `tilhorighet`, så hver ætt får sin farge.
+Karakterer uten slektsfelt listes under treet.
 
 ### Bilder og video
 
@@ -151,13 +200,34 @@ Fjern linjen når det skal frem i lyset.
 
 ## Publisere
 
-Siden er ren statisk HTML og kan legges gratis på Cloudflare Pages, Netlify
-eller Vercel. Alle tre trenger det samme:
+Siden er ren statisk HTML og ligger gratis på Cloudflare Pages.
 
-- **Build-kommando:** `npm run build`
-- **Publish-mappe:** `dist`
+**Førstegangsoppsett** (gjøres én gang):
 
-Husk å endre `site` i `astro.config.mjs` til din egen adresse.
+1. Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages** →
+   **Connect to Git**
+2. Velg repoet `Keggz/Ravnskjaer`
+3. Sett:
+   - **Framework preset:** Astro
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+4. **Save and Deploy**
+
+Du får adressen `https://ravnskjaer.pages.dev`. **Du trenger ikke kjøpe
+domene** — vil du senere ha f.eks. `ravnskjaer.no`, kobles det på i
+Pages → Custom domains uten at noe i koden må endres.
+
+**Etterpå publiserer du slik:**
+
+```bash
+git add -A && git commit -m "Nytt om Naustviken" && git push
+```
+
+Cloudflare bygger og legger ut på nytt av seg selv, som regel på under et
+minutt.
+
+Står `site` i `astro.config.mjs` feil, er det bare adressen i sitemap som blir
+gal — siden virker uansett.
 
 ## Filstruktur
 
@@ -165,9 +235,10 @@ Husk å endre `site` i `astro.config.mjs` til din egen adresse.
 src/
   content/          ← alt du skriver ligger her
   lib/bibliotek.ts  ← henter innhold og regner ut relasjoner
+  lib/slekt.ts      ← regner ut slektstreet
   layouts/          ← rammen rundt sidene
-  components/       ← kort, relasjonsliste, bilde/video
-  pages/            ← selve sidene (forside, oversikter, tidslinje, graf)
+  components/       ← kort, relasjonsliste, bilde/video, kartgrunn
+  pages/            ← selve sidene (forside, oversikter, kart, slekt, tidslinje, graf)
   styles/global.css ← farger og typografi
 public/media/       ← bilder og video
 ```

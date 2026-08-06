@@ -2,6 +2,7 @@
 tittel: Naustviken
 kort: Den lune vika under hallen der skipene trekkes opp, og der brannen tok fire naust.
 stedstype: Havn
+kart: { x: 45, y: 34 }
 merker: [havn]
 relasjoner:
   - til: karakterer/torgeir-smed

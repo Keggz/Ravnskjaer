@@ -1,0 +1,253 @@
+---
+/**
+ * Grunnkartet over Ravnskjær — fjorden, landet og alt det faste.
+ *
+ * Tegnet etter geografien i oppslagene: fjordgapet med skjæret i vest,
+ * fjorden som smalner innover mot øst, Naustviken som skjærer seg inn i
+ * nordsida, og hallen på høyden over den.
+ *
+ * Lerretet er 1000 × 640. Stedsmarkørene ligger ikke her, men legges oppå
+ * som vanlige lenker av /kart — da får de hover, tastaturfokus og lesbar
+ * skrift som følger resten av siden.
+ */
+
+/** Nordsida: kysten går fra vidt fjordgap i vest til trang fjord i øst. */
+const NORDKYST = `M 0 165
+  C 80 195, 170 205, 250 226
+  C 300 240, 330 250, 352 252
+  C 364 214, 380 182, 408 170
+  C 440 157, 478 156, 508 170
+  C 534 184, 546 218, 558 254
+  C 625 272, 705 288, 792 308
+  C 880 328, 950 344, 1000 358
+  L 1000 0 L 0 0 Z`;
+
+const SORKYST = `M 0 525
+  C 110 556, 210 556, 310 534
+  C 410 512, 500 482, 600 458
+  C 700 434, 830 412, 1000 398
+  L 1000 640 L 0 640 Z`;
+
+/** Bølgestreker i åpent vann. [x, y, lengde] */
+const BOLGER: [number, number, number][] = [
+  [40, 300, 240],
+  [120, 372, 300],
+  [55, 452, 230],
+  [205, 512, 260],
+  [300, 305, 170],
+  [415, 415, 300],
+  [560, 345, 190],
+  [645, 400, 230],
+  [790, 372, 150],
+  // Inne i Naustviken, så vika leses som sjø og ikke som et nes
+  [400, 216, 115],
+  [418, 243, 105],
+];
+
+const bolge = (x: number, y: number, len: number) => {
+  const d = len / 4;
+  return `M ${x} ${y} q ${d / 2} -9 ${d} 0 t ${d} 0 t ${d} 0 t ${d} 0`;
+};
+
+/** Fjell og koller. [x, y (fot), bredde, høyde] */
+const FJELL: [number, number, number, number][] = [
+  [95, 104, 32, 26],
+  [175, 90, 40, 34],
+  [258, 112, 28, 21],
+  [652, 94, 42, 35],
+  [742, 74, 36, 29],
+  [828, 102, 30, 23],
+  [906, 126, 38, 30],
+  [318, 592, 32, 25],
+  [432, 564, 38, 31],
+  [560, 532, 30, 23],
+  [672, 506, 40, 32],
+  [812, 474, 33, 26],
+];
+
+const fjell = (x: number, y: number, b: number, h: number) =>
+  `M ${x - b / 2} ${y} L ${x - b * 0.08} ${y - h} L ${x + b / 2} ${y} Z`;
+/** Solsida av fjellet, litt lysere. */
+const fjellFace = (x: number, y: number, b: number, h: number) =>
+  `M ${x - b * 0.08} ${y - h} L ${x + b / 2} ${y} L ${x + b * 0.1} ${y} Z`;
+
+/** Skogholt. [x, y] */
+const TRAER: [number, number][] = [
+  [42, 62], [66, 78], [22, 88], [300, 60], [326, 76], [352, 58], [378, 80],
+  [404, 62], [582, 52], [608, 72], [634, 44], [478, 44], [504, 66],
+  [860, 52], [886, 72], [934, 58], [962, 78],
+  [120, 610], [152, 592], [186, 614], [88, 592],
+  [498, 618], [530, 600], [566, 620], [604, 598],
+  [736, 592], [768, 574], [806, 596], [880, 566], [916, 588], [952, 560],
+];
+
+const tre = (x: number, y: number) =>
+  `M ${x} ${y - 14} l -4.5 8 h 9 z M ${x} ${y - 8} l -5.5 8 h 11 z`;
+
+/**
+ * Naustrekka langs stranda i Naustviken. De fire østligste sto igjen som
+ * svarte ribber etter brannen.
+ */
+const NAUST: [number, number][] = [
+  [378, 197], [396, 182], [414, 173], [433, 167], [452, 164], [471, 165],
+  [490, 170], [508, 178], [524, 191], [538, 207], [550, 225],
+];
+const BRENT = 7; // indeks der de brente naustene begynner
+
+const naust = (x: number, y: number) =>
+  `M ${x - 6} ${y + 5} L ${x - 5} ${y - 2} L ${x} ${y - 6} L ${x + 5} ${y - 2} L ${x + 6} ${y + 5} Z`;
+
+/** Gårdshus spredt oppover liene. [x, y] */
+const GARDER: [number, number][] = [
+  [604, 196], [648, 176], [690, 214], [730, 190],
+  [252, 168], [212, 148], [296, 190],
+  [258, 520], [372, 500], [468, 468], [612, 430], [724, 406],
+];
+
+const hus = (x: number, y: number) =>
+  `M ${x - 8} ${y} l 0 -7 l 8 -6 l 8 6 l 0 7 z`;
+---
+
+<svg
+  class="kartgrunn"
+  viewBox="0 0 1000 640"
+  role="img"
+  aria-label="Kart over Ravnskjær og fjorden rundt"
+>
+  <defs>
+    <linearGradient id="vannfarge" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="#06121a" />
+      <stop offset="100%" stop-color="#0a1e27" />
+    </linearGradient>
+    <linearGradient id="landfarge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#252d28" />
+      <stop offset="100%" stop-color="#2f3830" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="640" fill="url(#vannfarge)" />
+
+  <g stroke="#1c3843" stroke-width="1.4" fill="none" stroke-linecap="round">
+    {BOLGER.map(([x, y, len]) => <path d={bolge(x, y, len)} />)}
+  </g>
+
+  <!-- Skjæret i fjordgapet som plassen har navnet sitt fra, med holmene rundt -->
+  <g>
+    <path
+      d="M 78 402 C 88 386, 108 380, 126 386 C 142 391, 150 402, 144 412 C 134 424, 96 424, 78 402 Z"
+      fill="#2c3634"
+      stroke="#6b7a76"
+      stroke-width="1.2"
+    />
+    <path d="M 46 300 c 10 -8 24 -6 28 3 c -6 8 -22 9 -28 -3 Z" fill="#28322f" stroke="#5c6a66" stroke-width="1" />
+    <path d="M 186 466 c 12 -9 27 -7 31 3 c -7 9 -25 10 -31 -3 Z" fill="#28322f" stroke="#5c6a66" stroke-width="1" />
+    <path d="M 62 486 c 8 -6 19 -5 22 2 c -5 6 -17 7 -22 -2 Z" fill="#28322f" stroke="#5c6a66" stroke-width="1" />
+
+    <!-- Ravnene over skjæret -->
+    <g stroke="#7d7a71" stroke-width="1.6" fill="none" stroke-linecap="round">
+      <path d="M 88 358 q 6 -6 11 0 q 5 -6 11 0" />
+      <path d="M 118 340 q 5 -5 9 0 q 4 -5 9 0" />
+      <path d="M 146 366 q 4 -4 8 0 q 3 -4 8 0" />
+    </g>
+  </g>
+
+  <!--
+    Grunna langs land, tegnet som brede streker under selve landflaten. Bare
+    den delen som ligger ute i vannet blir synlig, og da ser øyet med én gang
+    hvilken side som er sjø — det er det som gjør at Naustviken leses som vik.
+  -->
+  <g fill="none" stroke="#2b5a68">
+    <path d={NORDKYST} stroke-width="16" stroke-opacity="0.10" />
+    <path d={SORKYST} stroke-width="16" stroke-opacity="0.10" />
+    <path d={NORDKYST} stroke-width="7" stroke-opacity="0.20" />
+    <path d={SORKYST} stroke-width="7" stroke-opacity="0.20" />
+  </g>
+
+  <path d={NORDKYST} fill="url(#landfarge)" stroke="#77857e" stroke-width="1.6" />
+  <path d={SORKYST} fill="url(#landfarge)" stroke="#77857e" stroke-width="1.6" />
+
+  <g fill="#39433c">
+    {FJELL.map(([x, y, b, h]) => <path d={fjell(x, y, b, h)} />)}
+  </g>
+  <g fill="#4b574c">
+    {FJELL.map(([x, y, b, h]) => <path d={fjellFace(x, y, b, h)} />)}
+  </g>
+
+  <g fill="#3d4d40">
+    {TRAER.map(([x, y]) => <path d={tre(x, y)} />)}
+  </g>
+
+  <!-- Bekken som renner ned bak smia, innerst i vika -->
+  <path
+    d="M 486 66 C 494 100, 480 126, 484 150 C 486 158, 482 162, 478 166"
+    fill="none"
+    stroke="#3d6470"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- Naustrekka. De brente står igjen i svart. -->
+  <g>
+    {NAUST.map(([x, y], i) => (
+      <path
+        d={naust(x, y)}
+        fill={i >= BRENT ? '#0b0f11' : '#4a554e'}
+        stroke={i >= BRENT ? '#5a3a2c' : '#8a968e'}
+        stroke-width="1"
+      />
+    ))}
+  </g>
+
+  <g fill="#46514b" stroke="#7b8880" stroke-width="1">
+    {GARDER.map(([x, y]) => <path d={hus(x, y)} />)}
+  </g>
+
+  <!-- Gravrøysa der Vigdis holder til, godt utenfor plassen -->
+  <g>
+    <path d="M 806 62 c 14 -20 34 -20 48 0 z" fill="#454f48" stroke="#7b8880" stroke-width="1.2" />
+    <path d="M 830 40 v -12" stroke="#7b8880" stroke-width="1.6" stroke-linecap="round" />
+  </g>
+
+  <!-- Faste navn i landskapet. Stedsoppslagene legges oppå som lenker. -->
+  <g class="stedsnavn">
+    <text x="70" y="238" class="navn-hav">MOT HAVET</text>
+    <text x="112" y="446" class="navn-liten">Ravneskjæret</text>
+    <text x="830" y="24" class="navn-liten" text-anchor="middle">Gravrøysa</text>
+    <text x="905" y="378" class="navn-liten" text-anchor="middle">Innover fjorden</text>
+    <text x="250" y="560" class="navn-liten">Gårdene i lia</text>
+    <text x="492" y="128" class="navn-liten" text-anchor="middle">Smia</text>
+  </g>
+
+  <!-- Kompass -->
+  <g transform="translate(58 592)">
+    <circle r="21" fill="none" stroke="#3a4448" stroke-width="1" />
+    <path d="M 0 -17 L 4.5 0 L 0 17 L -4.5 0 Z" fill="#c39b5a" />
+    <path d="M 0 -17 L 4.5 0 L 0 0 Z" fill="#e0bd84" />
+    <text y="-25" text-anchor="middle" class="navn-liten">N</text>
+  </g>
+</svg>
+
+<style>
+  .kartgrunn {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .stedsnavn text,
+  .kartgrunn text {
+    font-family: var(--serif);
+    fill: var(--tekst-svak);
+    font-size: 15px;
+    font-style: italic;
+  }
+  .navn-hav {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    fill: #3f5257;
+  }
+  .navn-liten {
+    font-size: 14px;
+  }
+</style>

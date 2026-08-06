@@ -35,8 +35,27 @@ function undertekstFor(samling: Samling, data: any): string {
   return data.tidspunkt ? `År ${data.aar} — ${data.tidspunkt}` : `År ${data.aar}`;
 }
 
+/**
+ * Slektsbåndene i frontmatter (far/mor/gift_med) blir vanlige relasjoner, så
+ * de dukker opp både på oppslaget og i relasjonsgrafen uten at du må skrive
+ * dem to steder.
+ */
+function slektsRelasjoner(data: any) {
+  const ut: { til: string; type: string; motsatt: string }[] = [];
+  if (data.far) ut.push({ til: data.far, type: 'Far', motsatt: 'Barn' });
+  if (data.mor) ut.push({ til: data.mor, type: 'Mor', motsatt: 'Barn' });
+  if (data.gift_med)
+    ut.push({ til: data.gift_med, type: 'Gift med', motsatt: 'Gift med' });
+  return ut;
+}
+
 function tilOppslag(samling: Samling, entry: CollectionEntry<Samling>): Oppslag {
-  const data = entry.data as any;
+  const rå = entry.data as any;
+  const data =
+    samling === 'karakterer'
+      ? { ...rå, relasjoner: [...(rå.relasjoner ?? []), ...slektsRelasjoner(rå)] }
+      : rå;
+
   return {
     nokkel: `${samling}/${entry.id}`,
     samling,
@@ -116,7 +135,8 @@ export function koblingerFor(nokkel: string, alle: Oppslag[]): Kobling[] {
       if (funnet.has(annen.nokkel)) continue;
       funnet.set(annen.nokkel, {
         motpart: annen,
-        type: rel.type,
+        // "Far" på barnet skal lese "Barn" på forelderen.
+        type: rel.motsatt ?? rel.type,
         notat: rel.notat,
         speilet: true,
       });

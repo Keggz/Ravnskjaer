@@ -1,0 +1,256 @@
+---
+import Base from '../layouts/Base.astro';
+import { hentSamling } from '../lib/bibliotek';
+import { byggSlektstre, MAL } from '../lib/slekt';
+
+const karakterer = await hentSamling('karakterer');
+const tre = byggSlektstre(karakterer);
+
+// Én farge per ætt, tildelt i alfabetisk rekkefølge så den holder seg lik
+// mellom bygg. Går det tomt, begynner den forfra.
+const AETTFARGER = ['#c39b5a', '#7ba3a8', '#a4543f', '#8f9f6e', '#9c7fa8'];
+const fargeFor = (aett?: string) =>
+  aett ? AETTFARGER[tre.aetter.indexOf(aett) % AETTFARGER.length] : '#55625f';
+---
+
+<Base
+  tittel="Slekt"
+  beskrivelse="Slektstre over ættene i Ravnskjær — hvem som er i slekt med hvem."
+>
+  <div class="innhold">
+    <div class="sidetopp">
+      <p class="stikk">Bibliotek</p>
+      <h1>Ætt og avstamning</h1>
+      <p class="ingress">
+        Hvem som er i slekt med hvem — og dermed hvem som har krav på hva.
+        Klikk et navn for å åpne oppslaget.
+      </p>
+    </div>
+
+    {tre.aetter.length > 0 && (
+      <div class="tegnforklaring">
+        {tre.aetter.map((a) => (
+          <span>
+            <i class="strek" style={`background:${fargeFor(a)}`}></i>
+            {a}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+
+  {tre.bokser.length === 0 ? (
+    <div class="innhold">
+      <p class="tom-melding">
+        Ingen slektsbånd er registrert ennå. Legg til <code>far</code>,
+        <code>mor</code> eller <code>gift_med</code> i en karakterfil, så tegner
+        treet seg selv.
+      </p>
+    </div>
+  ) : (
+    <div class="tre-rull">
+      <div
+        class="tre"
+        style={`width:${tre.bredde}px; height:${tre.hoyde}px`}
+      >
+        <svg
+          class="streker"
+          width={tre.bredde}
+          height={tre.hoyde}
+          aria-hidden="true"
+        >
+          {tre.baner.map((d) => (
+            <path d={d} fill="none" stroke="#55625f" stroke-width="1.5" />
+          ))}
+          {tre.ekteskap.map((e) => (
+            <line
+              x1={e.x1}
+              y1={e.y}
+              x2={e.x2}
+              y2={e.y}
+              stroke="#c39b5a"
+              stroke-width="1.5"
+            />
+          ))}
+        </svg>
+
+        {tre.bokser.map((b) => (
+          <a
+            href={b.url}
+            class:list={['boks', { dod: b.status === 'død' }]}
+            style={`left:${b.x}px; top:${b.y}px; width:${MAL.BOKS_B}px; height:${MAL.BOKS_H}px; --aett:${fargeFor(b.aett)}`}
+          >
+            <span class="navn">{b.tittel}</span>
+            <span class="under">
+              {[b.rolle, b.levetid].filter(Boolean).join(' · ')}
+            </span>
+            {b.spillerkarakter && <span class="prikk" title="Spillerkarakter"></span>}
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div class="innhold">
+    {tre.utenSlekt.length > 0 && (
+      <section class="uten">
+        <h2>Uten kjent slekt</h2>
+        <p class="uten-hjelp">
+          Disse har ingen registrerte bånd ennå. Skriv <code>far</code>,
+          <code>mor</code> eller <code>gift_med</code> i filen deres for å knytte
+          dem til treet.
+        </p>
+        <ul>
+          {tre.utenSlekt.map((p) => (
+            <li>
+              <a href={p.url}>
+                <span class="navn">{p.tittel}</span>
+                {p.rolle && <span class="rolle">{p.rolle}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</Base>
+
+<style>
+  .tegnforklaring {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--tekst-dempet);
+    margin-bottom: 1.25rem;
+  }
+  .tegnforklaring span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .strek {
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* Treet kan bli bredere enn skjermen — da ruller det vannrett for seg selv. */
+  .tre-rull {
+    overflow-x: auto;
+    padding: 1.5rem;
+    border-top: 1px solid var(--kant);
+    border-bottom: 1px solid var(--kant);
+    background: radial-gradient(ellipse at 50% 0%, var(--sot), var(--sjo-dyp) 80%);
+  }
+  .tre {
+    position: relative;
+    margin: 0 auto;
+    min-width: min-content;
+  }
+  .streker {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+  }
+
+  .boks {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(170deg, var(--tre), var(--sot));
+    border: 1px solid var(--kant);
+    border-left: 3px solid var(--aett);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .boks:hover {
+    border-color: var(--kant-sterk);
+    border-left-color: var(--aett);
+    transform: translateY(-2px);
+  }
+  .boks:hover .navn {
+    color: var(--bronse-lys);
+  }
+  .boks.dod {
+    opacity: 0.72;
+  }
+  .boks.dod .navn {
+    font-style: italic;
+  }
+  .boks .navn {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  .boks .under {
+    font-size: 0.76rem;
+    color: var(--tekst-svak);
+    line-height: 1.3;
+  }
+  .boks .prikk {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bronse-lys);
+  }
+
+  .uten {
+    margin-top: 2.5rem;
+  }
+  .uten h2 {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bronse);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .uten-hjelp {
+    color: var(--tekst-svak);
+    font-size: 0.9rem;
+    max-width: 38rem;
+  }
+  .uten ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .uten a {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.85rem;
+    background: var(--sot);
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+  }
+  .uten a:hover {
+    border-color: var(--kant-sterk);
+  }
+  .uten .navn {
+    font-family: var(--serif);
+  }
+  .uten a:hover .navn {
+    color: var(--bronse-lys);
+  }
+  .uten .rolle {
+    font-size: 0.76rem;
+    color: var(--tekst-svak);
+  }
+</style>

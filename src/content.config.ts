@@ -23,6 +23,8 @@ const felles = {
         til: z.string(),
         type: z.string(),
         notat: z.string().optional(),
+        /** Hva relasjonen heter sett fra den andre siden, f.eks. "Datter til". */
+        motsatt: z.string().optional(),
       })
     )
     .default([]),
@@ -38,6 +40,16 @@ const karakterer = defineCollection({
     status: z.enum(['levende', 'død', 'ukjent', 'savnet']).default('levende'),
     tilhorighet: z.string().optional(),
     spillerkarakter: z.boolean().default(false),
+    /**
+     * Slektsbånd — bygger slektstreet på /slekt, og dukker automatisk opp
+     * som relasjoner. Peker på "karakterer/filnavn", som resten av biblioteket.
+     * Skriv båndet ÉN gang: nevn foreldrene dine, så finner barna seg selv.
+     */
+    far: z.string().optional(),
+    mor: z.string().optional(),
+    gift_med: z.string().optional(),
+    /** Vises under navnet i slektstreet, f.eks. "f. 748" eller "748–791". */
+    levetid: z.string().optional(),
   }),
 });
 
@@ -46,6 +58,19 @@ const steder = defineCollection({
   schema: z.object({
     ...felles,
     stedstype: z.string().optional(),
+    /**
+     * Plassering på kartet, i prosent av kartflaten (0–100 fra venstre/topp).
+     * Klikk i kartet på /kart for å lese av tallene. `side` styrer hvilken vei
+     * navnet legger seg, om to steder ligger tett.
+     * Steder uten kart-felt listes ved siden av kartet i stedet.
+     */
+    kart: z
+      .object({
+        x: z.number(),
+        y: z.number(),
+        side: z.enum(['over', 'under', 'venstre', 'hoyre']).default('under'),
+      })
+      .optional(),
   }),
 });
 

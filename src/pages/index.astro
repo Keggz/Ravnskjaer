@@ -6,10 +6,17 @@ const alle = await hentAlle();
 const hendelser = await hentSamling('hendelser');
 const siste = hendelser.slice(-3).reverse();
 
+const karakterer = alle.filter((o) => o.samling === 'karakterer');
+const steder = alle.filter((o) => o.samling === 'steder');
+
 const antall = {
-  karakterer: alle.filter((o) => o.samling === 'karakterer').length,
-  steder: alle.filter((o) => o.samling === 'steder').length,
+  karakterer: karakterer.length,
+  steder: steder.length,
   hendelser: hendelser.length,
+  paaKart: steder.filter((o) => o.data.kart).length,
+  iSlekt: karakterer.filter(
+    (o) => o.data.far || o.data.mor || o.data.gift_med
+  ).length,
 };
 
 const inngang = [
@@ -26,6 +33,20 @@ const inngang = [
     tekst: 'Hallen, havna, gårdene og farvannene rundt.',
     tall: antall.steder,
     enhet: 'oppslag',
+  },
+  {
+    url: '/kart',
+    navn: 'Kart',
+    tekst: 'Fjorden, havna og hallen — slik ligger landet.',
+    tall: antall.paaKart,
+    enhet: 'på kartet',
+  },
+  {
+    url: '/slekt',
+    navn: 'Slekt',
+    tekst: 'Ættene, og hvem som dermed har krav på hva.',
+    tall: antall.iSlekt,
+    enhet: 'med slektsbånd',
   },
   {
     url: '/hendelser',

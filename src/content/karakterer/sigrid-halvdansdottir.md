@@ -4,6 +4,9 @@ kort: Halvdans eldste. Styrer handelen på plassen i praksis, uten at noen har s
 rolle: Handelskvinne
 status: levende
 tilhorighet: Ravnsætten
+levetid: f. 769
+far: karakterer/halvdan-ravnsson
+mor: karakterer/gudrun-torsdottir
 spillerkarakter: true
 merker: [år 1, år 2]
 relasjoner:
