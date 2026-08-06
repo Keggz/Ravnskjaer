@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base tittel="Ikke funnet" beskrivelse="Denne siden finnes ikke i biblioteket.">
+  <div class="innhold smal">
+    <div class="borte">
+      <p class="stikk">Fire hundre og fire</p>
+      <h1>Her er det ingenting</h1>
+      <p class="ingress">
+        Enten er adressen skrevet feil, eller så er dette noe høvdingen ennå
+        ikke har sluppet ut i lyset.
+      </p>
+
+      <nav class="veier" aria-label="Videre">
+        <a href="/">Til forsiden</a>
+        <a href="/karakterer">Folk</a>
+        <a href="/steder">Steder</a>
+        <a href="/kart">Kart</a>
+        <a href="/hendelser">Tidslinje</a>
+      </nav>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .borte {
+    padding: 5rem 0 3rem;
+  }
+  .stikk {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--bronse);
+    margin-bottom: 0.8rem;
+  }
+  .ingress {
+    color: var(--tekst-dempet);
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    max-width: 32rem;
+  }
+  .veier {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+  .veier a {
+    padding: 0.5rem 0.9rem;
+    background: var(--sot);
+    border: 1px solid var(--kant);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--tekst-dempet);
+    font-size: 0.92rem;
+  }
+  .veier a:hover {
+    border-color: var(--kant-sterk);
+    color: var(--bronse-lys);
+  }
+</style>

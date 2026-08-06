@@ -1,0 +1,13 @@
+{
+  // Forteller Cloudflare at Ravnskjær er en ren statisk side: `npm run build`
+  // legger ferdig HTML i dist/, og alt wrangler skal gjøre er å servere den.
+  // Det finnes ingen Worker-kode her — derfor ingen "main".
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ravnskjaer",
+  "compatibility_date": "2026-08-06",
+  "assets": {
+    "directory": "./dist",
+    // Sender ukjente adresser til 404-sida i stedet for en tom Cloudflare-feil.
+    "not_found_handling": "404-page"
+  }
+}
