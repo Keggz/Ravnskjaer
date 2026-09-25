@@ -13,10 +13,7 @@ const antall = {
   karakterer: karakterer.length,
   steder: steder.length,
   hendelser: hendelser.length,
-  paaKart: steder.filter((o) => o.data.kart).length,
-  iSlekt: karakterer.filter(
-    (o) => o.data.far || o.data.mor || o.data.gift_med
-  ).length,
+  iSlekt: new Set(karakterer.map(o => o.data.tilhorighet).filter(Boolean)).size,
 };
 
 const inngang = [
@@ -35,18 +32,11 @@ const inngang = [
     enhet: 'oppslag',
   },
   {
-    url: '/kart',
-    navn: 'Kart',
-    tekst: 'Fjorden, havna og hallen — slik ligger landet.',
-    tall: antall.paaKart,
-    enhet: 'på kartet',
-  },
-  {
     url: '/slekt',
     navn: 'Slekt',
-    tekst: 'Ættene, og hvem som dermed har krav på hva.',
+    tekst: 'Familiene og båndene mellom menneskene i Ravnskjær.',
     tall: antall.iSlekt,
-    enhet: 'med slektsbånd',
+    enhet: 'ætter',
   },
   {
     url: '/hendelser',
@@ -60,8 +50,9 @@ const inngang = [
     navn: 'Relasjoner',
     tekst: 'Se hvordan folk, steder og hendelser er vevd sammen.',
     tall: alle.length,
-    enhet: 'i kartet',
+    enhet: 'i nettverket',
   },
+  { url: '/penumbra', navn: 'Penumbra', tekst: 'Oppdagelser, ånder og steder på den andre siden.', tall: null, enhet: 'Gå over terskelen →' },
 ];
 ---
 
@@ -84,7 +75,7 @@ const inngang = [
           <a href={i.url}>
             <span class="navn">{i.navn}</span>
             <span class="tekst">{i.tekst}</span>
-            <span class="tall">{i.tall} {i.enhet}</span>
+            <span class="tall">{i.tall !== null ? `${i.tall} ${i.enhet}` : i.enhet}</span>
           </a>
         </li>
       ))}

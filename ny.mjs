@@ -65,7 +65,6 @@ tittel: ${tittel}
 kort: Én setning som sier hva dette stedet er.
 stedstype:
 merker: []
-# kart: { x: 50, y: 50 }   ← finn tallene på /kart, knappen "Finn koordinater"
 # bilde: /media/steder/${tilFilnavn(tittel)}.jpg
 relasjoner: []
 ---

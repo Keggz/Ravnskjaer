@@ -105,8 +105,7 @@ Bare for **karakterer**: `rolle`, `status` (`levende`/`død`/`savnet`/`ukjent`),
 `tilhorighet` (ætt), `spillerkarakter` (`true`/`false`), `levetid`, og
 slektsfeltene `far`, `mor`, `gift_med` (se «Slektstreet»).
 
-Bare for **steder**: `stedstype` (f.eks. `Langhus`, `Havn`, `Gravrøys`) og
-`kart` (se «Kartet»).
+Bare for **steder**: `stedstype` (f.eks. `Langhus`, `Havn`, `Gravrøys`).
 
 Bare for **hendelser**: `aar` (påkrevd — tall, styrer tidslinjen), `rekkefolge`
 (finsortering innen samme år), `tidspunkt` (`Vår`, `Høst` …), `kapittel`
@@ -133,31 +132,6 @@ leses greit fra begge sider. `Far til` fungerer. `Er far` gjør det ikke.
 Skriver du feil filnavn, får du en advarsel i terminalen når du kjører
 `npm run dev` eller `npm run build` — den forteller hvilken fil som peker galt.
 
-### Kartet
-
-Et sted havner på kartet så snart det får et `kart`-felt:
-
-```yaml
-kart: { x: 45, y: 34 }
-```
-
-Tallene er prosent av kartflaten — `x` fra venstre, `y` fra toppen. Du skal
-ikke telle dem ut for hånd: gå til **/kart**, trykk **Finn koordinater**, og
-klikk der stedet skal ligge. Da får du linja ferdig til å lime inn.
-
-Ligger to steder tett, kan du styre hvilken vei navnet legger seg:
-
-```yaml
-kart: { x: 41, y: 15, side: over } # over | under | venstre | hoyre
-```
-
-Steder uten `kart`-felt forsvinner ikke — de listes under kartet som «ikke satt
-på kartet ennå».
-
-Selve landskapet (fjorden, fjellene, naustrekka) er tegnet i
-`src/components/Kartgrunn.astro`. Vil du flytte på en fjord eller legge til en
-øy, ligger alle koordinatene i navngitte lister øverst i den fila.
-
 ### Slektstreet
 
 Slekt skriver du med tre felt på karakteren:
@@ -170,15 +144,13 @@ levetid: f. 769 # valgfritt, vises under navnet
 ```
 
 **Nevn foreldrene dine — barna finner seg selv.** Du skal aldri skrive «barn»
-noe sted; treet på **/slekt** regner ut generasjoner, plasserer ektefeller side
-om side og tegner strekene. Ekteskap trenger du bare skrive på den ene av de to.
+noe sted; siden på **/slekt** samler personene etter ætt og viser familieforbindelsene med lenker. Ekteskap trenger du bare skrive på den ene av de to.
 
 Slektsbåndene blir automatisk vanlige relasjoner også, så de dukker opp både
 på oppslaget og i relasjonsgrafen. Der leses de riktig vei fra begge sider:
 skriver du `far:` på barnet, står det «Barn» på forelderens side.
 
-Fargen på venstre kant følger `tilhorighet`, så hver ætt får sin farge.
-Karakterer uten slektsfelt listes under treet.
+Hver ætt får et eget felt med sin farge. Personer uten oppgitt ætt samles for seg. Søsken, tante/niese og adopsjon vises også når de er registrert som relasjoner.
 
 ### Bilder og video
 
@@ -267,10 +239,13 @@ gal — siden virker uansett.
 src/
   content/          ← alt du skriver ligger her
   lib/bibliotek.ts  ← henter innhold og regner ut relasjoner
-  lib/slekt.ts      ← regner ut slektstreet
   layouts/          ← rammen rundt sidene
-  components/       ← kort, relasjonsliste, bilde/video, kartgrunn
-  pages/            ← selve sidene (forside, oversikter, kart, slekt, tidslinje, graf)
+  components/       ← kort, relasjonsliste, bilde/video
+  pages/            ← selve sidene (forside, oversikter, slekt, tidslinje, graf, penumbra)
   styles/global.css ← farger og typografi
 public/media/       ← bilder og video
 ```
+
+## Penumbra
+
+Knappen «Til Penumbra» åpner den andre siden av biblioteket. Oppslag for steder, ånder og kunnskap ligger i `src/content/penumbra/`. De er skjult som standard og kan knyttes til eksisterende personer og steder. Se [veiledningen](docs/penumbra.md).

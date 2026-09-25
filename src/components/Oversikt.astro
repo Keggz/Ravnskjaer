@@ -8,8 +8,19 @@ interface Props {
   ingress: string;
   oppslag: Oppslag[];
   sokeHint?: string;
+  filtertype?: 'karakterer' | 'steder';
 }
-const { stikk, tittel, ingress, oppslag, sokeHint = 'Søk …' } = Astro.props;
+const { stikk, tittel, ingress, oppslag, sokeHint = 'Søk …', filtertype } = Astro.props;
+const karakterer = filtertype === 'karakterer';
+const grupper = [...new Set(oppslag.map(o => karakterer ? o.data.tilhorighet : o.data.stedstype).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'nb'));
+const knapper = [
+  { verdi: 'alle', navn: 'Alle', antall: oppslag.length },
+  ...(karakterer ? [
+    { verdi: 'spiller', navn: 'Spillerkarakterer', antall: oppslag.filter(o => o.data.spillerkarakter).length },
+    { verdi: 'andre', navn: 'Andre personer', antall: oppslag.filter(o => !o.data.spillerkarakter).length },
+    { verdi: 'dod', navn: 'Døde', antall: oppslag.filter(o => o.data.status === 'død').length },
+  ] : grupper.map(g => ({ verdi: g, navn: g, antall: oppslag.filter(o => o.data.stedstype === g).length }))),
+];
 ---
 
 <div class="innhold">
@@ -18,34 +29,112 @@ const { stikk, tittel, ingress, oppslag, sokeHint = 'Søk …' } = Astro.props;
     <h1>{tittel}</h1>
     <p class="ingress">{ingress}</p>
   </div>
-
-  <div style="max-width:24rem;margin-bottom:1.75rem">
-    <label class="skjult-visuelt" for="sok">{sokeHint}</label>
-    <input type="search" id="sok" class="sok" placeholder={sokeHint} autocomplete="off" />
-  </div>
-
+  <section class="filterpanel" id="filterpanel" aria-label="Søk, filtrering og sortering" hidden>
+    {filtertype && (
+      <div class="filterknapper" role="group" aria-label={karakterer ? 'Vis personer' : 'Vis stedstype'}>
+        {knapper.map(k => (
+          <button type="button" data-filter={k.verdi} aria-pressed={k.verdi === 'alle'}>
+            {k.navn} <span class="antall" aria-hidden="true">{k.antall}</span>
+          </button>
+        ))}
+      </div>
+    )}
+    <div class="filterfelt">
+      <label class="sokefelt">Søk
+        <input type="search" id="sok" class="sok" placeholder={sokeHint} autocomplete="off" />
+      </label>
+      {karakterer && (
+        <label>Ætt
+          <select id="aett">
+            <option value="">Alle ætter</option>
+            {grupper.map(g => <option value={g}>{g}</option>)}
+            <option value="uten">Uten oppgitt ætt</option>
+          </select>
+        </label>
+      )}
+      <label>Sorter
+        <select id="sortering">
+          <option value="az">Navn A–Å</option>
+          <option value="za">Navn Å–A</option>
+        </select>
+      </label>
+    </div>
+    <div class="filterstatus">
+      <p id="treff" role="status" aria-live="polite" aria-atomic="true">Viser {oppslag.length} av {oppslag.length}</p>
+      <button type="button" id="nullstill" disabled>Nullstill</button>
+    </div>
+  </section>
   <ul class="rutenett" id="liste">
-    {oppslag.map((o) => <Kort oppslag={o} />)}
+    {oppslag.map(o => <Kort oppslag={o} />)}
   </ul>
-
-  <p class="tom-melding" id="ingen-treff" hidden>Ingen treff.</p>
+  <p class="tom-melding" id="ingen-treff" hidden>Ingen treff. Prøv et annet søk eller nullstill filtrene.</p>
 </div>
 
 <script>
+  const panel = document.getElementById('filterpanel');
   const felt = document.getElementById('sok') as HTMLInputElement | null;
+  const aett = document.getElementById('aett') as HTMLSelectElement | null;
+  const sortering = document.getElementById('sortering') as HTMLSelectElement | null;
   const liste = document.getElementById('liste');
   const ingen = document.getElementById('ingen-treff');
-  if (felt && liste && ingen) {
+  const trefftekst = document.getElementById('treff');
+  const nullstill = document.getElementById('nullstill') as HTMLButtonElement | null;
+  if (panel && felt && sortering && liste && ingen && trefftekst && nullstill) {
     const rader = Array.from(liste.children) as HTMLElement[];
-    felt.addEventListener('input', () => {
-      const q = felt.value.trim().toLowerCase();
+    const knapper = Array.from(panel.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    let filter = 'alle';
+    const oppdater = () => {
+      const q = felt.value.trim().toLocaleLowerCase('nb');
+      const familie = aett?.value ?? '';
       let synlige = 0;
       for (const rad of rader) {
-        const treff = !q || (rad.dataset.sok ?? '').includes(q);
+        const d = rad.dataset;
+        const kategori = filter === 'alle' || (filter === 'spiller' ? d.spiller === 'true' : filter === 'andre' ? d.spiller === 'false' : filter === 'dod' ? d.status === 'død' : d.stedstype === filter);
+        const slekt = !familie || (familie === 'uten' ? !d.aett : d.aett === familie);
+        const treff = kategori && slekt && (!q || (d.sok ?? '').includes(q));
         rad.hidden = !treff;
         if (treff) synlige++;
       }
+      rader.sort((a, b) => (a.dataset.navn ?? '').localeCompare(b.dataset.navn ?? '', 'nb') * (sortering.value === 'za' ? -1 : 1));
+      liste.append(...rader);
+      for (const knapp of knapper) knapp.setAttribute('aria-pressed', String(knapp.dataset.filter === filter));
+      trefftekst.textContent = `Viser ${synlige} av ${rader.length}`;
       ingen.hidden = synlige > 0;
+      nullstill.disabled = filter === 'alle' && !felt.value && !familie && sortering.value === 'az';
+    };
+    for (const knapp of knapper) knapp.addEventListener('click', () => { filter = knapp.dataset.filter ?? 'alle'; oppdater(); });
+    felt.addEventListener('input', oppdater);
+    aett?.addEventListener('change', oppdater);
+    sortering.addEventListener('change', oppdater);
+    nullstill.addEventListener('click', () => {
+      felt.value = '';
+      filter = 'alle';
+      if (aett) aett.value = '';
+      sortering.value = 'az';
+      oppdater();
+      felt.focus();
     });
+    panel.hidden = false;
+    oppdater();
   }
 </script>
+
+<style>
+  [hidden] { display: none !important; }
+  .filterpanel { margin-bottom: 1.75rem; padding: 1.2rem; background: var(--sot); border: 1px solid var(--kant); border-radius: var(--radius); }
+  .filterknapper { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+  button, select { font: inherit; font-size: .9rem; color: var(--tekst); background: var(--tre); border: 1px solid var(--kant); border-radius: var(--radius); padding: .55rem .8rem; min-height: 44px; }
+  button { cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--bronse); }
+  button[aria-pressed="true"] { color: var(--sjo-dyp); background: var(--bronse-lys); border-color: var(--bronse-lys); }
+  button:focus-visible, select:focus-visible { outline: 2px solid var(--bronse-lys); outline-offset: 3px; }
+  button:disabled { opacity: .45; cursor: default; }
+  .antall { margin-left: .4rem; font-size: .8rem; opacity: .8; }
+  .filterfelt { display: flex; flex-wrap: wrap; gap: .9rem; align-items: end; }
+  label { display: grid; gap: .3rem; font-size: .8rem; color: var(--tekst-dempet); flex: 1 1 10rem; min-width: 0; }
+  .sokefelt { flex: 2 1 16rem; }
+  input, select { width: 100%; min-width: 0; }
+  .filterstatus { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-top: .9rem; }
+  .filterstatus p { margin: 0; font-size: .85rem; color: var(--tekst-dempet); }
+  #nullstill { background: transparent; font-size: .8rem; }
+</style>

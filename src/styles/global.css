@@ -388,3 +388,31 @@ code {
     scroll-behavior: auto;
   }
 }
+
+
+/* Penumbra keeps the same readable structure with a distinct palette. */
+body.penumbra {
+  --sjo-dyp: #10121d;
+  --sot: #181c2b;
+  --tre: #23283c;
+  --kant: #414960;
+  --bronse: #a6aad8;
+  --bronse-lys: #d1d5ff;
+  --tekst: #e8eaf7;
+  --tekst-dempet: #b0b8d0;
+  --tekst-svak: #949db5;
+  background-image: radial-gradient(ellipse at 50% 0%, #34334d66, transparent 65%);
+}
+.penumbra .topp { background: #10121deb; }
+.topp nav { align-items: center; }
+.topp nav .verdenbytte {
+  border: 1px solid var(--kant);
+  border-radius: 20px;
+  padding: .3rem .75rem;
+  color: var(--bronse-lys);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-height: 44px;
+}
+.verdenbytte:focus-visible { outline: 2px solid var(--bronse-lys); outline-offset: 3px; }

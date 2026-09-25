@@ -58,19 +58,7 @@ const steder = defineCollection({
   schema: z.object({
     ...felles,
     stedstype: z.string().optional(),
-    /**
-     * Plassering på kartet, i prosent av kartflaten (0–100 fra venstre/topp).
-     * Klikk i kartet på /kart for å lese av tallene. `side` styrer hvilken vei
-     * navnet legger seg, om to steder ligger tett.
-     * Steder uten kart-felt listes ved siden av kartet i stedet.
-     */
-    kart: z
-      .object({
-        x: z.number(),
-        y: z.number(),
-        side: z.enum(['over', 'under', 'venstre', 'hoyre']).default('under'),
-      })
-      .optional(),
+
   }),
 });
 
@@ -85,7 +73,19 @@ const hendelser = defineCollection({
     tidspunkt: z.string().optional(),
     /** Hvilken spilleøkt/kampanjeår dette hørte til. */
     kapittel: z.string().optional(),
+    /** Karakternøkkel til den som fører krøniken. */
+    forteller: z.string().optional(),
   }),
 });
 
-export const collections = { karakterer, steder, hendelser };
+const penumbra = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/penumbra' }),
+  schema: z.object({
+    ...felles,
+    type: z.enum(['Sted', 'Ånd', 'Kunnskap']).default('Kunnskap'),
+    forbindelser: z.array(z.string()).default([]),
+    skjult: z.boolean().default(true),
+  }),
+});
+
+export const collections = { karakterer, steder, hendelser, penumbra };

@@ -15,22 +15,37 @@ for (const feil of sjekkRelasjoner(alle)) {
   <div class="innhold">
     <div class="sidetopp">
       <p class="stikk">Bibliotek</p>
-      <h1>Hvordan alt henger sammen</h1>
+      <h1>Relasjoner</h1>
       <p class="ingress">
-        Dra i nodene for å rydde. Hold musa over én for å se naboene, og klikk for
-        å åpne oppslaget.
+        Start med folkene i Ravnskjær. Velg hva du vil se, eller klikk på et navn
+        for å utforske de nærmeste forbindelsene.
       </p>
     </div>
 
-    <div class="verktoy">
-      <div class="tegnforklaring">
-        <span><i class="prikk karakterer"></i> Folk</span>
-        <span><i class="prikk steder"></i> Steder</span>
-        <span><i class="prikk hendelser"></i> Hendelser</span>
+    <div class="graf-kontroller">
+      <div class="visninger" role="group" aria-label="Visning">
+        <button type="button" data-visning="folk" aria-pressed="true">Folk</button>
+        <button type="button" data-visning="steder" aria-pressed="false">Folk og steder</button>
+        <button type="button" data-visning="hendelser" aria-pressed="false">Folk og hendelser</button>
+        <button type="button" data-visning="alt" aria-pressed="false">Alt</button>
       </div>
-      <div class="knapper">
-        <input type="search" id="graf-sok" class="sok" placeholder="Marker …" autocomplete="off" />
-        <button type="button" id="graf-nullstill">Ordne på nytt</button>
+      <div class="verktoy">
+        <label>Søk etter navn eller rolle
+          <input type="search" id="graf-sok" placeholder="F.eks. Torstein eller skald" autocomplete="off" />
+        </label>
+        <label>Fokuser på
+          <select id="graf-fokus"><option value="">Hele visningen</option></select>
+        </label>
+        <button type="button" id="graf-nullstill">Nullstill</button>
+      </div>
+      <p class="graf-hjelp">Søk viser treffene og deres direkte forbindelser. Dra i punktene for å flytte dem.</p>
+    </div>
+    <div class="graf-status">
+      <p id="graf-antall" role="status" aria-live="polite"></p>
+      <div class="tegnforklaring" aria-label="Farger">
+        <span><i class="prikk karakterer"></i> Folk</span>
+        <span data-forklaring="steder" hidden><i class="prikk steder"></i> Steder</span>
+        <span data-forklaring="hendelser" hidden><i class="prikk hendelser"></i> Hendelser</span>
       </div>
     </div>
 
@@ -38,7 +53,8 @@ for (const feil of sjekkRelasjoner(alle)) {
       <p class="tom-melding">Ingen oppslag å vise ennå.</p>
     ) : (
       <div class="graf-ramme">
-        <svg id="graf" role="img" aria-label="Relasjonskart over Ravnskjær"></svg>
+        <svg id="graf" role="group" aria-label="Relasjoner i valgt visning"></svg>
+        <p id="graf-tom" class="tom-melding" hidden>Ingen treff i denne visningen. Prøv et annet navn eller nullstill filtrene.</p>
         <p class="graf-fallback">
           Kartet krever JavaScript. Du finner alt innholdet under
           <a href="/karakterer">Folk</a>, <a href="/steder">Steder</a> og
@@ -46,109 +62,44 @@ for (const feil of sjekkRelasjoner(alle)) {
         </p>
       </div>
     )}
+    <section id="graf-detaljer" class="graf-detaljer" hidden aria-label="Valgt oppslag"></section>
   </div>
 
   <script type="application/json" id="graf-data" set:html={JSON.stringify(graf)} />
 </Base>
 
 <style>
-  .verktoy {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-  .tegnforklaring {
-    display: flex;
-    gap: 1.1rem;
-    flex-wrap: wrap;
-    font-size: 0.85rem;
-    color: var(--tekst-dempet);
-  }
-  .tegnforklaring span {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .prikk {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .prikk.karakterer {
-    background: #c39b5a;
-  }
-  .prikk.steder {
-    background: #7ba3a8;
-  }
-  .prikk.hendelser {
-    background: #a4543f;
-  }
-  .knapper {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-  .knapper .sok {
-    width: 11rem;
-    padding: 0.4rem 0.6rem;
-    font-size: 0.88rem;
-  }
-  .knapper button {
-    padding: 0.42rem 0.8rem;
-    background: var(--tre);
-    color: var(--tekst-dempet);
-    border: 1px solid var(--kant);
-    border-radius: var(--radius);
-    font: inherit;
-    font-size: 0.88rem;
-    cursor: pointer;
-  }
-  .knapper button:hover {
-    color: var(--tekst);
-    border-color: var(--kant-sterk);
-  }
-  .graf-ramme {
-    border: 1px solid var(--kant);
-    border-radius: var(--radius);
-    background: radial-gradient(ellipse at 50% 40%, var(--sot), var(--sjo-dyp) 75%);
-    overflow: hidden;
-    margin-bottom: 2rem;
-  }
-  #graf {
-    display: block;
-    width: 100%;
-    height: min(72vh, 640px);
-    touch-action: none;
-    cursor: grab;
-  }
-  .graf-fallback {
-    padding: 2rem 1.5rem;
-    margin: 0;
-    color: var(--tekst-svak);
-    text-align: center;
-  }
-  /* Skjules så snart skriptet har tegnet kartet. */
-  .graf-ramme.klar .graf-fallback {
-    display: none;
-  }
-  .graf-ramme:not(.klar) #graf {
-    display: none;
-  }
+  [hidden] { display: none !important; }
+  .graf-kontroller { padding: 1rem; border: 1px solid var(--kant); border-radius: var(--radius); background: var(--sot); }
+  .visninger, .verktoy, .graf-status, .tegnforklaring { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+  .verktoy { margin-top: 1rem; align-items: end; }
+  .verktoy label { flex: 1 1 15rem; min-width: 0; font-size: .8rem; color: var(--tekst-dempet); }
+  .verktoy input, .verktoy select { display: block; width: 100%; min-width: 0; margin-top: .35rem; background: var(--sjo-dyp); color: var(--tekst); border: 1px solid var(--kant); border-radius: var(--radius); padding: .65rem; font: inherit; font-size: .95rem; }
+  button { min-height: 42px; padding: .55rem .9rem; background: var(--tre); color: var(--tekst-dempet); border: 1px solid var(--kant); border-radius: var(--radius); font: inherit; font-size: .9rem; cursor: pointer; }
+  button:hover, button[aria-pressed="true"] { color: var(--bronse-lys); border-color: var(--bronse); }
+  button[aria-pressed="true"] { background: #c39b5a20; }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--bronse-lys); outline-offset: 3px; }
+  .graf-hjelp { margin: .8rem 0 0; color: var(--tekst-svak); font-size: .85rem; }
+  .graf-status { justify-content: space-between; gap: .5rem 1rem; margin: 1rem 0; font-size: .85rem; color: var(--tekst-dempet); }
+  .graf-status p { margin: 0; }
+  .tegnforklaring span { display: inline-flex; align-items: center; gap: .4rem; }
+  .prikk { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .prikk.karakterer { background: #c39b5a; }
+  .prikk.steder { background: #7ba3a8; }
+  .prikk.hendelser { background: #a4543f; }
+  .graf-ramme { border: 1px solid var(--kant); border-radius: var(--radius); background: radial-gradient(ellipse at 50% 40%, var(--sot), var(--sjo-dyp) 75%); overflow: hidden; margin-bottom: 1rem; }
+  #graf { display: block; width: 100%; height: min(68vh, 640px); touch-action: pan-y; }
+  .graf-fallback { padding: 2rem 1.5rem; margin: 0; color: var(--tekst-svak); text-align: center; }
+  .graf-ramme.klar .graf-fallback, .graf-ramme:not(.klar) #graf { display: none; }
+  .graf-detaljer { padding: 1rem 1.25rem; margin-bottom: 2rem; border: 1px solid var(--kant); border-radius: var(--radius); background: var(--sot); }
+  .graf-detaljer :global(h2) { margin: 0 0 .5rem; font-size: 1.35rem; }
+  .graf-detaljer :global(ul) { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; padding: 0; list-style: none; }
+  .graf-detaljer :global(p) { color: var(--tekst-dempet); }
+  @media(max-width: 540px) { .visninger button { flex: 1 1 40%; } .verktoy button { width: 100%; } }
 </style>
 
 <script>
-  type Node = {
-    id: string;
-    tittel: string;
-    samling: 'karakterer' | 'steder' | 'hendelser';
-    url: string;
-    undertekst: string;
-  };
-  type Kant = { fra: string; til: string; type: string };
+  import { velgGraf, iVisning, type GrafNode as Node, type GrafKant as Kant, type Visning } from '../lib/grafutvalg';
 
   type Punkt = Node & { x: number; y: number; vx: number; vy: number; grad: number };
 
@@ -187,7 +138,7 @@ for (const feil of sjekkRelasjoner(alle)) {
     let hoyde = svg.clientHeight || 600;
 
     // Startposisjoner i en spiral — samme resultat hver gang siden lastes.
-    const punkter: Punkt[] = noder.map((n, i) => {
+    const allePunkter: Punkt[] = noder.map((n, i) => {
       const vinkel = i * 2.399963; // gyllen vinkel gir jevn spredning
       const r = Math.min(bredde, hoyde) * 0.36 * Math.sqrt((i + 1) / noder.length);
       return {
@@ -199,7 +150,9 @@ for (const feil of sjekkRelasjoner(alle)) {
         grad: grad.get(n.id) ?? 0,
       };
     });
-    const kart = new Map(punkter.map((p) => [p.id, p]));
+    let punkter = allePunkter;
+    let aktiveKanter = kanter;
+    const kart = new Map(allePunkter.map((p) => [p.id, p]));
     const radius = (p: Punkt) => 6 + Math.min(p.grad, 8) * 1.15;
 
     // --- Tegn SVG-elementene én gang, oppdater posisjoner i løkka ---------
@@ -216,11 +169,15 @@ for (const feil of sjekkRelasjoner(alle)) {
       return { el, kant: k };
     });
 
-    const noderEl = punkter.map((p) => {
+    const tekstBredder = new Map<string, number>();
+    const noderEl = allePunkter.map((p) => {
       const g = document.createElementNS(NS, 'g');
       g.setAttribute('tabindex', '0');
-      g.setAttribute('role', 'link');
-      g.setAttribute('aria-label', `${p.tittel} — ${p.undertekst}`);
+      g.setAttribute('role', 'button');
+      g.setAttribute('aria-label', `Fokuser på ${p.tittel}`);
+      g.dataset.samling = p.samling;
+      g.style.touchAction = 'none';
+
       g.style.cursor = 'pointer';
 
       const sirkel = document.createElementNS(NS, 'circle');
@@ -243,14 +200,15 @@ for (const feil of sjekkRelasjoner(alle)) {
 
       g.append(sirkel, tekst);
       lag.noder.append(g);
+      tekstBredder.set(p.id, tekst.getComputedTextLength() / 2 + 8);
 
-      const aapne = () => (window.location.href = p.url);
+      const aapne = () => { fokusFelt.value = p.id; sokFelt.value = ''; oppdaterUtvalg(); };
       g.addEventListener('click', (e) => {
         if (!dro) aapne();
         e.stopPropagation();
       });
       g.addEventListener('keydown', (e) => {
-        if ((e as KeyboardEvent).key === 'Enter') aapne();
+        if (['Enter', ' '].includes((e as KeyboardEvent).key)) { e.preventDefault(); aapne(); }
       });
       g.addEventListener('pointerenter', () => marker(p.id));
       g.addEventListener('focus', () => marker(p.id));
@@ -297,6 +255,7 @@ for (const feil of sjekkRelasjoner(alle)) {
     // --- Dra -------------------------------------------------------------
     let dratt: Punkt | null = null;
     let dro = false;
+    let startPos = { x: 0, y: 0 };
 
     function pekerPos(e: PointerEvent) {
       const r = svg!.getBoundingClientRect();
@@ -307,13 +266,15 @@ for (const feil of sjekkRelasjoner(alle)) {
       e.preventDefault();
       dratt = p;
       dro = false;
-      svg!.setPointerCapture(e.pointerId);
+      startPos = pekerPos(e);
+      (e.currentTarget as SVGGElement).setPointerCapture(e.pointerId);
     }
 
     svg.addEventListener('pointermove', (e) => {
       if (!dratt) return;
-      dro = true;
       const { x, y } = pekerPos(e);
+      if (!dro && Math.hypot(x - startPos.x, y - startPos.y) < 5) return;
+      dro = true;
       dratt.x = x;
       dratt.y = y;
       dratt.vx = 0;
@@ -362,10 +323,24 @@ for (const feil of sjekkRelasjoner(alle)) {
           a.vy -= fy;
           b.vx += fx;
           b.vy += fy;
+
+          // Reserve space for labels as well as the circles.
+          const plassX = (tekstBredder.get(a.id) ?? 70) + (tekstBredder.get(b.id) ?? 70);
+          const overlappX = plassX - Math.abs(dx);
+          const overlappY = 44 - Math.abs(dy);
+          if (overlappX > 0 && overlappY > 0) {
+            if (overlappX < overlappY) {
+              const skyv = Math.sign(dx || 1) * overlappX * .2;
+              a.vx -= skyv; b.vx += skyv;
+            } else {
+              const skyv = Math.sign(dy || 1) * overlappY * .2;
+              a.vy -= skyv; b.vy += skyv;
+            }
+          }
         }
       }
 
-      for (const k of kanter) {
+      for (const k of aktiveKanter) {
         const a = kart.get(k.fra);
         const b = kart.get(k.til);
         if (!a || !b) continue;
@@ -399,7 +374,8 @@ for (const feil of sjekkRelasjoner(alle)) {
 
         // Hold nodene innenfor lerretet, med plass til navnet under.
         const r = radius(p) + 4;
-        p.x = Math.max(r + 40, Math.min(bredde - r - 40, p.x));
+        const marg = Math.min(bredde / 2, Math.max(r + 10, tekstBredder.get(p.id) ?? 70));
+        p.x = Math.max(marg, Math.min(bredde - marg, p.x));
         p.y = Math.max(r + 6, Math.min(hoyde - r - 16, p.y));
       }
 
@@ -408,6 +384,7 @@ for (const feil of sjekkRelasjoner(alle)) {
 
     function tegn() {
       for (const { el, kant } of linjer) {
+        if (el.style.display === 'none') continue;
         const a = kart.get(kant.fra);
         const b = kart.get(kant.til);
         if (!a || !b) continue;
@@ -417,6 +394,7 @@ for (const feil of sjekkRelasjoner(alle)) {
         el.setAttribute('y2', b.y.toFixed(1));
       }
       for (const { g, punkt } of noderEl) {
+        if (g.style.display === 'none') continue;
         g.setAttribute('transform', `translate(${punkt.x.toFixed(1)} ${punkt.y.toFixed(1)})`);
       }
     }
@@ -438,47 +416,117 @@ for (const feil of sjekkRelasjoner(alle)) {
 
     function malOpp() {
       bredde = svg!.clientWidth || bredde;
+      const kolonner = Math.max(2, Math.floor(bredde / 170));
+      const basisHoyde = Math.min(window.innerHeight * .68, 640);
+      svg!.style.height = `${Math.max(basisHoyde, Math.ceil(punkter.length / kolonner) * 48 + 48)}px`;
       hoyde = svg!.clientHeight || hoyde;
       svg!.setAttribute('viewBox', `0 0 ${bredde} ${hoyde}`);
       varm = Math.max(varm, 0.5);
     }
     window.addEventListener('resize', malOpp);
 
-    // --- Verktøy ---------------------------------------------------------
-    document.getElementById('graf-nullstill')?.addEventListener('click', () => {
+    // --- Views, filtering and one-hop focus -----------------------------
+    let visning: Visning = 'folk';
+    const sokFelt = document.getElementById('graf-sok') as HTMLInputElement;
+    const fokusFelt = document.getElementById('graf-fokus') as HTMLSelectElement;
+    const antall = document.getElementById('graf-antall')!;
+    const detaljer = document.getElementById('graf-detaljer')!;
+    const knapper = [...document.querySelectorAll<HTMLButtonElement>('[data-visning]')];
+
+    function fyllFokus() {
+      const valgt = fokusFelt.value;
+      fokusFelt.replaceChildren(new Option('Hele visningen', ''));
+      for (const n of noder.filter(n => iVisning(n, visning)).sort((a, b) => a.tittel.localeCompare(b.tittel, 'nb'))) {
+        fokusFelt.add(new Option(n.tittel, n.id));
+      }
+      fokusFelt.value = [...fokusFelt.options].some(o => o.value === valgt) ? valgt : '';
+    }
+
+    function ordne() {
       punkter.forEach((p, i) => {
         const vinkel = i * 2.399963;
-        const r = Math.min(bredde, hoyde) * 0.36 * Math.sqrt((i + 1) / punkter.length);
+        const r = Math.min(bredde, hoyde) * .36 * Math.sqrt((i + 1) / punkter.length);
         p.x = bredde / 2 + Math.cos(vinkel) * r;
         p.y = hoyde / 2 + Math.sin(vinkel) * r;
-        p.vx = 0;
-        p.vy = 0;
+        p.vx = p.vy = 0;
       });
       varm = 1;
-    });
+    }
 
-    const sokFelt = document.getElementById('graf-sok') as HTMLInputElement | null;
-    sokFelt?.addEventListener('input', () => {
-      const q = sokFelt.value.trim().toLowerCase();
-      sokeTreff = q
-        ? new Set(
-            punkter
-              .filter(
-                (p) =>
-                  p.tittel.toLowerCase().includes(q) ||
-                  p.undertekst.toLowerCase().includes(q)
-              )
-              .map((p) => p.id)
-          )
-        : null;
+    function oppdaterUtvalg() {
+      const utvalg = velgGraf(noder, kanter, visning, sokFelt.value, fokusFelt.value);
+      const synlige = new Set(utvalg.noder.map(n => n.id));
+      punkter = allePunkter.filter(p => synlige.has(p.id));
+      aktiveKanter = utvalg.kanter;
+      markert = null;
+      sokeTreff = utvalg.treff.size ? utvalg.treff : null;
+      grad.clear();
+      for (const k of aktiveKanter) {
+        grad.set(k.fra, (grad.get(k.fra) ?? 0) + 1);
+        grad.set(k.til, (grad.get(k.til) ?? 0) + 1);
+      }
+      for (const { g, sirkel, tekst, punkt } of noderEl) {
+        const vis = synlige.has(punkt.id);
+        g.style.display = vis ? '' : 'none';
+        g.setAttribute('tabindex', vis ? '0' : '-1');
+        g.setAttribute('aria-pressed', String(punkt.id === fokusFelt.value));
+        punkt.grad = grad.get(punkt.id) ?? 0;
+        sirkel.setAttribute('r', String(radius(punkt)));
+        tekst.setAttribute('y', String(radius(punkt) + 14));
+      }
+      for (const { el, kant } of linjer) el.style.display = synlige.has(kant.fra) && synlige.has(kant.til) ? '' : 'none';
+      const fokus = noder.find(n => n.id === fokusFelt.value);
+      const omfang = fokus ? ` · Rundt ${fokus.tittel}` : sokFelt.value.trim() ? ` · ${utvalg.treff.size} søketreff og deres forbindelser` : '';
+      antall.textContent = `${punkter.length} oppslag · ${aktiveKanter.length} forbindelser${omfang}`;
+      document.getElementById('graf-tom')!.hidden = punkter.length > 0;
+      svg!.style.display = punkter.length ? '' : 'none';
+      detaljer.replaceChildren();
+      detaljer.hidden = !fokus;
+      if (fokus) {
+        const h = document.createElement('h2');
+        const lenke = document.createElement('a');
+        lenke.href = fokus.url;
+        lenke.textContent = `${fokus.tittel} →`;
+        h.append(lenke);
+        const p = document.createElement('p');
+        p.textContent = 'Direkte forbindelser i denne visningen. Åpne et oppslag for å lese mer.';
+        const liste = document.createElement('ul');
+        for (const n of utvalg.noder.filter(n => n.id !== fokus.id).sort((a, b) => a.tittel.localeCompare(b.tittel, 'nb'))) {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = n.url;
+          a.textContent = n.tittel;
+          li.append(a); liste.append(li);
+        }
+        if (!liste.children.length) p.textContent = 'Ingen registrerte forbindelser i denne visningen. Prøv å ta med steder eller hendelser.';
+        detaljer.append(h, p, liste);
+      }
+      for (const knapp of knapper) knapp.setAttribute('aria-pressed', String(knapp.dataset.visning === visning));
+      for (const forklaring of document.querySelectorAll<HTMLElement>('[data-forklaring]')) {
+        forklaring.hidden = visning !== 'alt' && visning !== forklaring.dataset.forklaring;
+      }
+      malOpp();
+      ordne();
       tegnStil();
-    });
+      tegn();
+    }
 
-    svg.addEventListener('click', () => marker(null));
+    for (const knapp of knapper) knapp.addEventListener('click', () => {
+      visning = knapp.dataset.visning as Visning;
+      fyllFokus();
+      oppdaterUtvalg();
+    });
+    sokFelt.addEventListener('input', () => { fokusFelt.value = ''; oppdaterUtvalg(); });
+    fokusFelt.addEventListener('change', () => { sokFelt.value = ''; oppdaterUtvalg(); });
+    document.getElementById('graf-nullstill')?.addEventListener('click', () => {
+      visning = 'folk'; sokFelt.value = ''; fokusFelt.value = '';
+      fyllFokus(); oppdaterUtvalg();
+    });
 
     ramme.classList.add('klar');
     malOpp();
-    tegnStil();
+    fyllFokus();
+    oppdaterUtvalg();
     loop();
   }
 </script>

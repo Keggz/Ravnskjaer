@@ -6,12 +6,12 @@ interface Props {
 }
 const { oppslag } = Astro.props;
 const d = oppslag.data;
-const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, ...oppslag.merker]
+const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorighet ?? '', ...oppslag.merker]
   .join(' ')
   .toLowerCase();
 ---
 
-<li data-sok={sokeTekst} data-samling={oppslag.samling}>
+<li data-sok={sokeTekst} data-samling={oppslag.samling} data-navn={oppslag.tittel} data-spiller={String(!!d.spillerkarakter)} data-status={d.status} data-aett={d.tilhorighet ?? ''} data-stedstype={d.stedstype}>
   <a href={oppslag.url} class="kort">
     {oppslag.bilde ? (
       <img src={oppslag.bilde} alt="" class="kort-bilde" loading="lazy" />

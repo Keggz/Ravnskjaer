@@ -8,11 +8,11 @@ interface Props {
 
 const { tittel, beskrivelse = 'Bibliotek over Ravnskjær — folk, steder og hendelser.' } = Astro.props;
 const sti = Astro.url.pathname;
+const penumbra = sti === '/penumbra' || sti.startsWith('/penumbra/');
 
 const lenker = [
   { url: '/karakterer', navn: 'Folk' },
   { url: '/steder', navn: 'Steder' },
-  { url: '/kart', navn: 'Kart' },
   { url: '/slekt', navn: 'Slekt' },
   { url: '/hendelser', navn: 'Tidslinje' },
   { url: '/graf', navn: 'Relasjoner' },
@@ -29,7 +29,7 @@ const aktiv = (url: string) => sti === url || sti.startsWith(url + '/');
     <meta name="generator" content={Astro.generator} />
     <title>{tittel} — Ravnskjær</title>
   </head>
-  <body>
+  <body class:list={{ penumbra }}>
     <header class="topp">
       <div class="topp-rad">
         <a href="/" class="merke">
@@ -43,6 +43,10 @@ const aktiv = (url: string) => sti === url || sti.startsWith(url + '/');
           {lenker.map((l) => (
             <a href={l.url} aria-current={aktiv(l.url) ? 'page' : undefined}>{l.navn}</a>
           ))}
+          <a class="verdenbytte" href={penumbra ? '/' : '/penumbra'}>
+            <span aria-hidden="true">{penumbra ? '☀' : '☾'}</span>
+            {penumbra ? 'Til Ravnskjær' : 'Til Penumbra'}
+          </a>
         </nav>
       </div>
     </header>

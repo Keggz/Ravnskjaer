@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const oppslag = (await getCollection('penumbra', ({ data }) => !data.skjult)).sort((a, b) => a.data.tittel.localeCompare(b.data.tittel, 'nb'));
+const grupper = ['Sted', 'Ånd', 'Kunnskap'].map(type => ({ type, poster: oppslag.filter(o => o.data.type === type) }));
+---
+<Base tittel="Penumbra" beskrivelse="Oppdagelser, steder og ånder på den andre siden av Ravnskjær.">
+  <div class="innhold">
+    <section class="terskel">
+      <span class="mane" aria-hidden="true">☾</span>
+      <p class="stikk">På den andre siden</p>
+      <h1>Penumbra</h1>
+      <p class="ingress">Et sted for det dere oppdager bortenfor den synlige verdenen. Ånder, steder og forbindelser som får en annen betydning på den andre siden.</p>
+      <a href="/" class="tilbake">← Tilbake til Ravnskjær</a>
+    </section>
+    {oppslag.length ? grupper.filter(g => g.poster.length).map(g => (
+      <section class="samling">
+        <h2>{g.type === 'Sted' ? 'Steder' : g.type === 'Ånd' ? 'Ånder' : 'Kunnskap'}</h2>
+        <ul class="oppdagelser">
+          {g.poster.map(p => <li><a href={'/penumbra/' + p.id}><h3>{p.data.tittel}</h3><p>{p.data.kort}</p><span>Åpne oppslag →</span></a></li>)}
+        </ul>
+      </section>
+    )) : (
+      <section class="stille">
+        <h2>Den andre siden venter</h2>
+        <p>Ingen oppdagelser er ført inn her ennå. Etter hvert samles det dere lærer om Penumbra på disse sidene.</p>
+        <div class="spor"><span>Steder</span><span>Ånder</span><span>Kunnskap</span></div>
+      </section>
+    )}
+  </div>
+</Base>
+<style>
+  .terskel { padding: 3.5rem 0; max-width: 44rem; margin: auto; text-align: center; }
+  .mane { display: block; font-size: 4rem; color: var(--bronse-lys); line-height: 1; margin-bottom: 1.5rem; }
+  h1 { font-size: clamp(2.8rem, 8vw, 5rem); }
+  .tilbake { display: inline-block; margin-top: 1rem; padding: .5rem; font-size: .9rem; }
+  .stille { text-align: center; max-width: 42rem; margin: 0 auto 3rem; padding: 2rem; border: 1px solid var(--kant); border-radius: 12px; background: var(--sot); }
+  .stille p { color: var(--tekst-dempet); }
+  .spor { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; color: var(--bronse-lys); font-size: .85rem; }
+  .samling { margin-bottom: 2rem; }
+  .oppdagelser { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
+  .oppdagelser a { display: block; padding: 1.5rem; background: var(--sot); border: 1px solid var(--kant); border-radius: 8px; text-decoration: none; height: 100%; overflow-wrap: anywhere; }
+  .oppdagelser p { color: var(--tekst-dempet); }
+  .oppdagelser span { font-size: .8rem; }
+</style>

@@ -1,33 +1,19 @@
 ---
-tittel: Ravnskjær
-kort: Handelsplassen innerst i fjorden, oppkalt etter skjæret der ravnene samles før uvær.
-stedstype: Handelsplass
-kart: { x: 64, y: 18 }
-merker: [hovedsete, havn]
-relasjoner:
-  - til: steder/gildehallen
-    type: Ligger her
-  - til: steder/naustviken
-    type: Ligger her
-  - til: karakterer/halvdan-ravnsson
-    type: Styres av
+tittel: "Ravnskjær"
+kort: "Handelsplass på vestlandskysten og hjemsted for de fire hovedættene."
+stedstype: "Bosetning"
+merker: ["Norge", "Vestlandet", "hjemsted", "handel"]
+relasjoner: [{"til": "karakterer/torstein-bjornsson", "type": "Styres av", "motsatt": "Jarl i"}, {"til": "karakterer/saia-mork-hansdottir", "type": "Rådsrepresentant", "motsatt": "Representerer folket og hirden i"}, {"til": "karakterer/knut-en-oye", "type": "Smed", "motsatt": "Arbeider i"}, {"til": "karakterer/rolf-bakstein", "type": "Baker", "motsatt": "Arbeider i"}, {"til": "karakterer/aasmund-helgason", "type": "Handelsmann", "motsatt": "Driver handel i"}, {"til": "karakterer/ragna-torsdatter", "type": "Volve", "motsatt": "Virker i"}]
 ---
 
-Ravnskjær ligger der fjorden smalner og de siste holmene bryter dønningene fra
-havet. Femti–seksti hushold hører til plassen, spredt oppover liene, men det er
-havna og hallen som gjør stedet til noe mer enn en samling gårder.
+Ravnskjær er en stolt bosetning på rundt 250 sjeler på Norges vestkyst. Jordbruk, fiske, handel og håndverk preger hverdagen, mens hirden verner folkene og hjemmene deres.
 
-Navnet kommer fra skjæret i fjordgapet. Ravnene samler seg der før uvær, sier
-folk, og de eldste hevder at antallet fugler forteller hvor mange skip som ikke
-vender hjem.
+## Folk og styre
 
-## Hvorfor folk kommer hit
+Jarl Torstein «Draugfødt» Bjørnson styrer etter at faren Bjørn Ulvsson døde under Eldrbrands angrep. Smårådet har representanter fra Ulvsson-ætten, Torløv-ætten, Helga-ætten og Tjugeskalle-folket. Saia representerer folket og hirden.
 
-Handelsplassen ligger godt til for både nordgående og sørgående ferd. Kleberstein
-fra dalene innenfor, huder, tjære og jern går ut; korn, glassperler, kvernstein
-og av og til noe langveisfarende kommer inn.
+## Livet i bygda
 
-## Styre
+Ravnskjær er et stoppested for reisende langs kysten. Her finnes handelsfolk, skipsarbeidere, helbredere og gårdsfolk. Knut En-øye lager verktøy og våpen, Rolf Bakstein varmer bakerovnen, og Åsmund Helgason holder oversikt over handel og lager.
 
-Halvdan Ravnsson holder hallen og krever landvord av dem som ligger til kai.
-Tvister avgjøres på tinget, men alle vet at hallen har lang arm.
+Havna, langhuset og håndverksplassene er deler av selve Ravnskjær. Bosetningen har etter hvert fått vollgrav og palisade som vern mot større farer.

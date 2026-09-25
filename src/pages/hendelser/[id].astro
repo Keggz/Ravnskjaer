@@ -9,13 +9,39 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const deler = headings.filter(h => h.depth === 2);
 
 const alle = await hentAlle();
 const oppslag = alle.find((o) => o.nokkel === `hendelser/${entry.id}`)!;
 const koblinger = koblingerFor(oppslag.nokkel, alle);
+const kronike = alle.filter(o => o.samling === 'hendelser').sort((a, b) => a.data.aar - b.data.aar || a.data.rekkefolge - b.data.rekkefolge || a.tittel.localeCompare(b.tittel, 'nb'));
+const plass = kronike.findIndex(o => o.nokkel === oppslag.nokkel);
+const forrige = kronike[plass - 1];
+const neste = kronike[plass + 1];
 ---
 
 <Oppslag oppslag={oppslag} koblinger={koblinger} tilbakeUrl="/hendelser" tilbakeNavn="Tidslinjen">
+  {deler.length > 1 && <nav class="innholdsfortegnelse" aria-label="I denne beretningen">
+    <p>I denne beretningen</p>
+    <ol>{deler.map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+  </nav>}
   <Content />
+  <nav slot="etter" class="kronike-nav" aria-label="Les videre i krøniken">
+    {forrige && <a href={forrige.url}><span>← Forrige beretning</span>{forrige.tittel}</a>}
+    {neste && <a class="neste" href={neste.url}><span>Neste beretning →</span>{neste.tittel}</a>}
+  </nav>
 </Oppslag>
+
+<style>
+  .innholdsfortegnelse { margin: 0 0 2.5rem; padding: 1rem 1.3rem; border: 1px solid var(--kant); border-radius: var(--radius); background: var(--sot); }
+  .innholdsfortegnelse p { margin: 0 0 .7rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--bronse); }
+  .innholdsfortegnelse ol { margin: 0; columns: 2 15rem; }
+  .innholdsfortegnelse li { break-inside: avoid; font-size: .95rem; }
+  :global(.brodtekst h2[id]) { scroll-margin-top: 6rem; }
+
+  .kronike-nav { display: flex; flex-wrap: wrap; gap: .8rem; margin: 2.5rem 0; padding-top: 1.5rem; border-top: 1px solid var(--kant); }
+  .kronike-nav a { flex: 1 1 13rem; min-width: 0; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--kant); background: var(--sot); border-radius: var(--radius); text-decoration: none; font-family: var(--serif); }
+  .kronike-nav span { display: block; font: .78rem var(--sans); color: var(--tekst-dempet); margin-bottom: .5rem; }
+  .kronike-nav .neste { text-align: right; }
+</style>
