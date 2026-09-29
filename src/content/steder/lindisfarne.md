@@ -15,3 +15,7 @@ Ekspedisjonen fra Ravnskjær gikk i land ved en strand med fiskeutstyr og mindre
 Under kirkens lagerrom fant Jardar, Torstein, Asgeir og Saia en gravkjeller. Der tok Jardar boksen fra en stor død mann, som våknet sammen med tre andre drauger.
 
 Følget satte til slutt seil hjemover med bytte og tre mennesker tatt som treller. Beretningene om landgangen, angrepet, gravkammeret og avreisen er samlet i krøniken.
+
+## Hvordan navnet ble kjent
+
+Følget kjente ikke øyas navn under det første besøket. Først etterpå fant Halvdan Skrivare frem til navnet Lindisfarne med hjelp fra Ceadda Gummer, som lærte ham noe engelsk og latin.

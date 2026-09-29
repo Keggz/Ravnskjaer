@@ -16,6 +16,9 @@ const felles = {
     .array(z.object({ src: z.string(), tekst: z.string().optional() }))
     .optional(),
   video: z.string().optional(),
+  video_plakat: z.string().optional(),
+  video_tittel: z.string().optional(),
+  video_tekst: z.string().optional(),
   merker: z.array(z.string()).default([]),
   relasjoner: z
     .array(

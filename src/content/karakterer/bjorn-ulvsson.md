@@ -6,6 +6,7 @@ status: "død"
 tilhorighet: "Ulvsson-ætten"
 gift_med: "karakterer/inga"
 relasjoner: [{"til": "steder/ravnskjaer", "type": "Tidligere jarl i", "motsatt": "Tidligere styrt av"}]
+bilde: "/media/karakterer/bjorn-ulvsson.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A3:F3; lest 2026-09-24. -->

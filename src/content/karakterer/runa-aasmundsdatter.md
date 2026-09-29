@@ -5,6 +5,7 @@ rolle: "Markedsrepresentant"
 status: "ukjent"
 tilhorighet: "Helga-ætten"
 far: "karakterer/aasmund-helgason"
+bilde: "/media/karakterer/runa-aasmundsdatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A23:F23; lest 2026-09-24. -->

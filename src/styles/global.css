@@ -416,3 +416,11 @@ body.penumbra {
   min-height: 44px;
 }
 .verdenbytte:focus-visible { outline: 2px solid var(--bronse-lys); outline-offset: 3px; }
+
+/* Portraits keep the complete supplied artwork, including square portraits. */
+.kort--karakter .kort-bilde,
+.kort--karakter .kort-tom {
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  background: #101313;
+}

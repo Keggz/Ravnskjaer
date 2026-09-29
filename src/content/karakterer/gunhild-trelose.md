@@ -3,6 +3,7 @@ tittel: "Gunhild Treløse"
 kort: "Ung sanger med ukjent opphav og mulig forbindelse til Steinvik."
 rolle: "Sanger"
 status: "ukjent"
+bilde: "/media/karakterer/gunhild-trelose.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A31:F31; lest 2026-09-24. -->

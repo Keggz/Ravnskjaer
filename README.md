@@ -174,6 +174,10 @@ galleri:
 **Krymp bildene før du legger dem inn** — 1600 px bredde er mer enn nok, og
 holder siden rask. Store originalfiler gjør den treg for spillerne på mobil.
 
+Portretter vises i full høyde på personoppslag. Bruk gjerne WebP for mindre filer.
+
+Lokale videoer kan også ha `video_plakat`, `video_tittel` og `video_tekst`. De starter ikke automatisk og laster ikke selve videofilen før avspilling. Stående klipp beholder formatet sitt. Siden `/drommer-og-varsler` samler drømmeklippene.
+
 Video: legg helst store filer på YouTube (gjerne som «ulistet») og lim inn
 lenken. Da slipper du å laste opp hundrevis av megabyte:
 

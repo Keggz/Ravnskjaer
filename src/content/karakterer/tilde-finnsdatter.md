@@ -11,6 +11,12 @@ far: "karakterer/finn-tjugeskalle"
 
 Tilde Finnsdatter tilhører Tjugeskalle-ætten og er oppført som 19 år gammel. Hun er rolig og sjenert.
 
+## Ekteskap og barn
+
+Tilde giftet seg med Torstein Bjørnson kort tid etter hjemkomsten fra den andre vestferden i 793. Ekteskapet skulle bidra til å styrke båndene mellom jarlens familie og Tjugeskalle-folket.
+
+Hun ble med barn etter bryllupet. Barnet deres ble født sommeren 794.
+
 ## Det folk forteller
 
 Noen sier at hun har mareritt. Hvorfor, er ikke kjent.

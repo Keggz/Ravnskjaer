@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+const varianter = [1, 2, 3, 4];
+---
+<Base tittel="Drømmer og varsler" beskrivelse="Drømmene og profetiene som følger Ravnskjærs fortelling.">
+  <div class="innhold smal">
+    <div class="sidetopp">
+      <p class="stikk">Mellom drøm og virkelighet</p>
+      <h1>Drømmer og varsler</h1>
+      <p class="ingress">Bilder fra natten, minner og tegn som følger fortellingen om Ravnskjær. Velg et klipp og spill det av når du vil.</p>
+    </div>
+    <nav class="snarveier" aria-label="Drømmer og varsler">
+      <a href="#drommen-for-ferden">Drømmen før ferden</a>
+      <a href="#jardars-drom">Jardars drøm</a>
+      <a href="#profetien-ved-steinsirkelen">Profetien ved steinsirkelen</a>
+    </nav>
+    <section id="drommen-for-ferden">
+      <p class="stikk">Ved historiens begynnelse</p>
+      <h2>Drømmen før ferden</h2>
+      <p>Disse drømmene ble gitt til <a href="/karakterer/jardar-jutul">Jardar</a>, <a href="/karakterer/saia-mork-hansdottir">Saia</a>, <a href="/karakterer/torstein-bjornsson">Torstein</a> og <a href="/karakterer/asgeir-eriksson">Asgeir</a> ved starten av historien. De fire variantene er stort sett like, men har ulike avslutninger. Hvem som fikk hvilken variant, er ikke avklart.</p>
+      {varianter.map(i => <details>
+        <summary>Se drømmevariant {i}<span>Ca. 1 minutt</span></summary>
+        <Media video={`/media/video/drom-for-ferden-${i}.mp4`} plakat={`/media/video/drom-for-ferden-${i}.webp`} tittel={`Drømmevariant ${i}`} />
+      </details>)}
+    </section>
+    <section id="jardars-drom">
+      <p class="stikk">En personlig drøm</p>
+      <h2>Jardars hjemsøkende drøm</h2>
+      <p>Et eget drømmeklipp knyttet til <a href="/karakterer/jardar-jutul">Jardar Jutul</a>.</p>
+      <Media video="/media/video/jardars-drom.mp4" plakat="/media/video/jardars-drom.webp" tittel="Jardars drøm" />
+    </section>
+    <section id="profetien-ved-steinsirkelen">
+      <p class="stikk">Stonehenge</p>
+      <h2>Profetien ved steinsirkelen</h2>
+      <p>Den gule profetien er knyttet til <a href="/steder/stonehenge">Stonehenge</a>. Les også <a href="/hendelser/ferden-til-steinsirkelen">beretningen om ferden dit</a>.</p>
+      <Media video="/media/video/profetien-ved-steinsirkelen.mp4" plakat="/media/video/profetien-ved-steinsirkelen.webp" tittel="Profetien ved steinsirkelen" />
+    </section>
+  </div>
+</Base>
+<style>
+  section { margin: 3rem 0; padding-top: 1.5rem; border-top: 1px solid var(--kant); scroll-margin-top: 6rem; }
+  h2 { margin-top: 0; }
+  .snarveier { display: flex; flex-wrap: wrap; gap: .6rem 1.3rem; }
+  details { border: 1px solid var(--kant); border-radius: var(--radius); margin: .75rem 0; background: var(--sot); }
+  summary { cursor: pointer; padding: 1rem; color: var(--bronse-lys); }
+  summary span { display: inline-block; margin-left: .8rem; font-size: .8rem; color: var(--tekst-svak); }
+  summary:focus-visible { outline: 2px solid var(--bronse); outline-offset: 3px; }
+  details :global(.video) { margin: 0; border: 0; }
+</style>

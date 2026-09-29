@@ -4,6 +4,7 @@ kort: "En gåtefull rådgiver som aldri tok betaling, og som døde da Eldrbrand 
 rolle: "Heks og rådgiver"
 status: "død"
 relasjoner: [{"til": "karakterer/asgeir-eriksson", "type": "Reddet livet til", "motsatt": "Ble reddet av"}]
+bilde: "/media/karakterer/ben-gerd.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A34:F34; lest 2026-09-24. -->

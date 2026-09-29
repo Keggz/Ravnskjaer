@@ -4,6 +4,7 @@ kort: "Karismatisk handelsmann og leder for Helga-ætten."
 rolle: "Handelsmann og ættleder"
 status: "ukjent"
 tilhorighet: "Helga-ætten"
+bilde: "/media/karakterer/aasmund-helgason.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A21:F21; lest 2026-09-24. -->

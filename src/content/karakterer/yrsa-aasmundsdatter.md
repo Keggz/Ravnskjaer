@@ -12,3 +12,7 @@ far: "karakterer/aasmund-helgason"
 Yrsa er Åsmund Helgasons eldste datter. Hun er ambisiøs og språklærd.
 
 Hun skriver kontrakter og fører handelsruller for Helga-ætten.
+
+## Språkarbeidet i 793–794
+
+Yrsa arbeidet sammen med Halvdan Skrivare med engelsk og tolkningen av skriftene fra den første vestferden. Arbeidet gikk langsomt. Om vinteren var hun, Halvdan og Æthelberth blant dem Trym lærte litt latin sammen med.

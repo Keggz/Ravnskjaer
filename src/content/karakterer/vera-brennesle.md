@@ -5,6 +5,7 @@ rolle: "Alkemist og botaniker"
 status: "ukjent"
 tilhorighet: "Torløv-ætten"
 relasjoner: [{"til": "karakterer/ragna-torsdatter", "type": "Tante", "motsatt": "Niese"}]
+bilde: "/media/karakterer/vera-brennesle.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A12:F12; lest 2026-09-24. -->

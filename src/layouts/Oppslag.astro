@@ -38,14 +38,14 @@ const andreSiden = await getCollection('penumbra', ({ data }) => !data.skjult &&
     </header>
 
     {oppslag.bilde && (
-      <img src={oppslag.bilde} alt={oppslag.tittel} class="hovedbilde" />
+      <img src={oppslag.bilde} alt={oppslag.tittel} class:list={["hovedbilde", { portrett: oppslag.samling === "karakterer" }]} />
     )}
 
     <div class="brodtekst">
       <slot />
     </div>
 
-    <Media galleri={d.galleri} video={d.video} />
+    <Media galleri={d.galleri} video={d.video} plakat={d.video_plakat} tittel={d.video_tittel} tekst={d.video_tekst} />
 
     <Relasjoner koblinger={koblinger} />
     {andreSiden.length > 0 && <section class="andre-siden"><h2>På den andre siden</h2><ul>{andreSiden.map(p => <li><a href={'/penumbra/' + p.id}>{p.data.tittel}</a></li>)}</ul></section>}
@@ -90,6 +90,18 @@ const andreSiden = await getCollection('penumbra', ({ data }) => !data.skjult &&
     border: 1px solid var(--kant);
     border-radius: var(--radius);
     margin-bottom: 2.25rem;
+  }
+  .hovedbilde.portrett {
+    float: left;
+    width: min(42%, 18rem);
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    margin: .3rem 1.75rem 1.5rem 0;
+  }
+  .brodtekst::after { content: ''; display: block; clear: both; }
+  @media (max-width: 600px) {
+    .hovedbilde.portrett { float: none; display: block; width: min(100%, 20rem); margin: 0 auto 1.75rem; }
   }
   .brodtekst :global(h2) {
     margin-top: 2.25rem;

@@ -19,13 +19,14 @@ const koblinger = alle.filter(o => entry.data.forbindelser.includes(o.nokkel));
       <h1>{entry.data.tittel}</h1>
       <p class="ingress">{entry.data.kort}</p>
     </header>
-    {entry.data.bilde && <img src={entry.data.bilde} alt={entry.data.tittel} />}
+    {entry.data.bilde && <img class="vesenbilde" src={entry.data.bilde} alt={entry.data.tittel} />}
     <div class="brodtekst"><Content /></div>
     <Media galleri={entry.data.galleri} video={entry.data.video} />
     {koblinger.length > 0 && <section class="forbindelser"><h2>Forbindelser til Ravnskjær</h2><ul>{koblinger.map(o => <li><a href={o.url}>{o.tittel}</a></li>)}</ul></section>}
   </article>
 </Base>
 <style>
+  .vesenbilde { display: block; width: min(100%, 26rem); height: auto; margin: 0 auto 2rem; border: 1px solid var(--kant); border-radius: var(--radius); }
   .tilbake { display: inline-block; margin-top: 2rem; }
   article { padding-bottom: 3rem; overflow-wrap: anywhere; }
   .forbindelser { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--kant); }

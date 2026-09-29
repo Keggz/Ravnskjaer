@@ -5,6 +5,7 @@ rolle: "Bueskytter og vakt"
 status: "ukjent"
 tilhorighet: "Tjugeskalle-ætten"
 far: "karakterer/finn-tjugeskalle"
+bilde: "/media/karakterer/rask-finnson.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A17:F17; lest 2026-09-24. -->

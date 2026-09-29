@@ -2,8 +2,11 @@
 interface Props {
   galleri?: { src: string; tekst?: string }[];
   video?: string;
+  plakat?: string;
+  tittel?: string;
+  tekst?: string;
 }
-const { galleri = [], video } = Astro.props;
+const { galleri = [], video, plakat, tittel, tekst } = Astro.props;
 
 /** Gjør en YouTube- eller Vimeo-lenke om til en innbyggbar adresse. */
 function bygg(url: string): { type: 'ramme' | 'fil'; src: string } {
@@ -18,19 +21,21 @@ const v = video ? bygg(video) : null;
 ---
 
 {v && (
-  <div class="video">
+  <figure class="video">
+    {tittel && <h2>{tittel}</h2>}
     {v.type === 'ramme' ? (
       <iframe
         src={v.src}
-        title="Video"
+        title={tittel ?? "Video"}
         loading="lazy"
         allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"
         allowfullscreen
       />
     ) : (
-      <video src={v.src} controls preload="metadata" />
+      <video src={v.src} poster={plakat} aria-label={tittel ?? "Video"} controls preload="none" playsinline />
     )}
-  </div>
+    {tekst && <figcaption>{tekst}</figcaption>}
+  </figure>
 )}
 
 {galleri.length > 0 && (
@@ -45,20 +50,12 @@ const v = video ? bygg(video) : null;
 )}
 
 <style>
-  .video {
-    margin: 2rem 0;
-    border: 1px solid var(--kant);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: #000;
-  }
-  .video iframe,
-  .video video {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: 0;
-  }
+  .video { margin: 2rem 0; padding: 1.25rem; border: 1px solid var(--kant); border-radius: var(--radius); background: var(--sot); }
+  .video h2 { margin: 0 0 1rem; font-size: 1.3rem; }
+  .video iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+  .video video { display: block; width: 100%; max-width: 26rem; max-height: 72vh; aspect-ratio: auto; object-fit: contain; margin: 0 auto; background: #000; }
+  .video figcaption { margin-top: 1rem; color: var(--tekst-dempet); font-size: .9rem; }
+  @media(max-width: 500px) { .video { padding: .8rem; } }
   .galleri {
     margin: 2rem 0;
     display: grid;

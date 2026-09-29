@@ -1,24 +1,26 @@
 ---
 tittel: "Ferden til Lindisfarne"
-kort: "Fra jarlens bud og Ben-Gerds syner, gjennom storm og tåke, til angrepet på Lindisfarne og avreisen med tung last."
+kort: "Fra jarlens bud og Ben-Gerds syner til Lindisfarnes gravkammer, stemmene i tåken og hjemkomsten til Ravnskjær."
 aar: 793
 rekkefolge: 20
 tidspunkt: "Etter sommerlekene"
 kapittel: "Ferden vestover"
 forteller: "karakterer/halvdan-skrivare"
 merker: ["krønike"]
-relasjoner: [{"til": "karakterer/torstein-bjornsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/jardar-jutul", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/asgeir-eriksson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/trym-oksskjold", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/saia-mork-hansdottir", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/bjarte-ulfbane-berget", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ulf-blodoye", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/kjartan-klippen", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/sigurd-galeis", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ragnhild-skjoldmoy", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/finn-tjugeskalle", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/haarek-stjernesyn", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/sjur-vidarsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/olve-vidarsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/einar-hemmingsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/vali-svensson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/bjorn-ulvsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ben-gerd", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/knut-en-oye", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "steder/ravnskjaer", "type": "Utgangspunkt og hjemsted", "motsatt": "Ferd herfra"}, {"til": "steder/ben-gerds-bosted", "type": "Sted", "motsatt": "Hendelse her"}, {"til": "karakterer/halvdan-skrivare", "type": "Nedtegnet av", "motsatt": "Nedtegnet"}, {"til": "karakterer/ola-sjorev-grimsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "steder/lindisfarne", "type": "Sted", "motsatt": "Hendelse her"}, {"til": "karakterer/haakon-haukoye", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ceadda-gummer", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/wigmund-osmer", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/hilda-balston", "type": "Deltaker", "motsatt": "Deltok i"}]
+relasjoner: [{"til": "karakterer/torstein-bjornsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/jardar-jutul", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/asgeir-eriksson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/trym-oksskjold", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/saia-mork-hansdottir", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ulf-blodoye", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/kjartan-klippen", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/sigurd-galeis", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ragnhild-skjoldmoy", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/finn-tjugeskalle", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/haarek-stjernesyn", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/sjur-vidarsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/olve-vidarsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/einar-hemmingsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/vali-svensson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/bjorn-ulvsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ben-gerd", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/knut-en-oye", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "steder/ravnskjaer", "type": "Utgangspunkt og hjemsted", "motsatt": "Ferd herfra"}, {"til": "steder/ben-gerds-bosted", "type": "Sted", "motsatt": "Hendelse her"}, {"til": "karakterer/halvdan-skrivare", "type": "Nedtegnet av", "motsatt": "Nedtegnet"}, {"til": "karakterer/ola-sjorev-grimsson", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "steder/lindisfarne", "type": "Sted", "motsatt": "Hendelse her"}, {"til": "karakterer/haakon-haukoye", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/ceadda-gummer", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/wigmund-osmer", "type": "Deltaker", "motsatt": "Deltok i"}, {"til": "karakterer/hilda-balston", "type": "Deltaker", "motsatt": "Deltok i"}]
 ---
+
+Jeg kaller øya Lindisfarne i denne beretningen. De reisende kjente ikke navnet da de satte foten der. Først senere, da munken Ceadda lærte meg noe av engelsken og latinen, fikk jeg tak i navnet og kunne føre det inn.
 
 ## Jarlens bud og Ben-Gerds syn
 
 Etter lekene kalte jarlen innbyggerne til mat og fest. Budskapet han bar frem var tyngre enn måltidet: Ravnskjær hadde ikke proviant nok til å komme gjennom vinteren. Noe måtte gjøres mens det ennå var tid.
 
-Bjørn fortalte at han hadde oppsøkt Ben-Gerd og fått syner om land og rikdom over havet i vest. Nå ba han om frivillige til en ekspedisjon. De seks meldte seg, og med dem fulgte menn og kvinner fra hirden.
+Bjørn fortalte at han hadde oppsøkt Ben-Gerd og fått syner om land og rikdom over havet i vest. Nå ba han om frivillige til en ekspedisjon. Torstein, Jardar, Asgeir, Trym og Saia meldte seg, og med dem fulgte menn og kvinner fra hirden.
 
 Ulf Blodøye, Kjartan Klippen, Sigurd Galeis, Ragnhild Skjoldmøy og Finn Tjugeskalle hørte til følget. Hårek Stjernesyn skulle finne veien over havet. Også Sjur Vidarsson, Olve Vidarsson, Einar Hemmingsson og Vali Svensson ble med — fire unge gutter i et følge som snart skulle settes på prøve.
 
-Før avreisen oppsøkte de seks Ben-Gerd. De fortalte siden om syner av fremmede tegn, et kors og en bygning de ennå ikke kjente. Tegnene var sett; betydningen var ikke forstått.
+Før avreisen oppsøkte de reisende Ben-Gerd. De fortalte siden om syner av fremmede tegn, et kors og en bygning de ennå ikke kjente. Tegnene var sett; betydningen var ikke forstått.
 
 Forsyningene ble gjort klare, og de reisende rådførte seg med Knut En-øye. Slik tok ferden form: ikke bare som jakt på rikdom, men som et forsøk på å gi Ravnskjær en vinter å overleve.
 
@@ -40,7 +42,7 @@ Etter stormen lå tåken tykk over sjøen. Der ute fant de et skip som drev uten
 
 Jardar, Torstein og Asgeir gikk om bord. De fant få gjenstander, men blant dem var en krukke med aske og bein, en amulett og tegn de ikke forstod.
 
-Torstein tok amuletten med seg.
+Torstein tok amuletten med seg. Asgeir forsøkte å sette fyr på skipet før de dro videre.
 
 Jeg har ingen forklaring å føye til dette. Ravnen satt der, skipet drev, og amuletten fulgte dem videre. Hva disse tingene hadde med hverandre å gjøre, visste de ikke da.
 
@@ -112,4 +114,26 @@ Også de var en del av det som ble ført til skipet. Det skal stå skrevet at de
 
 Til slutt var lasten om bord, og seilet ble satt. Ute på sjøen så de flere mennesker stå på land og følge dem med blikket mens avstanden vokste.
 
-Her ender denne delen av beretningen: på vei fra Lindisfarne, med tyngre skip og færre av sine egne enn da de dro. Hjemkomsten hører til det som ennå skal nedtegnes.
+## Det som var tatt
+
+På hjemveien var det håp om bord. Lasten gav dem grunn til å tro at Ravnskjær kunne møte vinteren med annet enn tomme forråd. Så kom den tykke tåken tilbake.
+
+Der lå skipet igjen, med ravnen på masten. Det hadde ikke brent ned. Asgeirs forsøk på å ødelegge det hadde ikke hindret dette nye møtet.
+
+De tre som hadde vært om bord, hørte stemmer fra skipet, selv om ingen var å se. Budskapet vendte tilbake: Det som var tatt, måtte legges tilbake. De fortalte det til resten. Ingen forklaring fulgte med kravet.
+
+## Fra havets dyp
+
+Resten av seilasen var roligere, til det gjenstod omtrent en dag. Da strakte flere armer seg opp fra sjøen og grep om skipet. Skapningen under dem var veldig stor og dypt rød.
+
+De kalte den et havets uhyre og søkte ord for den blant maktene som rådde over sjø og natur. Jeg setter ikke navn på noen gud bak angrepet. Det de fortalte, var at de kjempet, såret skapningen og fikk den til å slippe taket. Den forsvant ned i dypet.
+
+## Hjem til Ravnskjær
+
+I sensommeren eller høsten samme år kom følget hjem til en bygd som stilte opp for å møte dem. Bjørn Ulvsson tok imot dem sammen med Inga og familien. Han talte om motet deres og det de hadde gjort for Ravnskjær. Kjartan Klippen, som havet hadde tatt, ble også nevnt.
+
+Lasten ble båret i land. Senere samlet bygda seg til et stort måltid, og festen gikk godt. Men Saia hadde merket seg at ikke alle ansikter bar samme glede. Blant Tjugeskalle-folket så hun misnøye med at ferden hadde lykkes.
+
+Det kom også annet nytt. Tor var blitt borte mens skipet var ute. Ulv var sett oftere omkring bygda, og noen av dyrene skulle være uvanlig store. Det gikk rykter om møter mellom Tjugeskalle-folket og speidere fra Skjeggestad, der Ola Sjørev holdt til.
+
+Slik endte den første ferden vestover: med mat og rikdom i land, med Kjartans plass tom og med uro som allerede ventet ved hjemmets terskel.

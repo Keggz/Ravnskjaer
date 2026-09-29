@@ -12,7 +12,7 @@ const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorigh
 ---
 
 <li data-sok={sokeTekst} data-samling={oppslag.samling} data-navn={oppslag.tittel} data-spiller={String(!!d.spillerkarakter)} data-status={d.status} data-aett={d.tilhorighet ?? ''} data-stedstype={d.stedstype}>
-  <a href={oppslag.url} class="kort">
+  <a href={oppslag.url} class:list={["kort", { "kort--karakter": oppslag.samling === "karakterer" }]}>
     {oppslag.bilde ? (
       <img src={oppslag.bilde} alt="" class="kort-bilde" loading="lazy" />
     ) : (

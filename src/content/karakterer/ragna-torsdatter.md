@@ -4,6 +4,7 @@ kort: "Alvorlig volve som leder Torløv-ætten med streng hånd."
 rolle: "Volve og ættleder"
 status: "ukjent"
 tilhorighet: "Torløv-ætten"
+bilde: "/media/karakterer/ragna-torsdatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A9:F9; lest 2026-09-24. -->

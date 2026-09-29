@@ -3,6 +3,7 @@ tittel: "Knut En-øye"
 kort: "Sterk, fåmælt og respektert smed som lager både verktøy og våpen."
 rolle: "Smed"
 status: "ukjent"
+bilde: "/media/karakterer/knut-en-oye.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A33:F33; lest 2026-09-24. -->
