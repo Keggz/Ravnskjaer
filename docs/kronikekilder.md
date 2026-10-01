@@ -87,3 +87,17 @@ Støttekilde: «Liste NPC Ravnskjær og andre», fanen «Snakk, sagn og skrøner
 - Brukeren presiserte 29. september at Torstein og Tilde giftet seg kort etter hjemkomsten fra den andre vestferden i 793, at hun ble med barn etterpå, og at barnet ble født sommeren 794. Vinteroppslaget har en tydelig ettertidig merknad om fødselen. Barnets navn, kjønn og eksakte fødselsdato er ikke oppgitt, så ingen egen person er opprettet eller koblet inn.
 - Tor i Skardvik og de fire sovende står som rykter og sagn. Jordens dårlige avkastning gis ingen ny forklaring.
 - Saia ble ifølge brukerens presisering 29. september utpekt av Bjørn til ekspedisjonsleder for å unngå inntrykket av favorisering av Torstein. Dette skapte uenighet i gruppen. Krøniken lar uenigheten komme til uttrykk uten å dikte opp replikker eller peke ut bestemte personer som motstandere. Saias ledelse av reisen skilles fra Asgeirs ansvar for båten og Torsteins senere ansvar for hirden.
+
+## Vinterferden til Skardvik
+
+Kilde: `/Users/ferskvann/Downloads/vinter_år794.rtf`, mottatt og lest 29. september 2026, samt brukerens samtidige presisering om at opprydding/begravelse aldri ble utført. Støtte for navn, roller og alder: «Liste NPC Ravnskjær og andre», NPCer!A124:F135. Sheets er kun lest.
+
+- En samlet krønike, «Vinterferden til Skardvik», med ni deler og hjemreisen på samme side. Halvdan skriver etter de reisendes beretning, ikke som deltaker.
+- Dateringen er vinteren 793–794. Sorteringsåret er 794 etter eksisterende opptakt i vinterkrøniken, og etiketten viser hele vinterspennet. Ingen eksakt dato er oppfunnet.
+- Alle seks spillerkarakterene deltok: Asgeir, Trym, Bjarte, Saia, Jardar og Torstein. Bjørn sendte dem, men var ikke med til Skardvik. Tryms senere dødsstatus beholdes; han overlevde denne ferden.
+- Navneformen Åskell Helgesson følger NPC-listen. Solveig Åskellsdatter er hans datter og er ikke Solveig Bjørnsdatter. Ingen slektsforbindelse til Helga-ætten er antatt ut fra etternavnet.
+- Bera og Hemming er Arles foreldre etter notatet. Arle var åtte år ifølge Sheets. Jardars omsorgsbånd er en relasjon, ikke biologisk farskap. Hemming knyttes ikke automatisk til Einar Hemmingsson. Den eldre idéen om at Kara hadde foreldre med samme navn, er ikke brukt.
+- Solveig drap sin dødelig sårede far og brukte hjertet i ritualet. Deres siste ord og farens eventuelle samtykke er ukjent og ikke oppfunnet. Ritualteksten beholdes fra brukerens notat, med navnet normalisert til den avklarte formen Náðskrímr.
+- Cirka 50 innbyggere før angrepet, omkring halvparten tapt først, anslagsvis 50 angripende kropper og cirka 12 ytterligere døde gjengis som ulike anslag, uten å utlede et sikkert antall overlevende. Blant de bekreftede døde er Åskell, Erling, Kara, Falki, Arnvid, Borunn, Bera og Hemming.
+- Náðskrímrs opphav, endelige skjebne og årsaken til angrepet er ikke fastslått. Eldre spillederforslag om Nivlheim, binding i en spiller eller bestemte regelverdier er ikke importert som hendelser.
+- Langhuset ble ryddet og likene båret ut. Løftet om senere begravelse ble ikke fulgt opp, heller ikke via andre. Penumbra-teksten beskriver det uoppgjorte preget, uten å finne på et faktisk besøk eller konkrete syn.

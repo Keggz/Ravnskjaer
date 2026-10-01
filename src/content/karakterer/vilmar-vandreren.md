@@ -3,6 +3,7 @@ tittel: "Vilmar Vandreren"
 kort: "En gammel, gåtefull vandrer med ravnrisstav og kappe av ulvepels."
 rolle: "Mystisk vandrer"
 status: "ukjent"
+bilde: "/media/karakterer/vilmar-vandreren.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A28:F28; lest 2026-09-24. -->

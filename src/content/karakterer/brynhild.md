@@ -5,6 +5,7 @@ rolle: "Jeger"
 status: "ukjent"
 tilhorighet: "Tjugeskalle-ætten"
 relasjoner: [{"til": "karakterer/finn-tjugeskalle", "type": "Bror", "motsatt": "Søster"}]
+bilde: "/media/karakterer/brynhild.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A16:F16; lest 2026-09-24. -->

@@ -6,6 +6,7 @@ status: "ukjent"
 tilhorighet: "Ulvsson-ætten"
 far: "karakterer/bjorn-ulvsson"
 mor: "karakterer/inga"
+bilde: "/media/karakterer/solveig-bjornsdatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A6:F6; lest 2026-09-24. -->

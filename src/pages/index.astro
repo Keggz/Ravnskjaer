@@ -1,9 +1,13 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import Base from '../layouts/Base.astro';
 import { hentAlle, hentSamling } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
-const alle = await hentAlle();
-const hendelser = await hentSamling('hendelser');
+const alle = await hentAlle(lang);
+const hendelser = await hentSamling('hendelser', lang);
 const siste = hendelser.slice(-3).reverse();
 
 const karakterer = alle.filter((o) => o.samling === 'karakterer');
@@ -58,14 +62,13 @@ const inngang = [
 ];
 ---
 
-<Base tittel="Bibliotek">
+<Base tittel={t("Bibliotek")}>
   <section class="helt">
     <div class="innhold">
-      <p class="stikk">Vestlandskysten · 790-tallet</p>
+      <p class="stikk">{t("Vestlandskysten · 790-tallet")}</p>
       <h1>Ravnskjær</h1>
       <p class="ingress">
-        Biblioteket over alt vi vet: folkene, stedene og det som har hendt.
-        Klikk deg rundt — alt henger sammen med noe annet.
+        {t("Biblioteket over alt vi vet: folkene, stedene og det som har hendt. Klikk deg rundt — alt henger sammen med noe annet.")}
       </p>
     </div>
   </section>
@@ -74,10 +77,10 @@ const inngang = [
     <ul class="inngangsliste">
       {inngang.map((i) => (
         <li>
-          <a href={i.url}>
-            <span class="navn">{i.navn}</span>
-            <span class="tekst">{i.tekst}</span>
-            <span class="tall">{i.tall !== null ? `${i.tall} ${i.enhet}` : i.enhet}</span>
+          <a href={url(i.url)}>
+            <span class="navn">{t(i.navn)}</span>
+            <span class="tekst">{t(i.tekst)}</span>
+            <span class="tall">{i.tall !== null ? `${i.tall} ${t(i.enhet)}` : t(i.enhet)}</span>
           </a>
         </li>
       ))}
@@ -85,12 +88,12 @@ const inngang = [
 
     {siste.length > 0 && (
       <section class="siste">
-        <h2>Sist inn i krøniken</h2>
+        <h2>{t("Sist inn i krøniken")}</h2>
         <ul>
           {siste.map((h) => (
             <li>
-              <a href={h.url}>
-                <span class="aar">År {h.data.aar}</span>
+              <a href={url(h.url)}>
+                <span class="aar">{t("År")} {h.data.aar}</span>
                 <span class="tittel">{h.tittel}</span>
                 <span class="kort">{h.kort}</span>
               </a>

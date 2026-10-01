@@ -1,40 +1,45 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import Base from '../layouts/Base.astro';
 import Media from '../components/Media.astro';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 const varianter = [1, 2, 3, 4];
 ---
-<Base tittel="Drømmer og varsler" beskrivelse="Drømmene og profetiene som følger Ravnskjærs fortelling.">
+<Base tittel={t("Drømmer og varsler")} beskrivelse={t("Drømmene og profetiene som følger Ravnskjærs fortelling.")}>
   <div class="innhold smal">
     <div class="sidetopp">
-      <p class="stikk">Mellom drøm og virkelighet</p>
-      <h1>Drømmer og varsler</h1>
-      <p class="ingress">Bilder fra natten, minner og tegn som følger fortellingen om Ravnskjær. Velg et klipp og spill det av når du vil.</p>
+      <p class="stikk">{t("Mellom drøm og virkelighet")}</p>
+      <h1>{t("Drømmer og varsler")}</h1>
+      <p class="ingress">{t("Bilder fra natten, minner og tegn som følger fortellingen om Ravnskjær. Velg et klipp og spill det av når du vil.")}</p>
     </div>
-    <nav class="snarveier" aria-label="Drømmer og varsler">
-      <a href="#drommen-for-ferden">Drømmen før ferden</a>
-      <a href="#jardars-drom">Jardars drøm</a>
-      <a href="#profetien-ved-steinsirkelen">Profetien ved steinsirkelen</a>
+    {lang === 'en' && <p>The films are presented in their original form.</p>}
+    <nav class="snarveier" aria-label={t("Drømmer og varsler")}>
+      <a href="#drommen-for-ferden">{t("Drømmen før ferden")}</a>
+      <a href="#jardars-drom">{t("Jardars drøm")}</a>
+      <a href="#profetien-ved-steinsirkelen">{t("Profetien ved steinsirkelen")}</a>
     </nav>
     <section id="drommen-for-ferden">
-      <p class="stikk">Ved historiens begynnelse</p>
-      <h2>Drømmen før ferden</h2>
-      <p>Disse drømmene ble gitt til <a href="/karakterer/jardar-jutul">Jardar</a>, <a href="/karakterer/saia-mork-hansdottir">Saia</a>, <a href="/karakterer/torstein-bjornsson">Torstein</a> og <a href="/karakterer/asgeir-eriksson">Asgeir</a> ved starten av historien. De fire variantene er stort sett like, men har ulike avslutninger. Hvem som fikk hvilken variant, er ikke avklart.</p>
+      <p class="stikk">{t("Ved historiens begynnelse")}</p>
+      <h2>{t("Drømmen før ferden")}</h2>
+      <p>{t("Disse drømmene ble gitt til")} <a href={url("/karakterer/jardar-jutul")}>Jardar</a>, <a href={url("/karakterer/saia-mork-hansdottir")}>Saia</a>, <a href={url("/karakterer/torstein-bjornsson")}>Torstein</a> {t("og")} <a href={url("/karakterer/asgeir-eriksson")}>Asgeir</a> {t("ved starten av historien. De fire variantene er stort sett like, men har ulike avslutninger. Hvem som fikk hvilken variant, er ikke avklart.")}</p>
       {varianter.map(i => <details>
-        <summary>Se drømmevariant {i}<span>Ca. 1 minutt</span></summary>
-        <Media video={`/media/video/drom-for-ferden-${i}.mp4`} plakat={`/media/video/drom-for-ferden-${i}.webp`} tittel={`Drømmevariant ${i}`} />
+        <summary>{t("Se drømmevariant")} {i}<span>{t("Ca. 1 minutt")}</span></summary>
+        <Media video={`/media/video/drom-for-ferden-${i}.mp4`} plakat={`/media/video/drom-for-ferden-${i}.webp`} tittel={`${lang === 'en' ? 'Dream version' : 'Drømmevariant'} ${i}`} />
       </details>)}
     </section>
     <section id="jardars-drom">
-      <p class="stikk">En personlig drøm</p>
-      <h2>Jardars hjemsøkende drøm</h2>
-      <p>Et eget drømmeklipp knyttet til <a href="/karakterer/jardar-jutul">Jardar Jutul</a>.</p>
-      <Media video="/media/video/jardars-drom.mp4" plakat="/media/video/jardars-drom.webp" tittel="Jardars drøm" />
+      <p class="stikk">{t("En personlig drøm")}</p>
+      <h2>{t("Jardars hjemsøkende drøm")}</h2>
+      <p>{t("Et eget drømmeklipp knyttet til")} <a href={url("/karakterer/jardar-jutul")}>Jardar Jutul</a>.</p>
+      <Media video="/media/video/jardars-drom.mp4" plakat="/media/video/jardars-drom.webp" tittel={t("Jardars drøm")} />
     </section>
     <section id="profetien-ved-steinsirkelen">
       <p class="stikk">Stonehenge</p>
-      <h2>Profetien ved steinsirkelen</h2>
-      <p>Den gule profetien er knyttet til <a href="/steder/stonehenge">Stonehenge</a>. Les også <a href="/hendelser/ferden-til-steinsirkelen">beretningen om ferden dit</a>.</p>
-      <Media video="/media/video/profetien-ved-steinsirkelen.mp4" plakat="/media/video/profetien-ved-steinsirkelen.webp" tittel="Profetien ved steinsirkelen" />
+      <h2>{t("Profetien ved steinsirkelen")}</h2>
+      <p>{t("Den gule profetien er knyttet til")} <a href={url("/steder/stonehenge")}>Stonehenge</a>{t(". Les også")} <a href={url("/hendelser/ferden-til-steinsirkelen")}>{t("beretningen om ferden dit")}</a>.</p>
+      <Media video="/media/video/profetien-ved-steinsirkelen.mp4" plakat="/media/video/profetien-ved-steinsirkelen.webp" tittel={t("Profetien ved steinsirkelen")} />
     </section>
   </div>
 </Base>

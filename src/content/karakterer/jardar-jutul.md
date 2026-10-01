@@ -29,3 +29,7 @@ På ferden var Jardar nestemann etter Asgeir i å føre båten, mens Saia ledet 
 ## Drømmen før ferden
 
 Før den første ferden delte Jardar, Saia, Torstein og Asgeir en drøm med små variasjoner. [Se de fire bevarte variantene](/drommer-og-varsler/#drommen-for-ferden). Det er ikke avklart hvem som fikk hvilken variant.
+
+## Arle og Skardvik
+
+Under angrepet på langhuset i Skardvik vinteren 793–794 så Jardar at Arle var i livsfare etter at Bera og Hemming, guttens foreldre, var blitt drept. Han reddet Arle med knapp nød og tok ham under sin vinge. De kom tilbake til Ravnskjær sammen med de andre overlevende.

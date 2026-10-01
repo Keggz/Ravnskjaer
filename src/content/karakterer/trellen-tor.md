@@ -3,6 +3,7 @@ tittel: "Trellen Tor"
 kort: "Hardtarbeidende trell i Ravnskjær, som tok over etter Egil under sommerlekene."
 rolle: "Trell"
 status: "ukjent"
+bilde: "/media/karakterer/trellen-tor.webp"
 ---
 
 Tor ble solgt til Ravnskjær fra et forbipasserende handelsskip fra sør. Han arbeider hardt for å sikre sin frihet.
@@ -19,4 +20,6 @@ Gjennom vinteren 793–794 gikk det rykter om at Tor var sett lenger nord, i Ska
 
 ## Hendelsene i Skardvik
 
-Senere, under hendelsene i Skardvik, ble Tor tatt over av et vesen som kalte seg [«Náðskrímr»](/penumbra/nadskrimr). Den nærmere beretningen om dette skal nedtegnes i Skardvik-sagaen.
+Vinteren 793–794 fant følget Tor i Skardvik, bar og isete i snøstormen, overtatt av [Náðskrímr](/penumbra/aander/nadskrimr). De fanget ham og bar ham inn i det beleirede langhuset.
+
+Solveig Åskellsdatter ofret sin dødelig sårede far i et ritual for å bryte åndens grep. Tor våknet kortvarig da de angripende døde falt sammen. Han overlevde og ble tatt med tilbake til Ravnskjær, men var sterkt medtatt i flere netter etter hjemkomsten. Hvordan han først kom i åndens grep, er fortsatt ikke avklart.

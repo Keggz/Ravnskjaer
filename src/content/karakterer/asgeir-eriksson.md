@@ -5,6 +5,7 @@ rolle: "Hirdkriger"
 status: "ukjent"
 spillerkarakter: true
 merker: ["hirden"]
+bilde: "/media/karakterer/asgeir-eriksson.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; Players!B6:E6; lest 2026-09-24. -->

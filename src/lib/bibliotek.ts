@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { localUrl, translatedData, translate, type Language } from './i18n';
 
 export type Samling = 'karakterer' | 'steder' | 'hendelser';
 
@@ -29,10 +30,10 @@ export const SAMLING_NAVN: Record<Samling, string> = {
   hendelser: 'Hendelse',
 };
 
-function undertekstFor(samling: Samling, data: any): string {
-  if (samling === 'karakterer') return data.rolle ?? 'Karakter';
-  if (samling === 'steder') return data.stedstype ?? 'Sted';
-  return data.tidspunkt ? `År ${data.aar} — ${data.tidspunkt}` : `År ${data.aar}`;
+function undertekstFor(samling: Samling, data: any, lang: Language): string {
+  if (samling === 'karakterer') return data.rolle ?? translate('Karakter', lang);
+  if (samling === 'steder') return data.stedstype ?? translate('Sted', lang);
+  return data.tidspunkt ? `${translate('År', lang)} ${data.aar} — ${data.tidspunkt}` : `${translate('År', lang)} ${data.aar}`;
 }
 
 /**
@@ -49,43 +50,43 @@ function slektsRelasjoner(data: any) {
   return ut;
 }
 
-function tilOppslag(samling: Samling, entry: CollectionEntry<Samling>): Oppslag {
+function tilOppslag(samling: Samling, entry: CollectionEntry<Samling>, lang: Language): Oppslag {
   const rå = entry.data as any;
-  const data =
+  const data = translatedData(
     samling === 'karakterer'
       ? { ...rå, relasjoner: [...(rå.relasjoner ?? []), ...slektsRelasjoner(rå)] }
-      : rå;
+      : rå, lang);
 
   return {
     nokkel: `${samling}/${entry.id}`,
     samling,
     id: entry.id,
-    url: `${URL_BASE[samling]}/${entry.id}`,
+    url: localUrl(`${URL_BASE[samling]}/${entry.id}`, lang),
     tittel: data.tittel,
     kort: data.kort,
     bilde: data.bilde,
     merker: data.merker ?? [],
-    undertekst: undertekstFor(samling, data),
+    undertekst: undertekstFor(samling, data, lang),
     data,
   };
 }
 
 /** Alle synlige oppslag i hele biblioteket, som ett oppslagsverk. */
-export async function hentAlle(): Promise<Oppslag[]> {
+export async function hentAlle(lang: Language = 'nb'): Promise<Oppslag[]> {
   const samlinger: Samling[] = ['karakterer', 'steder', 'hendelser'];
   const resultat: Oppslag[] = [];
 
   for (const samling of samlinger) {
     const entries = await getCollection(samling, ({ data }) => !data.skjult);
     for (const entry of entries) {
-      resultat.push(tilOppslag(samling, entry));
+      resultat.push(tilOppslag(samling, entry, lang));
     }
   }
   return resultat;
 }
 
-export async function hentSamling(samling: Samling): Promise<Oppslag[]> {
-  const alle = await hentAlle();
+export async function hentSamling(samling: Samling, lang: Language = 'nb'): Promise<Oppslag[]> {
+  const alle = await hentAlle(lang);
   const utvalg = alle.filter((o) => o.samling === samling);
 
   if (samling === 'hendelser') {
@@ -94,7 +95,7 @@ export async function hentSamling(samling: Samling): Promise<Oppslag[]> {
         a.data.aar - b.data.aar || a.data.rekkefolge - b.data.rekkefolge
     );
   }
-  return utvalg.sort((a, b) => a.tittel.localeCompare(b.tittel, 'nb'));
+  return utvalg.sort((a, b) => a.tittel.localeCompare(b.tittel, lang));
 }
 
 export type Kobling = {

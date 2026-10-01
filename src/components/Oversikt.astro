@@ -1,6 +1,9 @@
 ---
+import { languageFor, translate } from '../lib/i18n';
 import Kort from './Kort.astro';
 import type { Oppslag } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
 
 interface Props {
   stikk: string;
@@ -12,12 +15,12 @@ interface Props {
 }
 const { stikk, tittel, ingress, oppslag, sokeHint = 'Søk …', filtertype } = Astro.props;
 const karakterer = filtertype === 'karakterer';
-const grupper = [...new Set(oppslag.map(o => karakterer ? o.data.tilhorighet : o.data.stedstype).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'nb'));
+const grupper = [...new Set(oppslag.map(o => karakterer ? o.data.tilhorighet : o.data.stedstype).filter(Boolean))].sort((a, b) => a.localeCompare(b, lang));
 const knapper = [
   { verdi: 'alle', navn: 'Alle', antall: oppslag.length },
   ...(karakterer ? [
     { verdi: 'spiller', navn: 'Spillerkarakterer', antall: oppslag.filter(o => o.data.spillerkarakter).length },
-    { verdi: 'andre', navn: 'Andre personer', antall: oppslag.filter(o => !o.data.spillerkarakter).length },
+    { verdi: 'andre', navn: 'NPCer', antall: oppslag.filter(o => !o.data.spillerkarakter).length },
     { verdi: 'dod', navn: 'Døde', antall: oppslag.filter(o => o.data.status === 'død').length },
   ] : grupper.map(g => ({ verdi: g, navn: g, antall: oppslag.filter(o => o.data.stedstype === g).length }))),
 ];
@@ -25,52 +28,53 @@ const knapper = [
 
 <div class="innhold">
   <div class="sidetopp">
-    <p class="stikk">{stikk}</p>
-    <h1>{tittel}</h1>
-    <p class="ingress">{ingress}</p>
+    <p class="stikk">{t(stikk)}</p>
+    <h1>{t(tittel)}</h1>
+    <p class="ingress">{t(ingress)}</p>
   </div>
-  <section class="filterpanel" id="filterpanel" aria-label="Søk, filtrering og sortering" hidden>
+  <section class="filterpanel" id="filterpanel" aria-label={t("Søk, filtrering og sortering")} hidden>
     {filtertype && (
-      <div class="filterknapper" role="group" aria-label={karakterer ? 'Vis personer' : 'Vis stedstype'}>
+      <div class="filterknapper" role="group" aria-label={t(karakterer ? 'Vis personer' : 'Vis stedstype')}>
         {knapper.map(k => (
           <button type="button" data-filter={k.verdi} aria-pressed={k.verdi === 'alle'}>
-            {k.navn} <span class="antall" aria-hidden="true">{k.antall}</span>
+            {t(k.navn)} <span class="antall" aria-hidden="true">{k.antall}</span>
           </button>
         ))}
       </div>
     )}
     <div class="filterfelt">
-      <label class="sokefelt">Søk
-        <input type="search" id="sok" class="sok" placeholder={sokeHint} autocomplete="off" />
+      <label class="sokefelt">{t("Søk")}
+        <input type="search" id="sok" class="sok" placeholder={t(sokeHint)} autocomplete="off" />
       </label>
       {karakterer && (
-        <label>Ætt
+        <label>{t("Ætt")}
           <select id="aett">
-            <option value="">Alle ætter</option>
+            <option value="">{t("Alle ætter")}</option>
             {grupper.map(g => <option value={g}>{g}</option>)}
-            <option value="uten">Uten oppgitt ætt</option>
+            <option value="uten">{t("Uten oppgitt ætt")}</option>
           </select>
         </label>
       )}
-      <label>Sorter
+      <label>{t("Sorter")}
         <select id="sortering">
-          <option value="az">Navn A–Å</option>
-          <option value="za">Navn Å–A</option>
+          <option value="az">{t("Navn A–Å")}</option>
+          <option value="za">{t("Navn Å–A")}</option>
         </select>
       </label>
     </div>
     <div class="filterstatus">
-      <p id="treff" role="status" aria-live="polite" aria-atomic="true">Viser {oppslag.length} av {oppslag.length}</p>
-      <button type="button" id="nullstill" disabled>Nullstill</button>
+      <p id="treff" role="status" aria-live="polite" aria-atomic="true">{lang === 'en' ? 'Showing' : 'Viser'} {oppslag.length} {lang === 'en' ? 'of' : 'av'} {oppslag.length}</p>
+      <button type="button" id="nullstill" disabled>{t("Nullstill")}</button>
     </div>
   </section>
   <ul class="rutenett" id="liste">
     {oppslag.map(o => <Kort oppslag={o} />)}
   </ul>
-  <p class="tom-melding" id="ingen-treff" hidden>Ingen treff. Prøv et annet søk eller nullstill filtrene.</p>
+  <p class="tom-melding" id="ingen-treff" hidden>{t("Ingen treff. Prøv et annet søk eller nullstill filtrene.")}</p>
 </div>
 
 <script>
+  const english = document.documentElement.lang === 'en';
   const panel = document.getElementById('filterpanel');
   const felt = document.getElementById('sok') as HTMLInputElement | null;
   const aett = document.getElementById('aett') as HTMLSelectElement | null;
@@ -95,10 +99,10 @@ const knapper = [
         rad.hidden = !treff;
         if (treff) synlige++;
       }
-      rader.sort((a, b) => (a.dataset.navn ?? '').localeCompare(b.dataset.navn ?? '', 'nb') * (sortering.value === 'za' ? -1 : 1));
+      rader.sort((a, b) => (a.dataset.navn ?? '').localeCompare(b.dataset.navn ?? '', english ? 'en' : 'nb') * (sortering.value === 'za' ? -1 : 1));
       liste.append(...rader);
       for (const knapp of knapper) knapp.setAttribute('aria-pressed', String(knapp.dataset.filter === filter));
-      trefftekst.textContent = `Viser ${synlige} av ${rader.length}`;
+      trefftekst.textContent = `${english ? 'Showing' : 'Viser'} ${synlige} ${english ? 'of' : 'av'} ${rader.length}`;
       ingen.hidden = synlige > 0;
       nullstill.disabled = filter === 'alle' && !felt.value && !familie && sortering.value === 'az';
     };

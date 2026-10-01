@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import { localUrl } from '../../lib/i18n';
+import { penumbraCategories, penumbraUrl } from '../../lib/penumbra';
+import Home from '../index.astro';
+import Characters from '../karakterer/index.astro';
+import Character from '../karakterer/[id].astro';
+import Places from '../steder/index.astro';
+import Place from '../steder/[id].astro';
+import Timeline from '../hendelser/index.astro';
+import Event from '../hendelser/[id].astro';
+import Families from '../slekt.astro';
+import Relationships from '../graf.astro';
+import Prologue from '../for-sagaen-begynner.astro';
+import Dreams from '../drommer-og-varsler.astro';
+import Penumbra from '../penumbra/index.astro';
+import Category from '../penumbra/[kategori]/index.astro';
+import Spirit from '../penumbra/[kategori]/[id].astro';
+import NotFound from '../404.astro';
+export async function getStaticPaths() {
+  const routes: { params: { path: string | undefined }; props: Record<string, any> }[] = [];
+  const add = (path: string, view: string, props = {}) => routes.push({ params: { path: localUrl(path, 'en').replace(/^\/en\/?/, '') || undefined }, props: { view, ...props } });
+  for (const [path, view] of Object.entries({ '/': 'home', '/karakterer': 'characters', '/steder': 'places', '/hendelser': 'timeline', '/slekt': 'families', '/graf': 'relationships', '/for-sagaen-begynner': 'prologue', '/drommer-og-varsler': 'dreams', '/penumbra': 'penumbra', '/404': 'notFound' })) add(path, view);
+  for (const category of penumbraCategories) add(`/penumbra/${category.slug}`, 'category', { category });
+  for (const collection of ['karakterer', 'steder', 'hendelser', 'penumbra'] as const) {
+    for (const entry of await getCollection(collection, ({ data }) => !data.skjult)) {
+      const view = { karakterer: 'character', steder: 'place', hendelser: 'event', penumbra: 'spirit' }[collection];
+      const path = collection === 'penumbra' ? penumbraUrl(entry as any) : `/${collection}/${entry.id}`;
+      add(path, view, { entry });
+    }
+  }
+  return routes;
+}
+const views = { home: Home, characters: Characters, character: Character, places: Places, place: Place, timeline: Timeline, event: Event, families: Families, relationships: Relationships, prologue: Prologue, dreams: Dreams, penumbra: Penumbra, category: Category, spirit: Spirit, notFound: NotFound };
+const { view, ...props } = Astro.props;
+const Page = views[view as keyof typeof views];
+---
+<Page {...props} />

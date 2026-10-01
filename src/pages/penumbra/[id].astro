@@ -1,33 +1,8 @@
 ---
-import { getCollection, render } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import Media from '../../components/Media.astro';
-import { hentAlle } from '../../lib/bibliotek';
+import { getCollection } from 'astro:content';
+import { penumbraUrl } from '../../lib/penumbra';
 export async function getStaticPaths() {
-  return (await getCollection('penumbra', ({ data }) => !data.skjult)).map(entry => ({ params: { id: entry.id }, props: { entry } }));
+  return (await getCollection('penumbra', ({ data }) => !data.skjult)).map(entry => ({ params: { id: entry.id }, props: { url: penumbraUrl(entry) } }));
 }
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-const alle = await hentAlle();
-const koblinger = alle.filter(o => entry.data.forbindelser.includes(o.nokkel));
+return Astro.redirect(Astro.props.url, 301);
 ---
-<Base tittel={entry.data.tittel} beskrivelse={entry.data.kort}>
-  <article class="innhold smal">
-    <a class="tilbake" href="/penumbra">← Til Penumbra</a>
-    <header class="sidetopp">
-      <p class="stikk">Penumbra · {entry.data.type}</p>
-      <h1>{entry.data.tittel}</h1>
-      <p class="ingress">{entry.data.kort}</p>
-    </header>
-    {entry.data.bilde && <img class="vesenbilde" src={entry.data.bilde} alt={entry.data.tittel} />}
-    <div class="brodtekst"><Content /></div>
-    <Media galleri={entry.data.galleri} video={entry.data.video} />
-    {koblinger.length > 0 && <section class="forbindelser"><h2>Forbindelser til Ravnskjær</h2><ul>{koblinger.map(o => <li><a href={o.url}>{o.tittel}</a></li>)}</ul></section>}
-  </article>
-</Base>
-<style>
-  .vesenbilde { display: block; width: min(100%, 26rem); height: auto; margin: 0 auto 2rem; border: 1px solid var(--kant); border-radius: var(--radius); }
-  .tilbake { display: inline-block; margin-top: 2rem; }
-  article { padding-bottom: 3rem; overflow-wrap: anywhere; }
-  .forbindelser { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--kant); }
-</style>

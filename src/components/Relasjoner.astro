@@ -1,6 +1,10 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import type { Kobling } from '../lib/bibliotek';
 import { SAMLING_NAVN } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
 interface Props {
   koblinger: Kobling[];
@@ -16,11 +20,11 @@ const ikon: Record<string, string> = {
 
 {koblinger.length > 0 && (
   <section class="relasjoner">
-    <h2>Koblet til</h2>
+    <h2>{t("Koblet til")}</h2>
     <ul class="rel-liste">
       {koblinger.map((k) => (
         <li>
-          <a href={k.motpart.url} class="rel">
+          <a href={url(k.motpart.url)} class="rel">
             <svg class="rel-ikon" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d={ikon[k.motpart.samling]} />
             </svg>
@@ -28,7 +32,7 @@ const ikon: Record<string, string> = {
               <span class="rel-navn">{k.motpart.tittel}</span>
               <span class="rel-type">{k.type}{k.notat ? ` — ${k.notat}` : ''}</span>
             </span>
-            <span class="rel-samling">{SAMLING_NAVN[k.motpart.samling]}</span>
+            <span class="rel-samling">{t(SAMLING_NAVN[k.motpart.samling])}</span>
           </a>
         </li>
       ))}

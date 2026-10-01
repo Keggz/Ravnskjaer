@@ -1,18 +1,23 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import type { Oppslag } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
 interface Props {
   oppslag: Oppslag;
 }
 const { oppslag } = Astro.props;
 const d = oppslag.data;
-const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorighet ?? '', ...oppslag.merker]
+const karaktertype = oppslag.samling === 'karakterer' ? (d.spillerkarakter ? t('Spillerkarakter') : 'NPC') : '';
+const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorighet ?? '', karaktertype, ...oppslag.merker]
   .join(' ')
   .toLowerCase();
 ---
 
 <li data-sok={sokeTekst} data-samling={oppslag.samling} data-navn={oppslag.tittel} data-spiller={String(!!d.spillerkarakter)} data-status={d.status} data-aett={d.tilhorighet ?? ''} data-stedstype={d.stedstype}>
-  <a href={oppslag.url} class:list={["kort", { "kort--karakter": oppslag.samling === "karakterer" }]}>
+  <a href={url(oppslag.url)} class:list={["kort", { "kort--karakter": oppslag.samling === "karakterer" }]}>
     {oppslag.bilde ? (
       <img src={oppslag.bilde} alt="" class="kort-bilde" loading="lazy" />
     ) : (
@@ -26,10 +31,10 @@ const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorigh
       <span class="kort-meta">{oppslag.undertekst}</span>
       <span class="kort-tittel">{oppslag.tittel}</span>
       <p class="kort-kort">{oppslag.kort}</p>
-      {(d.spillerkarakter || d.status === 'død') && (
+      {(karaktertype || d.status === 'død') && (
         <div class="etiketter" style="margin-top:.45rem">
-          {d.spillerkarakter && <span class="etikett etikett--spiller">Spillerkarakter</span>}
-          {d.status === 'død' && <span class="etikett etikett--dod">Død</span>}
+          {karaktertype && <span class:list={["etikett", d.spillerkarakter ? "etikett--spiller" : "etikett--npc"]}>{karaktertype}</span>}
+          {d.status === 'død' && <span class="etikett etikett--dod">{t("Død")}</span>}
         </div>
       )}
     </div>

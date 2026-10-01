@@ -5,6 +5,7 @@ rolle: "Volvelærling"
 status: "ukjent"
 tilhorighet: "Torløv-ætten"
 mor: "karakterer/ragna-torsdatter"
+bilde: "/media/karakterer/eidrid-ragnadatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A10:F10; lest 2026-09-24. -->

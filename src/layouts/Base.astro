@@ -1,5 +1,9 @@
 ---
+import { languageFor, localUrl, norwegianPath, translate } from '../lib/i18n';
 import '../styles/global.css';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
 interface Props {
   tittel: string;
@@ -7,7 +11,7 @@ interface Props {
 }
 
 const { tittel, beskrivelse = 'Bibliotek over Ravnskjær — folk, steder og hendelser.' } = Astro.props;
-const sti = Astro.url.pathname;
+const sti = norwegianPath(Astro.url.pathname);
 const penumbra = sti === '/penumbra' || sti.startsWith('/penumbra/');
 
 const lenker = [
@@ -21,32 +25,37 @@ const lenker = [
 const aktiv = (url: string) => sti === url || sti.startsWith(url + '/');
 ---
 
-<html lang="nb">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={beskrivelse} />
+    <meta name="description" content={t(beskrivelse)} />
     <meta name="generator" content={Astro.generator} />
-    <title>{tittel} — Ravnskjær</title>
+    <link rel="canonical" href={new URL(url(sti), Astro.site)} />
+    <link rel="alternate" hreflang="nb" href={new URL(localUrl(sti, 'nb'), Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(localUrl(sti, 'en'), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localUrl(sti, 'nb'), Astro.site)} />
+    <title>{t(tittel)} — Ravnskjær</title>
   </head>
   <body class:list={{ penumbra }}>
     <header class="topp">
       <div class="topp-rad">
-        <a href="/" class="merke">
+        <a href={url("/")} class="merke">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M4 14c0-4 3-7 7-7 1.6 0 2.6.4 3.5 1l3.2-1.6-1.1 2.4 2.4-.5-1.7 2c.4.9.7 2 .7 3.2 0 3.4-2.4 6.5-7 6.5H8l1.5-2.5C6.4 17.9 4 16.4 4 14Z"/>
             <circle cx="13.4" cy="11.4" r=".9" fill="#0e1416"/>
           </svg>
           Ravnskjær
         </a>
-        <nav aria-label="Hovedmeny">
+        <nav aria-label={t("Hovedmeny")}>
           {lenker.map((l) => (
-            <a href={l.url} aria-current={aktiv(l.url) ? 'page' : undefined}>{l.navn}</a>
+            <a href={url(l.url)} aria-current={aktiv(l.url) ? 'page' : undefined}>{t(l.navn)}</a>
           ))}
-          <a class="verdenbytte" href={penumbra ? '/' : '/penumbra'}>
+          <a class="verdenbytte" href={url(penumbra ? '/' : '/penumbra')}>
             <span aria-hidden="true">{penumbra ? '☀' : '☾'}</span>
-            {penumbra ? 'Til Ravnskjær' : 'Til Penumbra'}
+            {t(penumbra ? 'Til Ravnskjær' : 'Til Penumbra')}
           </a>
+          <a class="sprakbytte" href={localUrl(sti, lang === 'nb' ? 'en' : 'nb')} lang={lang === 'nb' ? 'en' : 'nb'} hreflang={lang === 'nb' ? 'en' : 'nb'} aria-label={lang === 'nb' ? 'Read this page in English' : 'Les denne siden på norsk'}>{lang === 'nb' ? 'English' : 'Norsk'}</a>
         </nav>
       </div>
     </header>
@@ -57,8 +66,12 @@ const aktiv = (url: string) => sti === url || sti.startsWith(url + '/');
 
     <footer class="bunn">
       <div class="innhold">
-        Ravnskjær · vestlandskysten, 790-tallet · et rollespilluniversum
+        {t("Ravnskjær · vestlandskysten, 790-tallet · et rollespilluniversum")}
       </div>
     </footer>
   </body>
 </html>
+
+<style>
+.sprakbytte { border: 1px solid var(--kant); border-radius: var(--radius); padding: .4rem .65rem; }
+</style>

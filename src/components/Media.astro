@@ -1,4 +1,6 @@
 ---
+import { languageFor } from '../lib/i18n';
+const lang = languageFor(Astro.url.pathname);
 interface Props {
   galleri?: { src: string; tekst?: string }[];
   video?: string;

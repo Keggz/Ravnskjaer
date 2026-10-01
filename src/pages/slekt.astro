@@ -1,10 +1,14 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import Base from '../layouts/Base.astro';
 import { hentSamling, koblingerFor } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
-const folk = await hentSamling('karakterer');
-const familietyper = new Set(['far', 'mor', 'barn', 'gift med', 'adoptivfar', 'adoptivsønn', 'tante', 'niese', 'bror', 'søster', 'eldre bror', 'yngre bror', 'partner']);
-const aetter = [...new Set(folk.map(p => p.data.tilhorighet).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'nb'));
+const folk = await hentSamling('karakterer', lang);
+const familietyper = new Set(['far', 'mor', 'barn', 'gift med', 'adoptivfar', 'adoptivsønn', 'tante', 'niese', 'bror', 'søster', 'eldre bror', 'yngre bror', 'partner'].flatMap(type => [type, t(type[0].toUpperCase() + type.slice(1)).toLocaleLowerCase('en')]));
+const aetter = [...new Set(folk.map(p => p.data.tilhorighet).filter(Boolean))].sort((a, b) => a.localeCompare(b, lang));
 const farger = ['#c39b5a', '#7ba3a8', '#b59ac6', '#9eaf81', '#ce9d88'];
 const grupper = [...aetter, 'Uten oppgitt ætt'].map((navn, index) => ({
   navn, id: 'aett-' + index, farge: farger[index % farger.length],
@@ -14,40 +18,40 @@ const grupper = [...aetter, 'Uten oppgitt ætt'].map((navn, index) => ({
 })).filter(g => g.personer.length);
 ---
 
-<Base tittel="Slekt" beskrivelse="Ættene i Ravnskjær, med familie, ekteskap og slektsbånd.">
+<Base tittel={t("Slekt")} beskrivelse={t("Ættene i Ravnskjær, med familie, ekteskap og slektsbånd.")}>
   <div class="innhold slekt">
     <div class="sidetopp">
-      <p class="stikk">Folk og tilhørighet</p>
-      <h1>Ættene i Ravnskjær</h1>
-      <p class="ingress">Familiene, menneskene og båndene mellom dem. Velg en ætt eller følg et navn for å lese videre.</p>
+      <p class="stikk">{t("Folk og tilhørighet")}</p>
+      <h1>{t("Ættene i Ravnskjær")}</h1>
+      <p class="ingress">{t("Familiene, menneskene og båndene mellom dem. Velg en ætt eller følg et navn for å lese videre.")}</p>
     </div>
-    <nav class="aettvalg" aria-label="Hopp til ætt">
-      {grupper.map(g => <a href={'#' + g.id} style={`--aett:${g.farge}`}>{g.navn}<span>{g.personer.length}</span></a>)}
+    <nav class="aettvalg" aria-label={t("Hopp til ætt")}>
+      {grupper.map(g => <a href={'#' + g.id} style={`--aett:${g.farge}`}>{t(g.navn)}<span>{g.personer.length}</span></a>)}
     </nav>
     <div class="familier">
       {grupper.map(g => (
         <section id={g.id} class="familie" style={`--aett:${g.farge}`} aria-labelledby={g.id + '-tittel'}>
           <header class="familiehode">
-            <p class="stikk">{g.navn === 'Uten oppgitt ætt' ? 'Andre forbindelser' : 'Familie og tilhørighet'}</p>
-            <h2 id={g.id + '-tittel'}>{g.navn}</h2>
-            <p>{g.personer.length} {g.personer.length === 1 ? 'person' : 'personer'}</p>
+            <p class="stikk">{t(g.navn === 'Uten oppgitt ætt' ? 'Andre forbindelser' : 'Familie og tilhørighet')}</p>
+            <h2 id={g.id + '-tittel'}>{t(g.navn)}</h2>
+            <p>{g.personer.length} {g.personer.length === 1 ? 'person' : t('personer')}</p>
           </header>
           <ul class="personer">
             {g.personer.map(p => (
               <li class="person">
                 <div class="personhode">
-                  <a class="navn" href={p.url}>{p.tittel}</a>
+                  <a class="navn" href={url(p.url)}>{p.tittel}</a>
                   <div class="merker">
-                    {p.data.spillerkarakter && <span>Spillerkarakter</span>}
-                    {p.data.status === 'død' && <span class="dod">Død</span>}
+                    {p.data.spillerkarakter && <span>{t("Spillerkarakter")}</span>}
+                    {p.data.status === 'død' && <span class="dod">{t("Død")}</span>}
                   </div>
                 </div>
                 <p class="rolle">{[p.data.rolle, p.data.levetid].filter(Boolean).join(' · ')}</p>
                 {p.band.length ? (
-                  <ul class="band" aria-label={'Familiebånd for ' + p.tittel}>
-                    {p.band.map(b => <li><span>{b.type}</span><a href={b.motpart.url}>{b.motpart.tittel}</a></li>)}
+                  <ul class="band" aria-label={(lang === 'en' ? 'Family ties for ' : 'Familiebånd for ') + p.tittel}>
+                    {p.band.map(b => <li><span>{b.type}</span><a href={url(b.motpart.url)}>{b.motpart.tittel}</a></li>)}
                   </ul>
-                ) : <p class="ukjent">Ingen familiebånd er ført opp ennå.</p>}
+                ) : <p class="ukjent">{t("Ingen familiebånd er ført opp ennå.")}</p>}
               </li>
             ))}
           </ul>

@@ -1,0 +1,40 @@
+---
+import { languageFor, localUrl, translate } from '../../../lib/i18n';
+import { getCollection } from 'astro:content';
+import { renderTranslated } from '../../../lib/translated-content';
+import Base from '../../../layouts/Base.astro';
+import Media from '../../../components/Media.astro';
+import { hentAlle } from '../../../lib/bibliotek';
+import { penumbraCategory, penumbraUrl } from '../../../lib/penumbra';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
+export async function getStaticPaths() {
+  return (await getCollection('penumbra', ({ data }) => !data.skjult)).map(entry => ({ params: { kategori: penumbraCategory(entry.data.type).slug, id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const category = penumbraCategory(entry.data.type);
+const { Content } = await renderTranslated(entry, lang);
+const alle = await hentAlle(lang);
+const koblinger = alle.filter(o => entry.data.forbindelser.includes(o.nokkel));
+---
+<Base tittel={t(entry.data.tittel)} beskrivelse={t(entry.data.kort)}>
+  <article class="innhold smal">
+    <nav class="tilbake" aria-label="Penumbra"><a href={url("/penumbra")}>Penumbra</a><span aria-hidden="true"> / </span><a href={url('/penumbra/' + category.slug)}>{t(category.title)}</a></nav>
+    <header class="sidetopp">
+      <p class="stikk">Penumbra · {t(entry.data.type)}</p>
+      <h1>{t(entry.data.tittel)}</h1>
+      <p class="ingress">{t(entry.data.kort)}</p>
+    </header>
+    {entry.data.bilde && <img class="vesenbilde" src={entry.data.bilde} alt={t(entry.data.tittel)} />}
+    <div class="brodtekst"><Content /></div>
+    <Media galleri={entry.data.galleri} video={entry.data.video} plakat={entry.data.video_plakat} tittel={t(entry.data.video_tittel ?? '')} tekst={t(entry.data.video_tekst ?? '')} />
+    {koblinger.length > 0 && <section class="forbindelser"><h2>{t("Forbindelser til Ravnskjær")}</h2><ul>{koblinger.map(o => <li><a href={url(o.url)}>{o.tittel}</a></li>)}</ul></section>}
+  </article>
+</Base>
+<style>
+  .vesenbilde { display: block; width: min(100%, 26rem); height: auto; margin: 0 auto 2rem; border: 1px solid var(--kant); border-radius: var(--radius); }
+  .tilbake { display: inline-block; margin-top: 2rem; }
+  article { padding-bottom: 3rem; overflow-wrap: anywhere; }
+  .forbindelser { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--kant); }
+</style>

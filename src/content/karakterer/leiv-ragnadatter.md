@@ -5,6 +5,7 @@ rolle: "Ragnas sønn"
 status: "ukjent"
 tilhorighet: "Torløv-ætten"
 mor: "karakterer/ragna-torsdatter"
+bilde: "/media/karakterer/leiv-ragnadatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A11:F11; lest 2026-09-24. -->

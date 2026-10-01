@@ -14,6 +14,7 @@ npm run dev
 | ----------------- | ------------------------------------------- |
 | `npm run dev`     | Kjører siden lokalt mens du skriver         |
 | `npm run build`   | Bygger ferdig side til `dist/`               |
+| `npm run check`   | Bygger og sjekker språk, lenker og videresendinger |
 | `npm run preview` | Viser den ferdigbygde siden slik den blir   |
 
 ## Slik legger du inn nytt innhold
@@ -41,7 +42,7 @@ node ny.mjs sted     "Kvernsteinsbruddet"
 node ny.mjs hendelse "Slaget ved Ravneskjæret"
 ```
 
-Så åpner du fila som ble laget og skriver.
+Så åpner du fila som ble laget og skriver. Synlige oppslag trenger også en engelsk oversettelse før publisering; se «Norsk og engelsk» nedenfor.
 
 Vil du heller lage den for hånd, må du passe på to ting på Mac:
 
@@ -253,3 +254,25 @@ public/media/       ← bilder og video
 ## Penumbra
 
 Knappen «Til Penumbra» åpner den andre siden av biblioteket. Oppslag for steder, ånder og kunnskap ligger i `src/content/penumbra/`. De er skjult som standard og kan knyttes til eksisterende personer og steder. Se [veiledningen](docs/penumbra.md).
+
+### Spillerkarakter eller NPC
+
+Alle personkort og personoppslag viser automatisk «Spillerkarakter» når `spillerkarakter: true`, ellers «NPC». NPC-merket har egen farge, finnes som filter og inngår i søket. Du trenger ikke legge NPC manuelt i `merker`. Dødsstatus vises i tillegg; en avdød spillerkarakter beholder spilleretiketten. Steder, hendelser og ånder i Penumbra får ikke NPC-etikett.
+
+
+## Norsk og engelsk
+
+Norsk er originalen i `src/content/`. English/Norsk-knappen bytter til samme side på det andre språket. Norsk bruker de eksisterende adressene; engelsk ligger under `/en/`, med `characters`, `places`, `timeline`, `families`, `relationships` og `penumbra` som seksjoner. Navn og oppslagenes filnavn beholdes.
+
+Engelske brødtekster ligger i `src/translations/en/<samling>/<filnavn>.md`. Filhodet har `original` (for eksempel `karakterer/asgeir-eriksson`) og `sourceHash` (SHA-256 av hele den norske filen). Menyer, sammendrag, roller, emneord og relasjonstekster oversettes i `src/i18n/en.json`. Identifikatorer, familieforbindelser, årstall, statusverdier og mediefiler hentes fortsatt fra norsk original; de skal ikke kopieres og vedlikeholdes separat.
+
+Ved nye eller endrede norske oppslag:
+
+1. Oppdater den engelske brødteksten og eventuelle endrede uttrykk i `src/i18n/en.json`.
+2. Kontroller at oversettelsen følger originalen uten å legge til opplysninger. Behold navnene og Halvdans stemme i krønikene.
+3. Sett `sourceHash` til den norske filens nye SHA-256 **etter** gjennomgangen (`shasum -a 256 src/content/<samling>/<filnavn>.md`).
+4. Kjør `npm run check`.
+
+Byggingen stopper ved manglende eller utdatert engelsk brødtekst, slik at nye norske oppslag ikke publiseres med en ubemerket gammel oversettelse. Oppslag med `skjult: true` får ingen offentlig side på noen av språkene. Lyd og filmer gjenbrukes i original form; de er ikke dubbet eller tekstet på nytt.
+
+Alle sidemaler deles mellom språkene. Engelske lenker holder leseren i den engelske utgaven. Sidene har egne canonical- og hreflang-lenker. Ingen oversettelsestjeneste, nettverkskall eller API-nøkkel trengs for å bygge eller lese nettstedet.

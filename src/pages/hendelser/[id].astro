@@ -1,7 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { languageFor, localUrl, translate } from '../../lib/i18n';
+import { getCollection } from 'astro:content';
+import { renderTranslated } from '../../lib/translated-content';
 import Oppslag from '../../layouts/Oppslag.astro';
 import { hentAlle, koblingerFor } from '../../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
 export async function getStaticPaths() {
   const entries = await getCollection('hendelser', ({ data }) => !data.skjult);
@@ -9,10 +14,10 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await render(entry);
+const { Content, headings } = await renderTranslated(entry, lang);
 const deler = headings.filter(h => h.depth === 2);
 
-const alle = await hentAlle();
+const alle = await hentAlle(lang);
 const oppslag = alle.find((o) => o.nokkel === `hendelser/${entry.id}`)!;
 const koblinger = koblingerFor(oppslag.nokkel, alle);
 const kronike = alle.filter(o => o.samling === 'hendelser').sort((a, b) => a.data.aar - b.data.aar || a.data.rekkefolge - b.data.rekkefolge || a.tittel.localeCompare(b.tittel, 'nb'));
@@ -21,15 +26,15 @@ const forrige = kronike[plass - 1];
 const neste = kronike[plass + 1];
 ---
 
-<Oppslag oppslag={oppslag} koblinger={koblinger} tilbakeUrl="/hendelser" tilbakeNavn="Tidslinjen">
-  {deler.length > 1 && <nav class="innholdsfortegnelse" aria-label="I denne beretningen">
-    <p>I denne beretningen</p>
+<Oppslag oppslag={oppslag} koblinger={koblinger} tilbakeUrl="/hendelser" tilbakeNavn={t("Tidslinjen")}>
+  {deler.length > 1 && <nav class="innholdsfortegnelse" aria-label={t("I denne beretningen")}>
+    <p>{t("I denne beretningen")}</p>
     <ol>{deler.map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
   </nav>}
   <Content />
-  <nav slot="etter" class="kronike-nav" aria-label="Les videre i krøniken">
-    {forrige && <a href={forrige.url}><span>← Forrige beretning</span>{forrige.tittel}</a>}
-    {neste && <a class="neste" href={neste.url}><span>Neste beretning →</span>{neste.tittel}</a>}
+  <nav slot="etter" class="kronike-nav" aria-label={t("Les videre i krøniken")}>
+    {forrige && <a href={url(forrige.url)}><span>{t("← Forrige beretning")}</span>{forrige.tittel}</a>}
+    {neste && <a class="neste" href={url(neste.url)}><span>{t("Neste beretning →")}</span>{neste.tittel}</a>}
   </nav>
 </Oppslag>
 

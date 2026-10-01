@@ -5,6 +5,7 @@ rolle: "Munk og språklærer"
 status: "ukjent"
 merker: ["Erte-Bert"]
 relasjoner: [{"til": "steder/isle-of-wight", "type": "Kommer fra", "motsatt": "Hjemsted for"}, {"til": "karakterer/saia-mork-hansdottir", "type": "Nær venn", "motsatt": "Nær venn"}]
+bilde: "/media/karakterer/aethelberth.webp"
 ---
 
 Æthelberth ble funnet som eneste overlevende ved et skipsvrak på den andre ferden vestover i 793. Følget kalte ham Erte-Bert og beskrev ham som lun av lynne.

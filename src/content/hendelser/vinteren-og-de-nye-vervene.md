@@ -42,4 +42,4 @@ Jeg fører dette blant det som ble sagt. At et sagn blir gjentatt en mørk kveld
 
 Og fremdeles var jorden gjerrig. Det som var sådd etter den første ferden, hadde gitt mindre enn håpet. Noen undret om det ennå var noe galt med jorden. Det hadde vi ikke noe sikkert svar på.
 
-Slik gikk vi inn i den sene vinteren. Den neste beretningen begynner med en ravn og en beskjed, på den kaldeste dagen i året 794.
+Slik gikk vi inn i den sene vinteren. Den neste beretningen begynner med budet fra Skardvik, da kulden var på sitt hardeste. [Les om vinterferden nordover](/hendelser/vinterferden-til-skardvik).

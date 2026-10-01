@@ -302,6 +302,10 @@ code {
   border-color: rgba(195, 155, 90, 0.5);
   color: var(--bronse-lys);
 }
+.etikett--npc {
+  border-color: rgba(123, 163, 168, 0.5);
+  color: var(--sjo);
+}
 .etikett--dod {
   border-color: rgba(164, 84, 63, 0.5);
   color: #d08a72;
@@ -417,10 +421,10 @@ body.penumbra {
 }
 .verdenbytte:focus-visible { outline: 2px solid var(--bronse-lys); outline-offset: 3px; }
 
-/* Portraits keep the complete supplied artwork, including square portraits. */
+/* Portrait cards match the supplied 4:5 images and retain the full artwork. */
 .kort--karakter .kort-bilde,
 .kort--karakter .kort-tom {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   object-fit: contain;
   background: #101313;
 }

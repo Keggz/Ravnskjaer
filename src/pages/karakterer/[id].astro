@@ -1,7 +1,11 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { languageFor, translate } from '../../lib/i18n';
+import { getCollection } from 'astro:content';
+import { renderTranslated } from '../../lib/translated-content';
 import Oppslag from '../../layouts/Oppslag.astro';
 import { hentAlle, koblingerFor } from '../../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
 
 export async function getStaticPaths() {
   const entries = await getCollection('karakterer', ({ data }) => !data.skjult);
@@ -9,13 +13,13 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content } = await renderTranslated(entry, lang);
 
-const alle = await hentAlle();
+const alle = await hentAlle(lang);
 const oppslag = alle.find((o) => o.nokkel === `karakterer/${entry.id}`)!;
 const koblinger = koblingerFor(oppslag.nokkel, alle);
 ---
 
-<Oppslag oppslag={oppslag} koblinger={koblinger} tilbakeUrl="/karakterer" tilbakeNavn="Alle folk">
+<Oppslag oppslag={oppslag} koblinger={koblinger} tilbakeUrl="/karakterer" tilbakeNavn={t("Alle folk")}>
   <Content />
 </Oppslag>

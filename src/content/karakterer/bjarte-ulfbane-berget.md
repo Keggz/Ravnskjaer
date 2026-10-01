@@ -5,6 +5,7 @@ rolle: "Hirdkriger"
 status: "ukjent"
 spillerkarakter: true
 merker: ["hirden"]
+bilde: "/media/karakterer/bjarte-ulfbane-berget.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; Players!B9:E9; lest 2026-09-24. -->

@@ -5,6 +5,7 @@ rolle: "Åsmunds yngre bror"
 status: "død"
 tilhorighet: "Helga-ætten"
 relasjoner: [{"til": "karakterer/aasmund-helgason", "type": "Eldre bror", "motsatt": "Yngre bror"}]
+bilde: "/media/karakterer/oystaeinn-spjotaldr.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A25:F25; lest 2026-09-24. -->

@@ -5,6 +5,7 @@ rolle: "Språklærd og kontraktsfører"
 status: "ukjent"
 tilhorighet: "Helga-ætten"
 far: "karakterer/aasmund-helgason"
+bilde: "/media/karakterer/yrsa-aasmundsdatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A22:F22; lest 2026-09-24. -->

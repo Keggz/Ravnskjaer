@@ -1,9 +1,14 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
+import { penumbraUrl } from '../lib/penumbra';
 import Base from './Base.astro';
 import { getCollection } from 'astro:content';
 import Relasjoner from '../components/Relasjoner.astro';
 import Media from '../components/Media.astro';
 import type { Kobling, Oppslag } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
 interface Props {
   oppslag: Oppslag;
@@ -19,18 +24,18 @@ const andreSiden = await getCollection('penumbra', ({ data }) => !data.skjult &&
 
 <Base tittel={oppslag.tittel} beskrivelse={oppslag.kort}>
   <article class="innhold smal">
-    <a href={tilbakeUrl} class="tilbake">← {tilbakeNavn}</a>
+    <a href={url(tilbakeUrl)} class="tilbake">← {t(tilbakeNavn)}</a>
 
     <header class="hode">
       <p class="stikk">{oppslag.undertekst}</p>
       <h1>{oppslag.tittel}</h1>
       <p class="ingress">{oppslag.kort}</p>
-      {forteller && <p class="forteller">Nedtegnet av <a href={forteller.url}>{forteller.tittel}</a></p>}
+      {forteller && <p class="forteller">{t("Nedtegnet av")} <a href={url(forteller.url)}>{forteller.tittel}</a></p>}
 
       <div class="etiketter" style="margin-top:1.1rem">
-        {d.spillerkarakter && <span class="etikett etikett--spiller">Spillerkarakter</span>}
-        {d.status === 'død' && <span class="etikett etikett--dod">Død</span>}
-        {d.status === 'savnet' && <span class="etikett">Savnet</span>}
+        {oppslag.samling === "karakterer" && <span class:list={["etikett", d.spillerkarakter ? "etikett--spiller" : "etikett--npc"]}>{t(d.spillerkarakter ? "Spillerkarakter" : "NPC")}</span>}
+        {d.status === 'død' && <span class="etikett etikett--dod">{t("Død")}</span>}
+        {d.status === 'savnet' && <span class="etikett">{t("Savnet")}</span>}
         {d.tilhorighet && <span class="etikett">{d.tilhorighet}</span>}
         {d.kapittel && <span class="etikett">{d.kapittel}</span>}
         {oppslag.merker.map((m: string) => <span class="etikett">{m}</span>)}
@@ -48,7 +53,7 @@ const andreSiden = await getCollection('penumbra', ({ data }) => !data.skjult &&
     <Media galleri={d.galleri} video={d.video} plakat={d.video_plakat} tittel={d.video_tittel} tekst={d.video_tekst} />
 
     <Relasjoner koblinger={koblinger} />
-    {andreSiden.length > 0 && <section class="andre-siden"><h2>På den andre siden</h2><ul>{andreSiden.map(p => <li><a href={'/penumbra/' + p.id}>{p.data.tittel}</a></li>)}</ul></section>}
+    {andreSiden.length > 0 && <section class="andre-siden"><h2>{t("På den andre siden")}</h2><ul>{andreSiden.map(p => <li><a href={url(penumbraUrl(p))}>{t(p.data.tittel)}</a></li>)}</ul></section>}
 
     <slot name="etter" />
   </article>

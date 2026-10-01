@@ -1,8 +1,12 @@
 ---
+import { languageFor, localUrl, translate } from '../../lib/i18n';
 import Base from '../../layouts/Base.astro';
 import { hentSamling } from '../../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
-const hendelser = await hentSamling('hendelser');
+const hendelser = await hentSamling('hendelser', lang);
 
 // Grupper etter årstall, slik at tidslinjen får tydelige bolker.
 const aarstall = [...new Set(hendelser.map((h) => h.data.aar as number))].sort(
@@ -14,18 +18,18 @@ const grupper = aarstall.map((aar) => ({
 }));
 ---
 
-<Base tittel="Tidslinje">
+<Base tittel={t("Tidslinje")}>
   <div class="innhold">
     <div class="sidetopp">
-      <p class="stikk">År for år · beretning for beretning</p>
-      <h1>Ravnskjærs krønike</h1>
+      <p class="stikk">{t("År for år · beretning for beretning")}</p>
+      <h1>{t("Ravnskjærs krønike")}</h1>
       <p class="ingress">
-        De første beretningene er ført i Halvdan Skrivares stemme, etter det de reisende har fortalt. Følg hendelsene fra sommerlekene til ferden vestover — og videre når nye blad føyes til.
+        {t("Beretningene er ført i Halvdan Skrivares stemme, etter det de reisende har fortalt. Følg historien fra sommerlekene og ferdene vestover til vinterens hendelser i Skardvik.")}
       </p>
     </div>
 
     {hendelser.length === 0 ? (
-      <p class="tom-melding">Ingen hendelser skrevet inn ennå.</p>
+      <p class="tom-melding">{t("Ingen hendelser skrevet inn ennå.")}</p>
     ) : (
       <ol class="tidslinje">
         {grupper.map((g) => (
@@ -34,7 +38,7 @@ const grupper = aarstall.map((aar) => ({
             <ol class="poster">
               {g.poster.map((h) => (
                 <li class="post">
-                  <a href={h.url}>
+                  <a href={url(h.url)}>
                     <span class="prikk" aria-hidden="true"></span>
                     {h.data.tidspunkt && <span class="tid">{h.data.tidspunkt}</span>}
                     <span class="navn">{h.tittel}</span>

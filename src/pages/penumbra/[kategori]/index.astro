@@ -1,0 +1,32 @@
+---
+import { languageFor, localUrl, translate } from '../../../lib/i18n';
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { penumbraCategories, penumbraUrl } from '../../../lib/penumbra';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
+export function getStaticPaths() {
+  return penumbraCategories.map(category => ({ params: { kategori: category.slug }, props: { category } }));
+}
+const { category } = Astro.props;
+const entries = (await getCollection('penumbra', ({ data }) => !data.skjult && data.type === category.type)).sort((a, b) => a.data.tittel.localeCompare(b.data.tittel, 'nb'));
+---
+<Base tittel={'Penumbra · ' + t(category.title)} beskrivelse={t(category.description)}>
+  <div class="innhold">
+    <a class="tilbake" href={url("/penumbra")}>{t("← Til Penumbra")}</a>
+    <header class="sidetopp"><p class="stikk">Penumbra</p><h1>{t(category.title)}</h1><p class="ingress">{t(category.description)}</p></header>
+    <nav class="kategorier" aria-label={t("Utforsk Penumbra")}>{penumbraCategories.map(c => <a href={url('/penumbra/' + c.slug)} aria-current={c.slug === category.slug ? 'page' : undefined}>{t(c.title)}</a>)}</nav>
+    {entries.length ? <ul class="oppdagelser">{entries.map(p => <li><a href={url(penumbraUrl(p))}><h2>{t(p.data.tittel)}</h2><p>{t(p.data.kort)}</p><span>{t("Åpne oppslag →")}</span></a></li>)}</ul> : <p class="tom-melding">{t("Ingen oppslag i denne delen ennå.")}</p>}
+  </div>
+</Base>
+<style>
+  .tilbake { display: inline-block; margin-top: 2rem; }
+  .kategorier { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 2rem; }
+  .kategorier a { padding: .6rem 1rem; border: 1px solid var(--kant); border-radius: var(--radius); text-decoration: none; }
+  .kategorier a[aria-current] { border-color: var(--bronse); color: var(--bronse-lys); background: var(--sot); }
+  .oppdagelser { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; margin-bottom: 3rem; }
+  .oppdagelser a { display: block; height: 100%; padding: 1.5rem; border: 1px solid var(--kant); border-radius: var(--radius); background: var(--sot); text-decoration: none; overflow-wrap: anywhere; }
+  .oppdagelser h2 { font-size: 1.5rem; }
+  .oppdagelser p { color: var(--tekst-dempet); }
+</style>

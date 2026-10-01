@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   // Bevar delte lenker til de tidligere, kortere beretningene.
   redirects: {
-    "/penumbra/njidskramr": "/penumbra/nadskrimr",
+    "/penumbra/njidskramr": "/penumbra/aander/nadskrimr",
     "/hendelser/jarlens-bud-og-ben-gerds-syn": "/hendelser/ferden-til-lindisfarne#jarlens-bud-og-ben-gerds-syn",
     "/hendelser/havet-tok-kjartan": "/hendelser/ferden-til-lindisfarne#havet-tok-kjartan",
     "/hendelser/ravnen-paa-masten": "/hendelser/ferden-til-lindisfarne#ravnen-på-masten",

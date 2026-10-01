@@ -91,4 +91,8 @@ const penumbra = defineCollection({
   }),
 });
 
-export const collections = { karakterer, steder, hendelser, penumbra };
+const english = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/translations/en' }),
+  schema: z.object({ original: z.string(), sourceHash: z.string() }),
+});
+export const collections = { karakterer, steder, hendelser, penumbra, english };

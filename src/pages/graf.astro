@@ -1,8 +1,12 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import Base from '../layouts/Base.astro';
 import { hentAlle, grafData, sjekkRelasjoner } from '../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 
-const alle = await hentAlle();
+const alle = await hentAlle(lang);
 const graf = grafData(alle);
 
 // Advar i terminalen hvis noen relasjoner peker på oppslag som ikke finnes.
@@ -11,58 +15,57 @@ for (const feil of sjekkRelasjoner(alle)) {
 }
 ---
 
-<Base tittel="Relasjoner">
+<Base tittel={t("Relasjoner")}>
   <div class="innhold">
     <div class="sidetopp">
-      <p class="stikk">Bibliotek</p>
-      <h1>Relasjoner</h1>
+      <p class="stikk">{t("Bibliotek")}</p>
+      <h1>{t("Relasjoner")}</h1>
       <p class="ingress">
-        Start med folkene i Ravnskjær. Velg hva du vil se, eller klikk på et navn
-        for å utforske de nærmeste forbindelsene.
+        {t("Start med folkene i Ravnskjær. Velg hva du vil se, eller klikk på et navn for å utforske de nærmeste forbindelsene.")}
       </p>
     </div>
 
     <div class="graf-kontroller">
-      <div class="visninger" role="group" aria-label="Visning">
-        <button type="button" data-visning="folk" aria-pressed="true">Folk</button>
-        <button type="button" data-visning="steder" aria-pressed="false">Folk og steder</button>
-        <button type="button" data-visning="hendelser" aria-pressed="false">Folk og hendelser</button>
-        <button type="button" data-visning="alt" aria-pressed="false">Alt</button>
+      <div class="visninger" role="group" aria-label={t("Visning")}>
+        <button type="button" data-visning="folk" aria-pressed="true">{t("Folk")}</button>
+        <button type="button" data-visning="steder" aria-pressed="false">{t("Folk og steder")}</button>
+        <button type="button" data-visning="hendelser" aria-pressed="false">{t("Folk og hendelser")}</button>
+        <button type="button" data-visning="alt" aria-pressed="false">{t("Alt")}</button>
       </div>
       <div class="verktoy">
-        <label>Søk etter navn eller rolle
-          <input type="search" id="graf-sok" placeholder="F.eks. Torstein eller skald" autocomplete="off" />
+        <label>{t("Søk etter navn eller rolle")}
+          <input type="search" id="graf-sok" placeholder={t("F.eks. Torstein eller skald")} autocomplete="off" />
         </label>
-        <label>Fokuser på
-          <select id="graf-fokus"><option value="">Hele visningen</option></select>
+        <label>{t("Fokuser på")}
+          <select id="graf-fokus"><option value="">{t("Hele visningen")}</option></select>
         </label>
-        <button type="button" id="graf-nullstill">Nullstill</button>
+        <button type="button" id="graf-nullstill">{t("Nullstill")}</button>
       </div>
-      <p class="graf-hjelp">Søk viser treffene og deres direkte forbindelser. Dra i punktene for å flytte dem.</p>
+      <p class="graf-hjelp">{t("Søk viser treffene og deres direkte forbindelser. Dra i punktene for å flytte dem.")}</p>
     </div>
     <div class="graf-status">
       <p id="graf-antall" role="status" aria-live="polite"></p>
-      <div class="tegnforklaring" aria-label="Farger">
-        <span><i class="prikk karakterer"></i> Folk</span>
-        <span data-forklaring="steder" hidden><i class="prikk steder"></i> Steder</span>
-        <span data-forklaring="hendelser" hidden><i class="prikk hendelser"></i> Hendelser</span>
+      <div class="tegnforklaring" aria-label={t("Farger")}>
+        <span><i class="prikk karakterer"></i> {t("Folk")}</span>
+        <span data-forklaring="steder" hidden><i class="prikk steder"></i> {t("Steder")}</span>
+        <span data-forklaring="hendelser" hidden><i class="prikk hendelser"></i> {t("Hendelser")}</span>
       </div>
     </div>
 
     {graf.noder.length === 0 ? (
-      <p class="tom-melding">Ingen oppslag å vise ennå.</p>
+      <p class="tom-melding">{t("Ingen oppslag å vise ennå.")}</p>
     ) : (
       <div class="graf-ramme">
-        <svg id="graf" role="group" aria-label="Relasjoner i valgt visning"></svg>
-        <p id="graf-tom" class="tom-melding" hidden>Ingen treff i denne visningen. Prøv et annet navn eller nullstill filtrene.</p>
+        <svg id="graf" role="group" aria-label={t("Relasjoner i valgt visning")}></svg>
+        <p id="graf-tom" class="tom-melding" hidden>{t("Ingen treff i denne visningen. Prøv et annet navn eller nullstill filtrene.")}</p>
         <p class="graf-fallback">
-          Kartet krever JavaScript. Du finner alt innholdet under
-          <a href="/karakterer">Folk</a>, <a href="/steder">Steder</a> og
-          <a href="/hendelser">Tidslinje</a>.
+          {t("Kartet krever JavaScript. Du finner alt innholdet under")}
+          <a href={url("/karakterer")}>{t("Folk")}</a>, <a href={url("/steder")}>{t("Steder")}</a> {t("og")}
+          <a href={url("/hendelser")}>{t("Tidslinje")}</a>.
         </p>
       </div>
     )}
-    <section id="graf-detaljer" class="graf-detaljer" hidden aria-label="Valgt oppslag"></section>
+    <section id="graf-detaljer" class="graf-detaljer" hidden aria-label={t("Valgt oppslag")}></section>
   </div>
 
   <script type="application/json" id="graf-data" set:html={JSON.stringify(graf)} />
@@ -99,6 +102,7 @@ for (const feil of sjekkRelasjoner(alle)) {
 </style>
 
 <script>
+  const english = document.documentElement.lang === 'en';
   import { velgGraf, iVisning, type GrafNode as Node, type GrafKant as Kant, type Visning } from '../lib/grafutvalg';
 
   type Punkt = Node & { x: number; y: number; vx: number; vy: number; grad: number };
@@ -174,7 +178,7 @@ for (const feil of sjekkRelasjoner(alle)) {
       const g = document.createElementNS(NS, 'g');
       g.setAttribute('tabindex', '0');
       g.setAttribute('role', 'button');
-      g.setAttribute('aria-label', `Fokuser på ${p.tittel}`);
+      g.setAttribute('aria-label', `${english ? 'Focus on' : 'Fokuser på'} ${p.tittel}`);
       g.dataset.samling = p.samling;
       g.style.touchAction = 'none';
 
@@ -435,8 +439,8 @@ for (const feil of sjekkRelasjoner(alle)) {
 
     function fyllFokus() {
       const valgt = fokusFelt.value;
-      fokusFelt.replaceChildren(new Option('Hele visningen', ''));
-      for (const n of noder.filter(n => iVisning(n, visning)).sort((a, b) => a.tittel.localeCompare(b.tittel, 'nb'))) {
+      fokusFelt.replaceChildren(new Option((english ? "Entire view":"Hele visningen"), ''));
+      for (const n of noder.filter(n => iVisning(n, visning)).sort((a, b) => a.tittel.localeCompare(b.tittel, english ? 'en' : 'nb'))) {
         fokusFelt.add(new Option(n.tittel, n.id));
       }
       fokusFelt.value = [...fokusFelt.options].some(o => o.value === valgt) ? valgt : '';
@@ -476,8 +480,8 @@ for (const feil of sjekkRelasjoner(alle)) {
       }
       for (const { el, kant } of linjer) el.style.display = synlige.has(kant.fra) && synlige.has(kant.til) ? '' : 'none';
       const fokus = noder.find(n => n.id === fokusFelt.value);
-      const omfang = fokus ? ` · Rundt ${fokus.tittel}` : sokFelt.value.trim() ? ` · ${utvalg.treff.size} søketreff og deres forbindelser` : '';
-      antall.textContent = `${punkter.length} oppslag · ${aktiveKanter.length} forbindelser${omfang}`;
+      const omfang = fokus ? ` · ${english ? 'Around' : 'Rundt'} ${fokus.tittel}` : sokFelt.value.trim() ? ` · ${utvalg.treff.size} ${english ? 'search results and their connections' : 'søketreff og deres forbindelser'}` : '';
+      antall.textContent = `${punkter.length} ${english ? 'entries' : 'oppslag'} · ${aktiveKanter.length} ${english ? 'connections' : 'forbindelser'}${omfang}`;
       document.getElementById('graf-tom')!.hidden = punkter.length > 0;
       svg!.style.display = punkter.length ? '' : 'none';
       detaljer.replaceChildren();
@@ -489,16 +493,16 @@ for (const feil of sjekkRelasjoner(alle)) {
         lenke.textContent = `${fokus.tittel} →`;
         h.append(lenke);
         const p = document.createElement('p');
-        p.textContent = 'Direkte forbindelser i denne visningen. Åpne et oppslag for å lese mer.';
+        p.textContent = (english ? "Direct connections in this view. Open an entry to read more.":"Direkte forbindelser i denne visningen. Åpne et oppslag for å lese mer.");
         const liste = document.createElement('ul');
-        for (const n of utvalg.noder.filter(n => n.id !== fokus.id).sort((a, b) => a.tittel.localeCompare(b.tittel, 'nb'))) {
+        for (const n of utvalg.noder.filter(n => n.id !== fokus.id).sort((a, b) => a.tittel.localeCompare(b.tittel, english ? 'en' : 'nb'))) {
           const li = document.createElement('li');
           const a = document.createElement('a');
           a.href = n.url;
           a.textContent = n.tittel;
           li.append(a); liste.append(li);
         }
-        if (!liste.children.length) p.textContent = 'Ingen registrerte forbindelser i denne visningen. Prøv å ta med steder eller hendelser.';
+        if (!liste.children.length) p.textContent = (english ? "No recorded connections in this view. Try including places or events.":"Ingen registrerte forbindelser i denne visningen. Prøv å ta med steder eller hendelser.");
         detaljer.append(h, p, liste);
       }
       for (const knapp of knapper) knapp.setAttribute('aria-pressed', String(knapp.dataset.visning === visning));

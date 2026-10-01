@@ -1,18 +1,21 @@
 ---
+import { languageFor, translate } from '../../lib/i18n';
 import Base from '../../layouts/Base.astro';
 import Oversikt from '../../components/Oversikt.astro';
 import { hentSamling } from '../../lib/bibliotek';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
 
-const oppslag = await hentSamling('steder');
+const oppslag = await hentSamling('steder', lang);
 ---
 
-<Base tittel="Steder">
+<Base tittel={t("Steder")}>
   <Oversikt
-    stikk="Bibliotek"
-    tittel="Steder i og utenfor Ravnskjær"
-    ingress="Hjemstedet, nabobygdene og reisemålene over havet. Finn steder etter navn eller type, og følg forbindelsene til folkene som hører til der."
+    stikk={t("Bibliotek")}
+    tittel={t("Steder i og utenfor Ravnskjær")}
+    ingress={t("Hjemstedet, nabobygdene og reisemålene over havet. Finn steder etter navn eller type, og følg forbindelsene til folkene som hører til der.")}
     filtertype="steder"
     oppslag={oppslag}
-    sokeHint="Søk på stedsnavn eller type …"
+    sokeHint={t("Søk på stedsnavn eller type …")}
   />
 </Base>

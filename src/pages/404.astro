@@ -1,23 +1,26 @@
 ---
+import { languageFor, localUrl, translate } from '../lib/i18n';
 import Base from '../layouts/Base.astro';
+const lang = languageFor(Astro.url.pathname);
+const t = (text: string) => translate(text, lang);
+const url = (path: string) => localUrl(path, lang);
 ---
 
-<Base tittel="Ikke funnet" beskrivelse="Denne siden finnes ikke i biblioteket.">
+<Base tittel={t("Ikke funnet")} beskrivelse={t("Denne siden finnes ikke i biblioteket.")}>
   <div class="innhold smal">
     <div class="borte">
-      <p class="stikk">Fire hundre og fire</p>
-      <h1>Her er det ingenting</h1>
+      <p class="stikk">{t("Fire hundre og fire")}</p>
+      <h1>{t("Her er det ingenting")}</h1>
       <p class="ingress">
-        Enten er adressen skrevet feil, eller så er dette noe høvdingen ennå
-        ikke har sluppet ut i lyset.
+        {t("Enten er adressen skrevet feil, eller så er dette noe høvdingen ennå ikke har sluppet ut i lyset.")}
       </p>
 
-      <nav class="veier" aria-label="Videre">
-        <a href="/">Til forsiden</a>
-        <a href="/karakterer">Folk</a>
-        <a href="/steder">Steder</a>
-        <a href="/penumbra">Penumbra</a>
-        <a href="/hendelser">Tidslinje</a>
+      <nav class="veier" aria-label={t("Videre")}>
+        <a href={url("/")}>{t("Til forsiden")}</a>
+        <a href={url("/karakterer")}>{t("Folk")}</a>
+        <a href={url("/steder")}>{t("Steder")}</a>
+        <a href={url("/penumbra")}>Penumbra</a>
+        <a href={url("/hendelser")}>{t("Tidslinje")}</a>
       </nav>
     </div>
   </div>

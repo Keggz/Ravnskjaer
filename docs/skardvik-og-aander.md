@@ -9,3 +9,7 @@ Kilde: brukerens avklaringer i samtalen 29. september 2026.
 - De tilgjengelige samtalene «Systemskifte til W20», «TTRPG Karakterbeskrivelser» og «Ravnskjær Lore og Hint» ble gjennomgått uten å finne eldre omtale som bekrefter skrivemåten. Eldre forslag og fremtidsplaner er ikke importert til spilleroppslagene.
 
 Etter første gjennomgang delte brukeren den konkrete samtalen «Vinterrykter Ravnskjær». Navnet Náðskrímr er kontrollert der, blant annet i brukerens spørsmål om fraværende spillere. Den tidligere arbeidsstavemåten Njidskramr er rettet og gammel URL videresendes.
+
+## Skardvik-sagaen nedtegnet
+
+Brukeren leverte senere `vinter_år794.rtf` og bekreftet vinteren 793–794. Dette erstatter de foreløpige tekstene om Arle og Náðskrímr; se kronikekilder.md for kildevalg og avgrensninger. Brukeren bekreftet dessuten at følget aldri vendte tilbake eller sendte noen for å rydde og begrave de døde. Skardvik har derfor et eget Penumbra-oppslag, uten oppdiktede konkrete ånder eller møter.

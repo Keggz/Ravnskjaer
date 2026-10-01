@@ -4,6 +4,7 @@ kort: "Bjartes partner, som fulgte ham fra Vatnaborg til Ravnskjær i 793."
 rolle: "Bjartes partner"
 status: "ukjent"
 relasjoner: [{"til": "karakterer/bjarte-ulfbane-berget", "type": "Partner", "motsatt": "Partner"}]
+bilde: "/media/karakterer/eadgifu.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A40:F40; lest 2026-09-24. -->
