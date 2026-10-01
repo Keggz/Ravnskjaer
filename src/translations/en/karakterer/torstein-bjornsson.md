@@ -1,6 +1,6 @@
 ---
 original: "karakterer/torstein-bjornsson"
-sourceHash: ec284c892ced35d03e661ce64957a771edc23ccf9cbd1cae4dc8ce85bf2c846e
+sourceHash: 6db6e6628b02b55aad1a470f8c1fc4f40f1804d1a0ce5b79d4b0ef034e9e5a38
 ---
 
 Torstein Bjørnson is jarl of Ravnskjær. He bears the epithet «Draugfødt», Draug-born, because he was stillborn but came to life.

@@ -45,3 +45,9 @@ Denne runden: 42,619,642 byte → 2,675,596 byte for de 20 bildefilene.
 Portretter lagt til for Brynhild, Eidrid Ragnadatter, Leiv Ragnadatter og Vali Svensson, samt ånden Náðskrímr i Penumbra. `Leiv_ragnasson.png` er knyttet til eksisterende Leiv-oppslag; navnet i innholdet er ikke endret. `Njadskrimr.png` er knyttet til Náðskrímr. Alle fem beholder hele utsnittet i 960 × 1200 (4:5), komprimert til WebP med kvalitet 84/metode 6. Originalfilene er urørt. Bildene gjenbrukes på norsk og engelsk; ingen fortellingstekst er endret.
 
 Denne runden: 8,568,571 byte → 657,296 byte. 60 av 63 personoppslag har nå bilde, i tillegg til Eldrbrand og Náðskrímr.
+
+## De siste tre personportrettene — 1. oktober 2026
+
+Tilde Finnsdatter, Wigmund Osmer og Torstein Bjørnson har fått portretter fra Hovedkarakterer-mappen. Hele bildet er bevart, skalert proporsjonalt til maksimalt 1200 × 1500 og komprimert til WebP kvalitet 84/metode 6. Originalene er urørt. Bildene vises på begge språk; fortellingstekstene er uendret.
+
+Denne runden: 10,301,701 byte → 500,402 byte. Alle 63 personoppslag har nå bilde.

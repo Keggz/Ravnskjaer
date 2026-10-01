@@ -1,6 +1,6 @@
 ---
 original: "karakterer/tilde-finnsdatter"
-sourceHash: 7734c704606e91b54a0a03ca66758131c67d73be4dfcad1fc7a79e9b28105007
+sourceHash: 71b53c61d006c8cfccb6d20f8931cd6af99d5a587eaa98c40d91faa6ee941965
 ---
 
 Tilde Finnsdatter belongs to the Tjugeskalle clan and is recorded as nineteen years old. She is calm and shy.

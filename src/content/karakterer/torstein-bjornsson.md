@@ -9,6 +9,7 @@ spillerkarakter: true
 far: karakterer/bjorn-ulvsson
 gift_med: karakterer/tilde-finnsdatter
 merker: [jarl]
+bilde: "/media/karakterer/torstein-bjornsson.webp"
 ---
 
 Torstein Bjørnson er jarl av Ravnskjær. Han bærer tilnavnet «Draugfødt» fordi han var dødfødt, men våknet til live.

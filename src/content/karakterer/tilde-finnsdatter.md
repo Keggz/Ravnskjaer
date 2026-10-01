@@ -5,6 +5,7 @@ rolle: "Finns datter"
 status: "ukjent"
 tilhorighet: "Tjugeskalle-ætten"
 far: "karakterer/finn-tjugeskalle"
+bilde: "/media/karakterer/tilde-finnsdatter.webp"
 ---
 
 <!-- Kilde: Liste NPC Ravnskjær og andre; NPCer!A18:F18; lest 2026-09-24. -->
