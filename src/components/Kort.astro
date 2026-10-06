@@ -17,7 +17,7 @@ const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorigh
 ---
 
 <li data-sok={sokeTekst} data-samling={oppslag.samling} data-navn={oppslag.tittel} data-spiller={String(!!d.spillerkarakter)} data-status={d.status} data-aett={d.tilhorighet ?? ''} data-stedstype={d.stedstype}>
-  <a href={url(oppslag.url)} class:list={["kort", { "kort--karakter": oppslag.samling === "karakterer" }]}>
+  <a href={url(oppslag.url)} class:list={["kort", { "kort--karakter": oppslag.samling === "karakterer", "kort--sted": oppslag.samling === "steder" }]}>
     {oppslag.bilde ? (
       <img src={oppslag.bilde} alt="" class="kort-bilde" loading="lazy" />
     ) : (
@@ -34,6 +34,7 @@ const sokeTekst = [oppslag.tittel, oppslag.kort, oppslag.undertekst, d.tilhorigh
       {(karaktertype || d.status === 'død') && (
         <div class="etiketter" style="margin-top:.45rem">
           {karaktertype && <span class:list={["etikett", d.spillerkarakter ? "etikett--spiller" : "etikett--npc"]}>{karaktertype}</span>}
+          {oppslag.merker.includes(t("Tidligere spillerkarakter")) && <span class="etikett">{t("Tidligere spillerkarakter")}</span>}
           {d.status === 'død' && <span class="etikett etikett--dod">{t("Død")}</span>}
         </div>
       )}

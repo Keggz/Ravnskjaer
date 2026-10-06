@@ -19,3 +19,13 @@ Etter at foreldrene falt, var Arle selv under angrep. Jardar så det og reddet h
 Arle var fåmælt etter det som hadde hendt, men forstod at Jardar ville ta vare på ham. Han fulgte de overlevende til Ravnskjær.
 
 <!-- Alder og omsorgsbånd: NPCer!A135:D135, lest 2026-09-29. Foreldrene og redningen: vinter_år794.rtf. -->
+
+## Et nytt hjem
+
+Etter hjemkomsten tok Jardar vare på Arle og begynte å trene ham. Han vernet om gutten som sønnen han aldri hadde fått.
+
+## Han som ville hjelpe Jardar
+
+Under slaget om Ravnskjær i 795 løp Arle ut fra langhuset for å hjelpe Jardar mot en varulv. Han ropte «Jeg skal hjelpe deg, Jardar!» og slo mot skapningen. Den slo ham hardt inn mot langhuset. Hvordan det gikk med ham etter dette, hører til det ennå ikke nedtegnede etterspillet.
+
+[Les «Natten da blodet våknet»](/hendelser/natten-da-blodet-vaknet).

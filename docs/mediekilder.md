@@ -51,3 +51,11 @@ Denne runden: 8,568,571 byte → 657,296 byte. 60 av 63 personoppslag har nå bi
 Tilde Finnsdatter, Wigmund Osmer og Torstein Bjørnson har fått portretter fra Hovedkarakterer-mappen. Hele bildet er bevart, skalert proporsjonalt til maksimalt 1200 × 1500 og komprimert til WebP kvalitet 84/metode 6. Originalene er urørt. Bildene vises på begge språk; fortellingstekstene er uendret.
 
 Denne runden: 10,301,701 byte → 500,402 byte. Alle 63 personoppslag har nå bilde.
+
+## Stedsbilder — 1. oktober 2026
+
+Fem bilder fra `Hovedkarakterer/Steder`: BenGerds_hjem → Ben-Gerds bosted, Ravnskjær → Ravnskjær, Skjeggestad → Skjeggestad, Stonehenge → Stonehenge og Vatnaborg → Vatnaborg. Alle er visuelt kontrollert og omtrent 16:9. Ravnskjær er 1672 × 941 piksler; de øvrige er 1456 × 816. Nettsidekopiene beholder hele bildeflaten og kildens pikselmål, komprimert til WebP kvalitet 84/metode 6. Originalene er urørt.
+
+Stedsoppslag viser hele bildeformatet; stedskort og tomme plassholdere bruker 16:9. Samme bilder brukes på norsk og engelsk. Bildene brukes som illustrasjoner; ingen nye opplysninger om stedene er utledet fra dem. Skjeggestad-bildet viser brannruinene, mens teksten også beskriver den senere gjenoppbyggingen.
+
+Samlet størrelse: 11,007,753 byte → 1,072,200 byte.

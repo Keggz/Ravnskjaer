@@ -1,6 +1,6 @@
 ---
 original: "karakterer/jardar-jutul"
-sourceHash: f850bbdd0d8ea6cda1f7c9a4ab90e704d55f688e29a65e251d61821d9a8d14d9
+sourceHash: 7f250799be2e06babdc8134e6831c50f81c3e0cc7e74e1f6aaab795b7238074e
 ---
 
 Jardar is a pragmatic warrior in the hird.
@@ -22,3 +22,19 @@ Before the first voyage, Jardar, Saia, Torstein and Asgeir shared a dream with s
 ## Arle and Skardvik
 
 During the attack on Skardvik's longhouse in the winter of 793–794, Jardar saw that Arle was in mortal danger after Bera and Hemming, the boy's parents, had been killed. He barely managed to save Arle and took him under his wing. They returned to Ravnskjær with the other survivors.
+
+## Spring and the battle against Eldrbrand
+
+In the spring of 794, Jardar cared for Arle and trained him like the son he had never had. Bjarte became second-in-command of his watch.
+
+During [the battle against Eldrbrand](/en/timeline/kampen-mot-eldrbrand), Jardar joined Trym and Bjarte on the other side through Ben-Gerd's poisonous brew. In the chamber of nine doors, he felt drawn to the seventh, associated with wolves, the hunt and a veil. Nevertheless, he followed Bjarte through the door of fire.
+
+At one of the altar towers, he sacrificed something personal connected to Gyda. He was badly wounded fighting Eldrbrand's essence, but returned. Eadgifu gave the three their antidote in Ben-Gerd's hut.
+
+## Defence commander and the First Change
+
+After the interrupted Jotunheimen journey in 795, Jardar took responsibility for Ravnskjær's entire defence and the hird, while Bjarte assumed command of the guards. Jardar took charge of the box when Runa Måneveis returned with it.
+
+During the battle he killed a werewolf against the longhouse wall with his spear. Arle tried to help him against the next attacker but was struck against the longhouse. A claw pierced Jardar's own belly. When the enemy opened the box, he awakened as Garou and underwent his First Change into the wolf's war-form. With Torstein and Bjarte, he killed the remaining werewolves and drove the fomori away.
+
+[Read “The night the blood awoke”](/en/timeline/natten-da-blodet-vaknet).

@@ -428,3 +428,8 @@ body.penumbra {
   object-fit: contain;
   background: #101313;
 }
+
+.kort--sted .kort-bilde,
+.kort--sted .kort-tom {
+  aspect-ratio: 16 / 9;
+}

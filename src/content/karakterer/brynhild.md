@@ -13,3 +13,11 @@ bilde: "/media/karakterer/brynhild.webp"
 Brynhild er søster til Finn Tjugeskalle. Hun har vært kriger, men arbeider nå som jeger og sanker mat.
 
 Hun bærer arr etter kamp med en ulv.
+
+## Gjenreisningen av Skjeggestad
+
+Vinteren 793–794 fikk Tjugeskalle-folket, med Brynhild i spissen, ansvaret for å gjenreise Skjeggestad når været tillot det. Arbeidet skulle styrke Ravnskjærs posisjon. Hun samarbeidet tett med Asgeir om jakt og oppbygging, og sommeren 794 var området igjen i ferd med å tas i bruk.
+
+## Styret i Skjeggestad
+
+Gjennom vinteren 794–795 styrte Brynhild Skjeggestad og samarbeidet med Asgeir om jakten som sikret Ravnskjær kjøtt.

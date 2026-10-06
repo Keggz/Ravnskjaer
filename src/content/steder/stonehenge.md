@@ -4,6 +4,7 @@ kort: "Den gamle steinsirkelen i det sørlige England."
 stedstype: "Steinsirkel"
 merker: ["England", "steiner"]
 relasjoner: []
+bilde: "/media/steder/stonehenge.webp"
 ---
 
 Stonehenge er et eldgammelt anlegg av store, reiste steiner i det sørlige England.

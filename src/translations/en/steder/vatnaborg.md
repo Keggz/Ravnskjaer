@@ -1,6 +1,6 @@
 ---
 original: "steder/vatnaborg"
-sourceHash: 39c6c6e1e857c57e8f4c6b79b00000a6c3ef033d5a30b425217ff4b50dc8eff0
+sourceHash: fbbf4779f7e1bb3d04f6165c8ad6a645e74c79ed7516c7041441597dde07cdd2
 ---
 
 Vatnaborg is the name the company uses for the town they visited on the second westward voyage in 793. No more precise modern location is established in the notes.

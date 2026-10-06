@@ -18,3 +18,9 @@ Bjørn Ulvsson var jarl i Ravnskjær og tilhørte Ulvsson-ætten. Han beskrives 
 Bjørn var gift med Inga. Eirik Ravnblod er oppført som hans førstefødte sønn, og Solveig Bjørnsdatter som datter av Bjørn og Inga.
 
 Bjørn døde da jotnen Eldrbrand angrep Ravnskjær. Torstein Bjørnson styrer etter ham.
+
+## Jarlens siste kamp
+
+Sensommeren 794 samlet Bjørn forsvaret mot Eldrbrand og fikk de fleste innbyggerne evakuert. Han fikk mennene til å samle seg etter det første, lammende synet av jotnen. Da Ben-Gerd ble drept, førte han dem til angrep for Ravnskjær.
+
+Eldrbrands kampestein drepte mange av forsvarerne og ødela halve langhuset. Bjørn ble dødelig såret. Asgeir fant ham ennå i live innenfor porten etter at jotnen var beseiret. Bjørn møtte Asgeir med et spørrende blikk og døde etter at han fikk et nikk til svar.

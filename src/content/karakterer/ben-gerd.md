@@ -18,3 +18,13 @@ Ingen visste helt hvor gammel hun var. Mange barn fryktet henne, men folk sa at 
 ## Siste vern
 
 Ben-Gerd ble knust av Eldrbrand mens hun beskyttet Asgeir fra en sikker død.
+
+## Ferden til den andre siden
+
+Før Eldrbrands angrep sensommeren 794 forberedte Ben-Gerd et giftig brygg og en motgift. Jardar, Trym og Bjarte drakk brygget for å nå jotnens essens på den andre siden, i det hun kalte Muspelheim. Hun var sikker på at de ville nå frem, selv om hun ikke kunne plassere stedet nøyaktig.
+
+Under kampen kastet hun Asgeir unna Eldrbrands hånd og ble selv grepet. De nærmeste så ut til å oppfatte en kort ordveksling mellom henne og jotnen før han drepte henne. Ordene er ukjente. Da de tre reisende våknet i hytta, var det Eadgifu som passet på dem og gav dem motgiften.
+
+## Båndet til Askebærerne
+
+I samtalene etter slaget kom det frem at Ben-Gerd hadde samarbeidet nært med Askebærerne gjennom lengre tid, selv om hun hadde vært noe eget. Det er ikke dermed fastslått at hun var medlem av ordenen. Eadgifu fortalte at hytta hennes ikke føltes tom; ingen bestemt forklaring på dette er kjent.

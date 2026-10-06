@@ -43,7 +43,7 @@ const andreSiden = await getCollection('penumbra', ({ data }) => !data.skjult &&
     </header>
 
     {oppslag.bilde && (
-      <img src={oppslag.bilde} alt={oppslag.tittel} class:list={["hovedbilde", { portrett: oppslag.samling === "karakterer" }]} />
+      <img src={oppslag.bilde} alt={oppslag.tittel} class:list={["hovedbilde", { portrett: oppslag.samling === "karakterer", stedsbilde: oppslag.samling === "steder" }]} />
     )}
 
     <div class="brodtekst">
@@ -95,6 +95,11 @@ const andreSiden = await getCollection('penumbra', ({ data }) => !data.skjult &&
     border: 1px solid var(--kant);
     border-radius: var(--radius);
     margin-bottom: 2.25rem;
+  }
+  .hovedbilde.stedsbilde {
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
   }
   .hovedbilde.portrett {
     float: left;

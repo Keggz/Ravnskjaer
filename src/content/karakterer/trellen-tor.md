@@ -23,3 +23,7 @@ Gjennom vinteren 793–794 gikk det rykter om at Tor var sett lenger nord, i Ska
 Vinteren 793–794 fant følget Tor i Skardvik, bar og isete i snøstormen, overtatt av [Náðskrímr](/penumbra/aander/nadskrimr). De fanget ham og bar ham inn i det beleirede langhuset.
 
 Solveig Åskellsdatter ofret sin dødelig sårede far i et ritual for å bryte åndens grep. Tor våknet kortvarig da de angripende døde falt sammen. Han overlevde og ble tatt med tilbake til Ravnskjær, men var sterkt medtatt i flere netter etter hjemkomsten. Hvordan han først kom i åndens grep, er fortsatt ikke avklart.
+
+## Etter hjemkomsten
+
+Tor ble aldri helt seg selv igjen etter Skardvik. Han var til stede blant folk, men virket som om noe i ham var borte. Hva som var gått tapt, er ikke fastslått.

@@ -1,6 +1,6 @@
 ---
 original: "steder/stonehenge"
-sourceHash: b34697201c2d369f1ff674363a8398f33a3b554cd44fff7c341ee9c3f8373cc1
+sourceHash: 4894f3c179d9f1d11ac132222704eb0bd41bc8fd7452c34f23d16af3af2d92d9
 ---
 
 Stonehenge is an ancient arrangement of large standing stones in southern England.

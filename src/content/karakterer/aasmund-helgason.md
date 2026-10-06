@@ -16,3 +16,9 @@ bilde: "/media/karakterer/aasmund-helgason.webp"
 Yrsa er hans eldste datter og Runa den yngre. Elrik er hans adoptivsønn, og Øystæinn «Sølvskeptikeren» Spjótaldr er hans yngre bror.
 
 Hjalti kartlegger handelsruter og inngår bytteavtaler på hans vegne. Halvdan Skrivare arbeider tett med ham.
+
+## Farvel til Øystæinn
+
+Sommeren 795 talte Åsmund ved brorens gravferd etter at følget hadde brakt Øystæinn hjem fra Blodskjæft. Han mintes en skeptisk og egenrådig mann, anerkjente jarlens tunge bør og ba bygda stå samlet. Han avsluttet med ordene: «En bygd som husker sine døde, står sterkere blant de levende. Far vel, bror.»
+
+[Les beretningen](/hendelser/ferden-som-stanset-ved-skogkanten).

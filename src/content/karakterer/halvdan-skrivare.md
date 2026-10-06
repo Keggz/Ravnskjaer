@@ -24,3 +24,13 @@ Etter den første ferden vestover lærte Ceadda Gummer ham noe engelsk og latin.
 Før den andre vestferden arbeidet Halvdan og Yrsa Åsmundsdatter med engelsken og skriftene fra det første raidet. Fremgangen var langsom, og de håpet å ha mer klart til vinteren.
 
 Gjennom vinteren 793–794 var Halvdan, Yrsa og Æthelberth blant dem Trym nærmet seg latinen sammen med. Notatene fastslår ikke at alle pergamentene var oversatt.
+
+## Pergamentrull III
+
+Under vårfesten tidlig sommer 795 gav Halvdan Trym et skrift tilskrevet broder Matthaeus av Lindisfarne. Trym hadde bedt ham holde øye med opplysninger av denne typen. [Pergamentrull III](/penumbra/kunnskap/pergamentrull-iii) omtalte nattvesener, tjenere, skjulesteder og mulige svakheter, og fikk betydning for følgets vurdering av Øystæinn og forberedelsene til Blodskjæft.
+
+## En annen skald på reisen
+
+Etter den avbrutte Jotunheimen-ferden i 795 ønsket Halvdan mer tid til latin og engelsk. De mange nedtegnelsene om blodbad hadde svekket lysten hans til å følge krigerne ut. Jardar, Torstein og Bjarte holdt derfor en skaldkonkurranse og valgte Ingimund Sølvtunge som følgets reisende skald. Halvdan fortsatte å bevare historien gjennom nedtegnelsene.
+
+[Les «Natten da blodet våknet»](/hendelser/natten-da-blodet-vaknet).

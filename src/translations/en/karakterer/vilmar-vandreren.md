@@ -1,6 +1,6 @@
 ---
 original: "karakterer/vilmar-vandreren"
-sourceHash: f5c6f98552a8b7dc401296c5e5d67fee54e33420b03a6e292b0fd18711354111
+sourceHash: f222d43dfdd38483f4ab8e87b16e9bb4fa00c1eda3368098de9dce114fe6c19d
 ---
 
 Vilmar appears languid and weary, yet also older than he ought to be. He carries a staff carved with a raven and wears a wolf-fur cloak. His eyes are ash-grey, with a flicker of blue.
@@ -20,3 +20,15 @@ He asked about the box, urged them to take good care of it and said he had been 
 ## The meeting in Vatnaborg
 
 Trym met Vilmar again in Vatnaborg after the company's visit beneath Stonehenge in 793. The wanderer hinted at other ways of travelling and other travelling companions, but did not explain how he had arrived there. He asked the company to take care of what they had found and mentioned jötnar such as Eldrbrand, the destroyer of Steinvik.
+
+## The sea above Ravnskjær
+
+During Eldrbrand's attack in the late summer of 794, Vilmar intervened. Part of the sea rose over Ravnskjær, gathered into a jet of water and knocked the jotunn over. The intervention cost Vilmar dearly; when he appeared after the battle, he was visibly injured and affected by what had happened. The full price has not been recorded.
+
+In the following days, the company spoke at length with him about how the world worked. Vilmar belonged to an order called Askebærerne. Eadgifu also belonged to the order, while Ben-Gerd had worked closely with it.
+
+## The conversations and departure
+
+Vilmar helped clear the wreckage. He dealt with the great boulders through magic late one night while the others slept. Over meals, he told the company about the Penumbra, Gaia, the Wyld, the Weaver and the Wyrm, and about werewolves, other shapeshifters, vampires, mages, fomori and evil spirits.
+
+He said the box had to be taken to Jotunheimen, far north and into the mountains. He took the key fragments with him to carry them as far from the box as possible. The company initially hesitated. Vilmar intended to travel southeast, as far as he could go. No one saw him again after his departure; his subsequent fate is unknown.

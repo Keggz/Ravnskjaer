@@ -1,6 +1,6 @@
 ---
 original: "hendelser/vinterferden-til-skardvik"
-sourceHash: c8c6caab9479c895ef4918982fc3fce640f7a9e46c3ffc6db878e093e9cfe8df
+sourceHash: d61a493a7aaa351f354839b62615dde9217ebf0188c4203a894e9ce9154b28e6
 ---
 
 ## The message from the north
@@ -102,6 +102,8 @@ She pressed the heart against Tor's chest and finished:
 The dead collapsed. The blows against the defenders ceased. Tor awoke for a brief moment, as did Trym, but neither had the strength to remain awake.
 
 Then the hall fell silent.
+
+Some time after the fighting ended, they heard a powerful, guttural roar far away. Bjarte felt as though something had been torn loose, or as though something had answered back. No one could say for certain what had roared or what he had sensed.
 
 ## What they brought home
 

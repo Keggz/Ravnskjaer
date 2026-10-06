@@ -13,3 +13,9 @@ bilde: "/media/karakterer/elrik.webp"
 Elrik er adoptivsønn i Helga-ætten og kommer fra Østen. Han beskrives som taus og pliktoppfyllende.
 
 Han vedlikeholder skip og navigerer sammen med Hårek Stjernesyn.
+
+## En større båt
+
+Sommeren 795 fullførte Elrik og båtbyggerne hans en ny og større båt. Den var ennå ikke sjøsatt og ventet på neste ferd vestover.
+
+[Les beretningen](/hendelser/ferden-som-stanset-ved-skogkanten).

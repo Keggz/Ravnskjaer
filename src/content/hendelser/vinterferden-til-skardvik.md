@@ -110,6 +110,8 @@ De døde falt sammen. Slagene mot forsvarerne tok slutt. Tor våknet et kort øy
 
 Så ble hallen stille.
 
+En stund etter at kampen var over, hørte de et kraftig, gutturalt brøl langt borte. Bjarte kjente det som om noe ble revet løs, eller som om noe svarte tilbake. Hva brølet kom fra, og hva han hadde kjent, kunne ingen si sikkert.
+
 ## Det de tok med seg hjem
 
 Omkring tolv til hadde mistet livet under den siste kampen, Åskell blant dem. Hvorfor Skardvik var blitt rammet, og hvordan Tor hadde havnet i åndens grep, kunne ingen gi noe sikkert svar på.

@@ -4,6 +4,7 @@ kort: "Byen i England der følget ble vennlig mottatt, og Bjarte møtte Eadgifu.
 stedstype: "By"
 merker: ["England"]
 relasjoner: [{"til": "karakterer/eadgifu", "type": "Bosted før Ravnskjær", "motsatt": "Bodde tidligere i"}]
+bilde: "/media/steder/vatnaborg.webp"
 ---
 
 Vatnaborg er navnet følget bruker om byen de besøkte på den andre ferden vestover i 793. Ingen mer presis moderne plassering er fastslått i notatene.
